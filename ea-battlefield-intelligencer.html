@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EA Battlefield | GLOW New Business Intelligencer</title>
+<link rel="icon" href="favicon.png" type="image/png">
+<meta property="og:title" content="EA Battlefield | GLOW New Business Intelligencer">
+<meta property="og:description" content="New Business Intelligencer prepared by GLOW">
+<meta property="og:image" content="glow-meta.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --glow-green: #00e676;
+    --glow-pink: #ff1482;
+    --glow-dark: #0a0a0a;
+    --glow-card: #141414;
+    --glow-card-border: #222;
+    --glow-muted: #888;
+    --glow-text: #e0e0e0;
+    --glow-accent: #ff1482;
+    --bf-orange: #ff6d00;
+    --pulse-red: #ff1744;
+    --pulse-green: #4caf50;
+    --pulse-yellow: #ffd600;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--glow-dark);
+    color: var(--glow-text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* TOP NAV BAR */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--glow-card-border);
+    background: rgba(10,10,10,0.95);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .topbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .glow-logo-img {
+    height: 36px;
+    width: auto;
+  }
+
+  .footer-glow-logo {
+    height: 48px;
+  }
+
+  .glow-pink { color: #ff1482; }
+
+  .topbar-right {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #555;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 80px 24px 60px;
+    position: relative;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--glow-pink);
+    border-radius: 2px;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--glow-pink);
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 .bf {
+    color: var(--bf-orange);
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--glow-muted);
+    font-weight: 400;
+    max-width: 520px;
+    margin: 0 auto 28px;
+  }
+
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    font-size: 13px;
+    color: var(--glow-muted);
+  }
+
+  .hero-meta strong {
+    color: var(--glow-text);
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 56px;
+    padding-top: 24px;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--glow-accent);
+    margin-bottom: 8px;
+  }
+
+  .section h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  .section p {
+    font-size: 15px;
+    color: var(--glow-text);
+    margin-bottom: 16px;
+  }
+
+  /* STAT GRID */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 24px 0;
+  }
+
+  .stat-card {
+    background: var(--glow-card);
+    border: 1px solid var(--glow-card-border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .stat-card .stat-number {
+    font-size: 32px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .stat-card .stat-label {
+    font-size: 11px;
+    color: var(--glow-muted);
+    margin-top: 6px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* PULSE SECTION */
+  .pulse-container {
+    background: var(--glow-card);
+    border: 1px solid var(--glow-card-border);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 24px 0;
+  }
+
+  .pulse-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .pulse-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--pulse-red);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .pulse-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .pulse-header .pulse-date {
+    font-size: 12px;
+    color: var(--glow-muted);
+    margin-left: auto;
+  }
+
+  .sentiment-bar {
+    display: flex;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .sentiment-positive { background: #4caf50; }
+  .sentiment-neutral { background: var(--pulse-yellow); }
+  .sentiment-negative { background: var(--pulse-red); }
+
+  .sentiment-legend {
+    display: flex;
+    gap: 20px;
+    font-size: 12px;
+    color: var(--glow-muted);
+    margin-bottom: 28px;
+  }
+
+  .sentiment-legend span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* VOICE CARDS */
+  .voice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 640px) {
+    .voice-grid { grid-template-columns: 1fr; }
+  }
+
+  .voice-card {
+    background: #1a1a1a;
+    border-radius: 10px;
+    padding: 16px;
+    border-left: 3px solid;
+  }
+
+  .voice-card.positive { border-left-color: #4caf50; }
+  .voice-card.negative { border-left-color: var(--pulse-red); }
+  .voice-card.neutral { border-left-color: var(--pulse-yellow); }
+
+  .voice-card .voice-source {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--glow-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .voice-card .voice-quote {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--glow-text);
+    line-height: 1.5;
+  }
+
+  /* TOPIC TAGS */
+  .topic-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .topic-tag {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--glow-text);
+  }
+
+  .topic-tag .tag-heat {
+    color: var(--bf-orange);
+    margin-left: 4px;
+  }
+
+  /* CHANNEL CARDS */
+  .channel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  @media (max-width: 640px) {
+    .channel-grid { grid-template-columns: 1fr; }
+  }
+
+  .channel-card {
+    background: var(--glow-card);
+    border: 1px solid var(--glow-card-border);
+    border-radius: 14px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .channel-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+
+  .channel-card.steam::before { background: #1b2838; }
+  .channel-card.twitch::before { background: #9146ff; }
+  .channel-card.youtube::before { background: #ff0000; }
+  .channel-card.reddit::before { background: #ff4500; }
+  .channel-card.tiktok::before { background: linear-gradient(90deg, #25f4ee, #fe2c55); }
+  .channel-card.discord-ch::before { background: #5865f2; }
+
+  .channel-icon {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .channel-card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .channel-card .channel-handle {
+    font-size: 12px;
+    color: var(--glow-muted);
+    margin-bottom: 14px;
+  }
+
+  .channel-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .channel-stat {
+    background: #1a1a1a;
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-align: center;
+    flex: 1;
+    min-width: 70px;
+  }
+
+  .channel-stat .cs-num {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .channel-stat .cs-label {
+    font-size: 9px;
+    color: var(--glow-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+
+  .channel-insight {
+    font-size: 13px;
+    color: var(--glow-text);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .channel-verdict {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+
+  .verdict-high {
+    background: rgba(76,175,80,0.1);
+    color: var(--pulse-green);
+    border: 1px solid rgba(76,175,80,0.2);
+  }
+
+  .verdict-medium {
+    background: rgba(255,214,0,0.1);
+    color: var(--pulse-yellow);
+    border: 1px solid rgba(255,214,0,0.2);
+  }
+
+  .verdict-critical {
+    background: rgba(255,23,68,0.1);
+    color: var(--pulse-red);
+    border: 1px solid rgba(255,23,68,0.2);
+  }
+
+  /* OPPORTUNITY CARDS */
+  .opp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  @media (max-width: 640px) {
+    .opp-grid { grid-template-columns: 1fr; }
+  }
+
+  .opp-card {
+    background: var(--glow-card);
+    border: 1px solid var(--glow-card-border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .opp-card .opp-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .opp-card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .opp-card p {
+    font-size: 13px;
+    color: var(--glow-muted);
+    margin-bottom: 0;
+  }
+
+  /* GLOW FIT SECTION */
+  .fit-row {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--glow-card-border);
+  }
+
+  .fit-row:last-child { border-bottom: none; }
+
+  .fit-bf {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--bf-orange);
+    text-align: right;
+    padding-right: 12px;
+  }
+
+  .fit-arrow {
+    text-align: center;
+    color: var(--glow-accent);
+    font-size: 18px;
+  }
+
+  .fit-glow {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--glow-accent);
+    padding-left: 12px;
+  }
+
+  .fit-desc {
+    font-size: 12px;
+    color: var(--glow-muted);
+    font-weight: 400;
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* CASE STUDIES */
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .case-card {
+    background: var(--glow-card);
+    border: 1px solid var(--glow-card-border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.2s;
+  }
+
+  .case-card:hover { border-color: var(--glow-pink); }
+
+  .case-card .case-client {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--glow-accent);
+    margin-bottom: 8px;
+  }
+
+  .case-card h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .case-card p {
+    font-size: 13px;
+    color: var(--glow-muted);
+    margin-bottom: 0;
+  }
+
+  .case-card .case-relevance {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--bf-orange);
+    margin-top: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: linear-gradient(135deg, #180a16, #120810);
+    border: 1px solid #2d1525;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 24px 0;
+  }
+
+  .callout p {
+    font-size: 15px;
+    color: var(--glow-text);
+    margin-bottom: 0;
+  }
+
+  .callout strong {
+    color: var(--glow-accent);
+  }
+
+  /* QUESTION LIST */
+  .question-item {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--glow-card-border);
+  }
+
+  .question-item:last-child { border-bottom: none; }
+
+  .question-item .q-text {
+    font-size: 15px;
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .question-item .q-why {
+    font-size: 13px;
+    color: var(--glow-muted);
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding-top: 48px;
+    border-top: 1px solid var(--glow-card-border);
+    margin-top: 48px;
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .footer p {
+    font-size: 13px;
+    color: var(--glow-muted);
+  }
+
+  .footer a {
+    color: var(--glow-accent);
+    text-decoration: none;
+  }
+
+  .confidential {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #333;
+    padding: 12px;
+  }
+
+  /* CREATOR LIST */
+  .creator-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .creator-tag {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--glow-text);
+  }
+
+  .creator-tag.tier1 { border-color: var(--glow-pink); color: var(--glow-pink); }
+  .creator-tag.tier2 { border-color: var(--pulse-yellow); color: var(--pulse-yellow); }
+
+  /* KEY CREATORS TABLE */
+  .creators-container {
+    background: var(--glow-card);
+    border: 1px solid var(--glow-card-border);
+    border-radius: 14px;
+    padding: 24px;
+    margin: 24px 0;
+  }
+
+  .creators-container h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+
+  .creator-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #1a1a1a;
+  }
+
+  .creator-row:last-child { border-bottom: none; }
+
+  .creator-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    min-width: 120px;
+  }
+
+  .creator-platform {
+    font-size: 11px;
+    color: var(--glow-muted);
+    min-width: 80px;
+  }
+
+  .creator-note {
+    font-size: 12px;
+    color: var(--glow-muted);
+    flex: 1;
+  }
+
+  /* CITATIONS */
+  .cite {
+    font-size: 10px;
+    color: #666;
+    text-decoration: none;
+    vertical-align: super;
+    padding: 0 1px;
+    transition: color 0.2s;
+  }
+
+  .cite:hover {
+    color: var(--glow-pink);
+  }
+
+  .sources-container {
+    background: var(--glow-card);
+    border: 1px solid var(--glow-card-border);
+    border-radius: 14px;
+    padding: 24px;
+    margin: 24px 0;
+  }
+
+  .sources-container h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+
+  .source-item {
+    display: flex;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid #1a1a1a;
+    font-size: 12px;
+  }
+
+  .source-item:last-child { border-bottom: none; }
+
+  .source-num {
+    color: var(--glow-pink);
+    font-weight: 700;
+    min-width: 20px;
+  }
+
+  .source-link {
+    color: var(--glow-muted);
+    text-decoration: none;
+    word-break: break-all;
+  }
+
+  .source-link:hover {
+    color: var(--glow-pink);
+  }
+
+  .source-desc {
+    color: #555;
+    font-style: italic;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 32px; }
+    .hero-meta { flex-direction: column; gap: 8px; }
+    .topbar { padding: 16px 20px; }
+    .opp-grid, .channel-grid { grid-template-columns: 1fr; }
+    .fit-row { grid-template-columns: 1fr; gap: 4px; text-align: left !important; }
+    .fit-bf, .fit-glow { text-align: left; padding: 0; }
+    .fit-arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- STICKY NAV -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="glow-logo.svg" alt="glow" class="glow-logo-img">
+  </div>
+  <div class="topbar-right">New Business Intelligencer</div>
+</div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">New Business Intelligencer</div>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 28px; margin-bottom: 20px;">
+      <img src="ea-logo-white.svg" alt="EA" style="height: 60px; width: auto; opacity: 0.9;">
+      <div style="width: 1px; height: 48px; background: #333;"></div>
+      <img src="bf-wordmark.svg" alt="Battlefield" style="height: 36px; width: auto; opacity: 0.95;">
+    </div>
+    <p class="hero-sub">Landscape, fan intelligence, agency roster, and strategic fit</p>
+    <div class="hero-meta">
+      <div><strong>Call:</strong> April 7, 2026</div>
+      <div><strong>Contact:</strong> Parker West, Sr. Manager Social Media - Battlefield</div>
+      <div><strong>Team:</strong> Maggie, Howie, Sarah, Mike</div>
+    </div>
+  </div>
+
+  <!-- CLIENT INTEL -->
+  <div class="section">
+    <div class="section-label">Client Contact</div>
+    <h2>Who We're Meeting</h2>
+
+    <div class="pulse-container" style="border-left: 3px solid var(--glow-accent);">
+      <div style="display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 240px;">
+          <h4 style="font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px;">Parker West</h4>
+          <div style="font-size: 14px; color: var(--glow-accent); font-weight: 600; margin-bottom: 12px;">Senior Manager, Social Media - Battlefield Franchise</div>
+          <div style="font-size: 13px; color: var(--glow-muted); margin-bottom: 4px;">📍 Los Angeles, CA</div>
+          <div style="font-size: 13px; color: var(--glow-muted); margin-bottom: 4px;">🏢 Electronic Arts</div>
+          <div style="font-size: 13px; color: var(--glow-muted);">✉️ pwest@ea.com</div>
+        </div>
+        <div style="flex: 1.5; min-width: 280px;">
+          <div style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--glow-accent); margin-bottom: 10px;">Why This Matters</div>
+          <div style="font-size: 14px; color: var(--glow-text); line-height: 1.7;">
+            Parker isn't an exec taking a courtesy meeting. He's the person who <strong style="color: #fff;">owns social media for the Battlefield franchise day-to-day</strong>. Every fan complaint about community disconnect, every Reddit thread about live-service pacing, every creator relationship gap lands on his desk. He's likely managing or sourcing external agency partners for social and creator work right now. That makes him the ideal entry point for GLOW: he understands the problem, has budget influence, and is already used to working with agencies.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #222;">
+        <div style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--bf-orange); margin-bottom: 10px;">Call Approach Adjustment</div>
+        <div style="font-size: 14px; color: var(--glow-text); line-height: 1.7;">
+          <strong style="color: #fff;">Don't pitch why social matters.</strong> He already knows. Instead, show him you understand his specific challenges: the content cadence problem, the creator ecosystem that's organic but unstructured, the Reddit/Steam sentiment he's monitoring daily. Come with empathy for his role and solutions for his pain points. Think: "We see what you're dealing with, here's how we'd help" not "here's why you need social media."
+        </div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px;">
+      <div class="opp-card">
+        <div class="opp-icon">🎯</div>
+        <h4>What He Probably Needs</h4>
+        <p>Better agency partners for social content, creator strategy, community engagement between season drops. His team likely handles some in-house but outsources creator outreach and campaign execution.</p>
+      </div>
+      <div class="opp-card">
+        <div class="opp-icon">🤝</div>
+        <h4>How to Build Trust Fast</h4>
+        <p>Reference specific fan sentiment (the Nightfall praise, the map complaints, the BF4 nostalgia). Show him you've actually read what his community is saying. That's rare from an agency in a first meeting.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLOSSARY -->
+  <div class="section">
+    <div class="section-label">Know the Language</div>
+    <h2>Gaming Terms → Sports Equivalents</h2>
+    <p>Battlefield operates as a live-service platform. If you're coming from sports and entertainment marketing, here's the translation. You already understand this business model. It just has different vocabulary.</p>
+
+    <div class="pulse-container">
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--bf-orange); margin-bottom: 16px;">What "Live-Service" Means</div>
+      <div style="font-size: 14px; color: var(--glow-text); line-height: 1.8; margin-bottom: 20px;">
+        <strong style="color: #fff;">Old model:</strong> Buy the game for $60, play it, maybe buy a DLC pack later. Game is a product. Sell it once.<br>
+        <strong style="color: #fff;">Live-service model:</strong> Buy the game (or play free). Every ~3 months, a new "season" drops with maps, weapons, modes, and a Battle Pass. Revenue comes from ongoing engagement, not one-time sales. <strong style="color: #fff;">The launch is the beginning, not the finish line.</strong>
+      </div>
+
+      <div style="font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--glow-accent); margin-bottom: 16px;">The Translation</div>
+
+      <div style="display: grid; grid-template-columns: 1fr 40px 1fr; gap: 0; font-size: 13px;">
+        <div style="padding: 10px 12px; background: #1a1a1a; border-radius: 8px 0 0 0; font-weight: 700; color: var(--bf-orange); text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">Gaming Term</div>
+        <div style="padding: 10px 0; text-align: center;"></div>
+        <div style="padding: 10px 12px; background: #1a1a1a; border-radius: 0 8px 0 0; font-weight: 700; color: var(--glow-accent); text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">Sports Equivalent</div>
+
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">Season 2: Nightfall</strong><br><span style="color: var(--glow-muted);">Quarterly content drop with new theme</span></div>
+        <div style="padding: 10px 0; text-align: center; color: #444;">→</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">2025-26 NBA Season</strong><br><span style="color: var(--glow-muted);">Seasonal cycle with its own narrative</span></div>
+
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">Battle Pass</strong><br><span style="color: var(--glow-muted);">$10-15/season for exclusive rewards</span></div>
+        <div style="padding: 10px 0; text-align: center; color: #444;">→</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">Season Tickets</strong><br><span style="color: var(--glow-muted);">Recurring fan commitment each season</span></div>
+
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">New Map Drop</strong><br><span style="color: var(--glow-muted);">New playable environment released mid-season</span></div>
+        <div style="padding: 10px 0; text-align: center; color: #444;">→</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">Opening Night / New Arena</strong><br><span style="color: var(--glow-muted);">Tentpole moment that drives excitement</span></div>
+
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">Content Creators</strong><br><span style="color: var(--glow-muted);">Streamers and YouTubers covering the game</span></div>
+        <div style="padding: 10px 0; text-align: center; color: #444;">→</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">ESPN / TNT Broadcasts</strong><br><span style="color: var(--glow-muted);">How fans consume and discuss the action</span></div>
+
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">Reddit / Steam Forums</strong><br><span style="color: var(--glow-muted);">Where the hardcore community debates</span></div>
+        <div style="padding: 10px 0; text-align: center; color: #444;">→</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">Sports Twitter / Fan Forums</strong><br><span style="color: var(--glow-muted);">Where opinions form and narratives shift</span></div>
+
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">Cosmetic Skins</strong><br><span style="color: var(--glow-muted);">$5-20 visual customizations for characters</span></div>
+        <div style="padding: 10px 0; text-align: center; color: #444;">→</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">Jerseys / Merch</strong><br><span style="color: var(--glow-muted);">Identity expression through the brand</span></div>
+
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">Player Retention</strong><br><span style="color: var(--glow-muted);">Keeping people playing between season drops</span></div>
+        <div style="padding: 10px 0; text-align: center; color: #444;">→</div>
+        <div style="padding: 10px 12px; border-bottom: 1px solid #1a1a1a;"><strong style="color: #fff;">Offseason Engagement</strong><br><span style="color: var(--glow-muted);">Keeping fans invested year-round</span></div>
+
+        <div style="padding: 10px 12px;"><strong style="color: #fff;">REDSEC (Battle Royale)</strong><br><span style="color: var(--glow-muted);">Free-to-play mode, 60 players, last one standing</span></div>
+        <div style="padding: 10px 0; text-align: center; color: #444;">→</div>
+        <div style="padding: 10px 12px;"><strong style="color: #fff;">All-Star Weekend</strong><br><span style="color: var(--glow-muted);">Alternative format to attract casual + new fans</span></div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>The bottom line:</strong> Battlefield isn't selling a game anymore. They're running a league. They need season marketing, not launch marketing. That's literally what GLOW does. When Parker hears that framing, he'll know you get it.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 1: THE LANDSCAPE -->
+  <div class="section">
+    <div class="section-label">01 / The Landscape</div>
+    <h2>Where Battlefield Is Right Now</h2>
+    <p>Battlefield 6 launched October 2025 as the biggest entry in franchise history. But the real story isn't the launch. It's what happens next. EA is betting everything on Battlefield as a live-service platform, not just a game title. That means the franchise lives or dies on retention, seasonal engagement, and community energy.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-number">500K+</div>
+        <div class="stat-label">Peak concurrent (beta) <a href="#src1" class="cite">[1]</a></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">#1</div>
+        <div class="stat-label">Best-selling game 2025 <a href="#src2" class="cite">[2]</a></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">S2</div>
+        <div class="stat-label">Current season (Nightfall) <a href="#src3" class="cite">[3]</a></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">4 Studios</div>
+        <div class="stat-label">DICE + Criterion + Ripple + Motive <a href="#src4" class="cite">[4]</a></div>
+      </div>
+    </div>
+
+    <p>This franchise is recovering from the Battlefield 2042 credibility crisis. EA consolidated four studios under the "Battlefield Studios" banner. Season 2 "Nightfall" dropped March 17 with night maps, new weapons, and limited-time modes. "Hunter/Prey" follows in April. The 2026 roadmap promises new maps, REDSEC BR improvements, and Battlefield Labs expansion.</p>
+
+    <div class="callout">
+      <p><strong>The critical context:</strong> They're in prove-it mode, not victory mode. Strong launch, but player counts are dropping. GroupM handles media buying <a href="#src5" class="cite">[5]</a>. Mother LA runs launch creative <a href="#src6" class="cite">[6]</a>. BOND does entertainment marketing <a href="#src7" class="cite">[7]</a>. Nobody owns the ongoing fan relationship. That's the gap.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 2: CHANNEL INTELLIGENCE -->
+  <div class="section">
+    <div class="section-label">02 / Channel Intelligence</div>
+    <h2>Platform-by-Platform Breakdown</h2>
+    <p>Where the Battlefield community lives, what's happening on each platform, and why each one matters to EA's business. This is the data that informs where marketing dollars should flow.</p>
+
+    <div class="channel-grid">
+
+      <!-- STEAM -->
+      <div class="channel-card steam">
+        <div class="channel-icon">🎮</div>
+        <h4>Steam</h4>
+        <div class="channel-handle">Primary PC marketplace + review platform</div>
+        <div class="channel-stats">
+          <div class="channel-stat">
+            <div class="cs-num">35K</div>
+            <div class="cs-label">Active players</div>
+          </div>
+          <div class="channel-stat">
+            <div class="cs-num">47K</div>
+            <div class="cs-label">24h peak</div>
+          </div>
+          <div class="channel-stat">
+            <div class="cs-num">59%</div>
+            <div class="cs-label">Recent reviews +</div>
+          </div>
+        </div>
+        <div class="channel-insight">Player count down 33% in the last 30 days <a href="#src8" class="cite">[8]</a>. Recent reviews improving (59% positive) vs. overall 46% positive <a href="#src9" class="cite">[9]</a>, showing the game is getting better but 2042 reputation still drags. Steam reviews are the first thing prospective players see.</div>
+        <div class="channel-verdict verdict-critical">Critical: Retention is the business</div>
+      </div>
+
+      <!-- TWITCH -->
+      <div class="channel-card twitch">
+        <div class="channel-icon">📺</div>
+        <h4>Twitch</h4>
+        <div class="channel-handle">Live streaming + community culture</div>
+        <div class="channel-stats">
+          <div class="channel-stat">
+            <div class="cs-num">~50K</div>
+            <div class="cs-label">Live viewers</div>
+          </div>
+          <div class="channel-stat">
+            <div class="cs-num">271</div>
+            <div class="cs-label">Live channels</div>
+          </div>
+          <div class="channel-stat">
+            <div class="cs-num">↑6%</div>
+            <div class="cs-label">Hours watched (30d)</div>
+          </div>
+        </div>
+        <div class="channel-insight">Nightfall update boosted Twitch activity. Peak viewers spiked 71% month-over-month <a href="#src10" class="cite">[10]</a>. Big names like Nadeshot and Shroud stream BF6 but organically, not through structured creator programs <a href="#src11" class="cite">[11]</a>. Viewership floor between content drops is low, showing dependency on hype cycles.</div>
+        <div class="channel-verdict verdict-high">High value: Cultural discovery engine</div>
+      </div>
+
+      <!-- YOUTUBE -->
+      <div class="channel-card youtube">
+        <div class="channel-icon">▶️</div>
+        <h4>YouTube</h4>
+        <div class="channel-handle">Long-form content + search discovery</div>
+        <div class="channel-stats">
+          <div class="channel-stat">
+            <div class="cs-num">15+</div>
+            <div class="cs-label">Core BF creators</div>
+          </div>
+          <div class="channel-stat">
+            <div class="cs-num">High</div>
+            <div class="cs-label">Launch surge</div>
+          </div>
+          <div class="channel-stat">
+            <div class="cs-num">Mixed</div>
+            <div class="cs-label">Sentiment</div>
+          </div>
+        </div>
+        <div class="channel-insight">Deep ecosystem of dedicated BF creators: JackFrags, Westie, LevelCap, Stodeh, Ravic, Flakfire, TheBrokenMachine, Maxiq, Silk, Cadwoman <a href="#src12" class="cite">[12]</a>. These channels drive opinion for the hardcore community. Reviews, guides, "state of the game" videos shape narrative between EA's official comms. Currently a lot of "is BF6 worth it in 2026?" content, signaling a trust gap.</div>
+        <div class="channel-verdict verdict-high">High value: Narrative control center</div>
+      </div>
+
+      <!-- REDDIT -->
+      <div class="channel-card reddit">
+        <div class="channel-icon">💬</div>
+        <h4>Reddit</h4>
+        <div class="channel-handle">r/Battlefield + r/Battlefield6</div>
+        <div class="channel-stats">
+          <div class="channel-stat">
+            <div class="cs-num">1.5M</div>
+            <div class="cs-label">r/Battlefield subs <a href="#src22" class="cite">[22]</a></div>
+          </div>
+          <div class="channel-stat">
+            <div class="cs-num">280K</div>
+            <div class="cs-label">r/Battlefield6 subs <a href="#src23" class="cite">[23]</a></div>
+          </div>
+          <div class="channel-stat">
+            <div class="cs-num">Hot</div>
+            <div class="cs-label">Daily activity</div>
+          </div>
+        </div>
+        <div class="channel-insight">Reddit is where the hardcore community lives and where sentiment shifts start. "BF4 is still the best Battlefield" posts consistently hit the front page <a href="#src13" class="cite">[13]</a>. Map complaints, live service pacing criticism, and nostalgia threads dominate <a href="#src14" class="cite">[14]</a>. Positive Nightfall threads gaining traction. DICE actively reversed decisions based on Reddit backlash <a href="#src15" class="cite">[15]</a>. The canary in the coal mine for EA.</div>
+        <div class="channel-verdict verdict-critical">Critical: Where trust is won or lost</div>
+      </div>
+
+      <!-- TIKTOK -->
+      <div class="channel-card tiktok">
+        <div class="channel-icon">🎵</div>
+        <h4>TikTok</h4>
+        <div class="channel-handle">Short-form clips + viral moments</div>
+        <div class="channel-stats">
+          <div class="channel-stat">
+            <div class="cs-num">Active</div>
+            <div class="cs-label">Clip culture</div>
+          </div>
+          <div class="channel-stat">
+            <div class="cs-num">Organic</div>
+            <div class="cs-label">Growth type</div>
+          </div>
+          <div class="channel-stat">
+            <div class="cs-num">Gen Z</div>
+            <div class="cs-label">Audience</div>
+          </div>
+        </div>
+        <div class="channel-insight">DICE acknowledged in December that "Reddit, TikTok, YouTube, Instagram, all full of player clips, custom matches, and weird in-game moments" <a href="#src16" class="cite">[16]</a>. Battlefield clip culture (epic kills, vehicle stunts, destruction) has always been viral-native. Happening organically but with zero structured amplification. Huge untapped potential for reach beyond the core gamer audience.</div>
+        <div class="channel-verdict verdict-high">High value: Untapped growth engine</div>
+      </div>
+
+      <!-- DISCORD -->
+      <div class="channel-card discord-ch">
+        <div class="channel-icon">🎙️</div>
+        <h4>Discord</h4>
+        <div class="channel-handle">Official BF Server + Community Servers</div>
+        <div class="channel-stats">
+          <div class="channel-stat">
+            <div class="cs-num">1.8M+</div>
+            <div class="cs-label">Bot reach (servers)</div>
+          </div>
+          <div class="channel-stat">
+            <div class="cs-num">5K+</div>
+            <div class="cs-label">Top community server</div>
+          </div>
+          <div class="channel-stat">
+            <div class="cs-num">LFG</div>
+            <div class="cs-label">Primary use</div>
+          </div>
+        </div>
+        <div class="channel-insight">Discord is where squad play is organized. The Battlefield Stats Bot spans 11K+ servers reaching 1.8M members <a href="#src17" class="cite">[17]</a>, showing the depth of community infrastructure. EA has an official server for news and feedback <a href="#src18" class="cite">[18]</a>, but community-run servers (like the 30+ age group with 2K members) are where the real engagement lives. Squad formation is core to retention.</div>
+        <div class="channel-verdict verdict-medium">Medium value: Retention + squad loyalty</div>
+      </div>
+
+    </div>
+
+    <!-- KEY CREATORS -->
+    <div class="creators-container">
+      <h4>🎯 Key Battlefield Content Creators</h4>
+      <div class="creator-row">
+        <span class="creator-name">JackFrags</span>
+        <span class="creator-platform">YouTube</span>
+        <span class="creator-note">Tier 1 BF influencer. Mainstream reach, balanced takes. Shapes buying decisions.</span>
+      </div>
+      <div class="creator-row">
+        <span class="creator-name">Westie</span>
+        <span class="creator-platform">YouTube</span>
+        <span class="creator-note">News/analysis focus. Often first to cover updates. Trusted source.</span>
+      </div>
+      <div class="creator-row">
+        <span class="creator-name">LevelCapGaming</span>
+        <span class="creator-platform">YouTube</span>
+        <span class="creator-note">Long-running BF voice. "State of the game" authority.</span>
+      </div>
+      <div class="creator-row">
+        <span class="creator-name">Nadeshot</span>
+        <span class="creator-platform">Twitch</span>
+        <span class="creator-note">100 Thieves founder. Brings crossover audience from competitive gaming.</span>
+      </div>
+      <div class="creator-row">
+        <span class="creator-name">Shroud</span>
+        <span class="creator-platform">Twitch</span>
+        <span class="creator-note">FPS legend. When he plays BF6, viewership spikes across the category.</span>
+      </div>
+      <div class="creator-row">
+        <span class="creator-name">Threatty / Ravic</span>
+        <span class="creator-platform">YouTube/Twitch</span>
+        <span class="creator-note">Skill-focused. The competitive edge of the community. Respected by hardcore.</span>
+      </div>
+      <div class="creator-row">
+        <span class="creator-name">Flakfire</span>
+        <span class="creator-platform">YouTube</span>
+        <span class="creator-note">History + lore + community focus. The "thoughtful" BF creator.</span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>The channel story:</strong> Battlefield has a massive, fragmented community spread across every major platform. What's missing is connective tissue. Nobody is orchestrating the relationship between these channels into a cohesive fan experience. Season drops happen, creators react organically, and the momentum fades. There's no sustained drumbeat. That's a problem GLOW knows how to solve.</p>
+    </div>
+  </div>
+
+  <!-- SECTION: AGENCY LANDSCAPE -->
+  <div class="section">
+    <div class="section-label">03 / Agency Landscape</div>
+    <h2>Who's Already at the Table</h2>
+    <p>EA has a full agency roster. Understanding who does what reveals exactly where the white space is and why GLOW isn't competing with these partners, but filling the gap between them.</p>
+
+    <div class="channel-grid">
+
+      <div class="channel-card" style="border-top: 3px solid #666;">
+        <div class="channel-icon">📺</div>
+        <h4>GroupM <span style="font-size: 12px; color: var(--glow-muted); font-weight: 400;">(WPP)</span></h4>
+        <div class="channel-handle">Global Media Agency of Record <a href="#src5" class="cite">[5]</a></div>
+        <div class="channel-insight"><strong style="color: #fff;">Role:</strong> Media planning and buying across all EA titles (Battlefield, FC, The Sims, Star Wars). Won the account March 2025 in competitive pitch against Publicis, Dentsu, and IPG's Mediahub.</div>
+        <div class="channel-verdict" style="background: rgba(100,100,100,0.15); color: #999; border: 1px solid #333;">Handles: Where ads run</div>
+      </div>
+
+      <div class="channel-card" style="border-top: 3px solid #666;">
+        <div class="channel-icon">🎬</div>
+        <h4>Mother Los Angeles</h4>
+        <div class="channel-handle">Global Creative / Launch Campaigns <a href="#src6" class="cite">[6]</a></div>
+        <div class="channel-insight"><strong style="color: #fff;">Role:</strong> Big-budget launch creative for BF6 and REDSEC. Produced live-action films with Zac Efron, Jimmy Butler, Morgan Wallen, and Paddy Pimblett. "Only in Battlefield" campaign positioning.</div>
+        <div class="channel-verdict" style="background: rgba(100,100,100,0.15); color: #999; border: 1px solid #333;">Handles: Launch moments</div>
+      </div>
+
+      <div class="channel-card" style="border-top: 3px solid #666;">
+        <div class="channel-icon">🎨</div>
+        <h4>BOND</h4>
+        <div class="channel-handle">Entertainment Marketing <a href="#src7" class="cite">[7]</a></div>
+        <div class="channel-insight"><strong style="color: #fff;">Role:</strong> Key art, visual identity for game launches and seasonal content drops. Works directly with Battlefield developers on franchise art direction.</div>
+        <div class="channel-verdict" style="background: rgba(100,100,100,0.15); color: #999; border: 1px solid #333;">Handles: Visual assets</div>
+      </div>
+
+      <div class="channel-card" style="border-top: 3px solid #666;">
+        <div class="channel-icon">✏️</div>
+        <h4>Instrument</h4>
+        <div class="channel-handle">Corporate Rebrand <a href="#src25" class="cite">[25]</a></div>
+        <div class="channel-insight"><strong style="color: #fff;">Role:</strong> Led EA's 2025 corporate rebrand, repositioning from "game publisher" to "entertainment powerhouse." New visual identity, typography, and brand language across all properties.</div>
+        <div class="channel-verdict" style="background: rgba(100,100,100,0.15); color: #999; border: 1px solid #333;">Handles: Corporate brand</div>
+      </div>
+
+      <div class="channel-card" style="border-top: 3px solid #666;">
+        <div class="channel-icon">🎮</div>
+        <h4>EA Internal</h4>
+        <div class="channel-handle">In-House Creative + Community</div>
+        <div class="channel-insight"><strong style="color: #fff;">Role:</strong> Internal creative team handles social concepting across franchises. Community Managers run EA Forums and official Discord. "Battlefield Creator Program" manages creator rewards. Outsources creator outreach to "various agencies." <a href="#src26" class="cite">[26]</a></div>
+        <div class="channel-verdict" style="background: rgba(100,100,100,0.15); color: #999; border: 1px solid #333;">Handles: Day-to-day social + CM</div>
+      </div>
+
+      <div class="channel-card" style="border-top: 3px solid var(--glow-accent);">
+        <div class="channel-icon">💡</div>
+        <h4 style="color: var(--glow-accent);">The Gap → GLOW</h4>
+        <div class="channel-handle" style="color: var(--glow-accent);">Fan-Led Community + Live-Service Marketing</div>
+        <div class="channel-insight"><strong style="color: #fff;">What's missing:</strong> Nobody is orchestrating the ongoing fan relationship across platforms. GroupM buys media. Mother makes launch ads. BOND makes art. EA internal runs CMs. But between season drops? Between tentpole moments? Who's building anticipation, activating creators strategically, turning passive players into advocates, and creating the cultural drumbeat that keeps Battlefield relevant? <strong style="color: var(--glow-accent);">Nobody. Yet.</strong></div>
+        <div class="channel-verdict verdict-high" style="background: rgba(233,30,140,0.1); color: var(--glow-accent); border: 1px solid rgba(233,30,140,0.3);">The white space GLOW fills</div>
+      </div>
+
+    </div>
+
+    <div class="callout">
+      <p><strong>Why this matters for the call:</strong> You're not walking in to replace anyone. You're filling a gap that nobody on their current roster is built to fill. Media agencies buy reach. Creative agencies make ads. GLOW builds fan communities that sustain engagement between the big moments. That's a fundamentally different capability, and it's exactly what live-service games need. The sports parallel makes this obvious: leagues don't just market game day, they market the space between games. Battlefield needs that same muscle.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4: SOCIAL PULSE -->
+  <div class="section">
+    <div class="section-label">04 / Social Pulse</div>
+    <h2>Live Community Sentiment</h2>
+    <p>Aggregated fan voices from Reddit, Steam, Twitter/X, and gaming forums. The unfiltered mood of the Battlefield community right now.</p>
+
+    <div class="pulse-container">
+      <div class="pulse-header">
+        <div class="pulse-dot"></div>
+        <h3>Sentiment Snapshot</h3>
+        <span class="pulse-date" id="pulseDate"></span>
+      </div>
+
+      <div class="sentiment-bar">
+        <div class="sentiment-positive" style="width: 35%"></div>
+        <div class="sentiment-neutral" style="width: 30%"></div>
+        <div class="sentiment-negative" style="width: 35%"></div>
+      </div>
+      <div class="sentiment-legend">
+        <span><span class="legend-dot" style="background: #4caf50"></span> Positive (35%)</span>
+        <span><span class="legend-dot" style="background: var(--pulse-yellow)"></span> Neutral (30%)</span>
+        <span><span class="legend-dot" style="background: var(--pulse-red)"></span> Negative (35%)</span>
+      </div>
+
+      <strong style="font-size: 13px; color: #fff;">Trending Conversation Topics</strong>
+      <div class="topic-tags">
+        <span class="topic-tag">Map Size & Design <span class="tag-heat">🔥🔥🔥</span></span>
+        <span class="topic-tag">Live Service Pacing <span class="tag-heat">🔥🔥🔥</span></span>
+        <span class="topic-tag">Nightfall Mode <span class="tag-heat">🔥🔥</span></span>
+        <span class="topic-tag">REDSEC BR Abandoned? <span class="tag-heat">🔥🔥</span></span>
+        <span class="topic-tag">BF3/BF4 Nostalgia <span class="tag-heat">🔥🔥</span></span>
+        <span class="topic-tag">Season 2 Content Volume <span class="tag-heat">🔥</span></span>
+        <span class="topic-tag">Squad-Based Gameplay <span class="tag-heat">🔥</span></span>
+        <span class="topic-tag">Destruction Physics <span class="tag-heat">🔥</span></span>
+      </div>
+
+      <div class="voice-grid" style="margin-top: 24px;">
+        <div class="voice-card positive">
+          <div class="voice-source">Reddit / r/Battlefield6 <a href="#src19" class="cite">[19]</a></div>
+          <div class="voice-quote">"The gunplay is genuinely best-in-class. Sound design is incredible. When this game hits, it HITS. They just need to give us more of it, faster."</div>
+        </div>
+        <div class="voice-card negative">
+          <div class="voice-source">Reddit / r/Battlefield <a href="#src14" class="cite">[14]</a></div>
+          <div class="voice-quote">"Live service is slow and out of touch. Two maps in a whole season? BF4 gave us more content with less resources. The roadmap needs a serious rethink."</div>
+        </div>
+        <div class="voice-card positive">
+          <div class="voice-source">Steam Community <a href="#src9" class="cite">[9]</a></div>
+          <div class="voice-quote">"Nightfall mode is actually amazing. NVGs, flashlights, tactical gameplay. THIS is what Battlefield should lean into. More events like this."</div>
+        </div>
+        <div class="voice-card negative">
+          <div class="voice-source">Reddit / r/Battlefield <a href="#src13" class="cite">[13]</a></div>
+          <div class="voice-quote">"It's 2026 and BF4 is still the best Battlefield. Maps too small, too linear. Where's the sandbox? Where's the chaos?"</div>
+        </div>
+        <div class="voice-card neutral">
+          <div class="voice-source">Reddit / r/Battlefield6 <a href="#src20" class="cite">[20]</a></div>
+          <div class="voice-quote">"Solid foundation, needs time. If they keep the Nightfall energy and give us bigger maps with real destruction, this could be special."</div>
+        </div>
+        <div class="voice-card negative">
+          <div class="voice-source">Steam Community <a href="#src21" class="cite">[21]</a></div>
+          <div class="voice-quote">"REDSEC feels abandoned. No solos, no updates. Either commit to BR or drop it. Half-measures are killing trust."</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>The pattern:</strong> Fans love the core product. They're frustrated by the wrapper: content cadence, map variety, live-service momentum. These are marketing and community problems as much as development problems. The game is good. The ongoing relationship with the audience isn't keeping pace.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4: THE OPPORTUNITY -->
+  <div class="section">
+    <div class="section-label">05 / The Opportunity</div>
+    <h2>Where the Gaps Are</h2>
+    <p>Battlefield's challenges right now mirror what we see across live entertainment: a great core product struggling to maintain audience momentum between tentpole moments. It's the exact same dynamic sports leagues face between seasons.</p>
+
+    <div class="opp-grid">
+      <div class="opp-card">
+        <div class="opp-icon">📉</div>
+        <h4>Retention Cliff</h4>
+        <p>500K beta players to dropping 33% month-over-month on Steam. The gap between launch excitement and live-service reality is the #1 business problem. Every player lost is battle pass revenue gone.</p>
+      </div>
+      <div class="opp-card">
+        <div class="opp-icon">🗓️</div>
+        <h4>Season Cadence</h4>
+        <p>Season 1 was extended. Season 2 content feels thin to fans. The rhythm between drops doesn't create anticipation. There's no "opening night" energy for content releases.</p>
+      </div>
+      <div class="opp-card">
+        <div class="opp-icon">🎤</div>
+        <h4>Creator Gap</h4>
+        <p>15+ dedicated BF creators, major streamers dipping in. But no structured creator program. Nadeshot streaming Nightfall is organic, not orchestrated. Huge activation upside.</p>
+      </div>
+      <div class="opp-card">
+        <div class="opp-icon">💔</div>
+        <h4>Community Trust</h4>
+        <p>Post-2042, fans are hypersensitive. DICE reversed a Conquest change after Reddit backlash. The community needs to feel like a partner, not a customer. 59% recent positive reviews vs 46% overall shows progress, but fragile.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: GLOW FIT -->
+  <div class="section">
+    <div class="section-label">06 / The GLOW Angle</div>
+    <h2>Why This Maps to What We Do</h2>
+    <p>GLOW's thesis: we're in a post-reach world. Fandom is the ultimate social currency. Fans become lifelong advocates. That's not just a tagline. It's exactly what Battlefield needs right now.</p>
+
+    <div class="fit-table" style="width: 100%; margin: 24px 0;">
+      <div class="fit-row">
+        <div class="fit-bf">Season Launches<span class="fit-desc">New maps, weapons, modes every ~3 months</span></div>
+        <div class="fit-arrow">→</div>
+        <div class="fit-glow">Tentpole Campaigns<span class="fit-desc">We build anticipation cycles for live events</span></div>
+      </div>
+      <div class="fit-row">
+        <div class="fit-bf">Player Retention<span class="fit-desc">Keeping players engaged between drops</span></div>
+        <div class="fit-arrow">→</div>
+        <div class="fit-glow">Fan Community<span class="fit-desc">We nurture fan-led communities that self-sustain</span></div>
+      </div>
+      <div class="fit-row">
+        <div class="fit-bf">Creator Ecosystem<span class="fit-desc">Streamers, YouTubers, competitive players</span></div>
+        <div class="fit-arrow">→</div>
+        <div class="fit-glow">Influencer Strategy<span class="fit-desc">We build creator programs that drive culture</span></div>
+      </div>
+      <div class="fit-row">
+        <div class="fit-bf">Battle Pass + Live Events<span class="fit-desc">Revenue depends on engagement</span></div>
+        <div class="fit-arrow">→</div>
+        <div class="fit-glow">Social-First Campaigns<span class="fit-desc">We make moments people share and participate in</span></div>
+      </div>
+      <div class="fit-row">
+        <div class="fit-bf">Post-2042 Trust Reset<span class="fit-desc">Community needs to feel heard</span></div>
+        <div class="fit-arrow">→</div>
+        <div class="fit-glow">Fandom-First Approach<span class="fit-desc">We put fans at the center, not the target</span></div>
+      </div>
+      <div class="fit-row">
+        <div class="fit-bf">Cross-Platform Fragmentation<span class="fit-desc">Fans scattered across 6+ platforms</span></div>
+        <div class="fit-arrow">→</div>
+        <div class="fit-glow">Ecosystem Orchestration<span class="fit-desc">We connect the dots between channels</span></div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <p><strong>The pitch in one line:</strong> Live-service games and professional sports leagues are the same business now. Both sell seasons, both depend on fan energy, both need moments between the big moments. GLOW has been doing this for leagues and brands for years. Battlefield just hasn't had a partner who thinks this way yet.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 6: RELEVANT WORK -->
+  <div class="section">
+    <div class="section-label">07 / Relevant Work</div>
+    <h2>What We've Done That Matters Here</h2>
+
+    <div class="case-grid">
+      <div class="case-card">
+        <div class="case-client">NBA</div>
+        <h4>League-Level Fan Engagement</h4>
+        <p>Social-first campaigns driving fan participation across tentpole moments: All-Star, Playoffs, Draft. Turning passive viewers into active community members.</p>
+        <div class="case-relevance">→ Season launch parallels</div>
+      </div>
+      <div class="case-card">
+        <div class="case-client">Jägermeister <a href="#src24" class="cite">[24]</a></div>
+        <h4>Global Social + Gen Z Community</h4>
+        <p>Global social media AOR. Community-driven content strategy targeting nightlife culture, music, and youth identity. Turning a legacy brand into a cultural participant.</p>
+        <div class="case-relevance">→ Community rebuilding parallels</div>
+      </div>
+      <div class="case-card">
+        <div class="case-client">Ted Lasso / Apple TV+</div>
+        <h4>Entertainment Fandom Activation</h4>
+        <p>Marketing a fictional sports world to real fans. Blending entertainment IP with authentic sports culture and community energy.</p>
+        <div class="case-relevance">→ IP + fandom crossover</div>
+      </div>
+      <div class="case-card">
+        <div class="case-client">Olympics</div>
+        <h4>Global Tentpole Moments</h4>
+        <p>Creating social content strategy around the biggest live event on Earth. Real-time creative, cultural relevance, massive scale.</p>
+        <div class="case-relevance">→ Live-event marketing at scale</div>
+      </div>
+      <div class="case-card">
+        <div class="case-client">FanDuel</div>
+        <h4>Fan Participation + Competition</h4>
+        <p>Marketing at the intersection of fandom and competition. Driving engagement through stakes, community, and real-time moments.</p>
+        <div class="case-relevance">→ Competitive community parallels</div>
+      </div>
+    </div>
+
+    <p style="font-size: 13px; color: var(--glow-muted); text-align: center;">
+      Full portfolio: <a href="https://weareglow.com/work" style="color: #ff1482; text-decoration: none;">weareglow.com/work</a>
+    </p>
+  </div>
+
+  <!-- SECTION 7: CONVERSATION STARTERS -->
+  <div class="section">
+    <div class="section-label">08 / For the Call</div>
+    <h2>Smart Questions to Ask</h2>
+
+    <div style="margin: 24px 0;">
+      <div class="question-item">
+        <div class="q-text">"We've been looking at what the community is saying across Reddit, Steam, and Twitch. The Nightfall response has been really strong. How are you thinking about sustaining that energy between drops?"</div>
+        <div class="q-why">Shows you've done the homework. Opens the retention conversation from a place of knowledge, not ignorance.</div>
+      </div>
+      <div class="question-item">
+        <div class="q-text">"What's your team structure look like right now? Are you handling social in-house, working with agencies, or a mix?"</div>
+        <div class="q-why">Direct and practical. Reveals where GLOW could slot in without making assumptions. Lets Parker tell you the pain point.</div>
+      </div>
+      <div class="question-item">
+        <div class="q-text">"How structured is the creator strategy right now? We see names like JackFrags and Shroud engaging organically, but is there a program driving that?"</div>
+        <div class="q-why">Shows you know the creator landscape by name. Opens the door for GLOW's influencer expertise.</div>
+      </div>
+      <div class="question-item">
+        <div class="q-text">"We work with the NBA, Jägermeister, FanDuel. One thing we've learned is that live-service games and sports leagues are basically the same business now. Both sell seasons. Both depend on fan energy. Is that how you think about it?"</div>
+        <div class="q-why">Natural GLOW positioning. Makes the sports-to-gaming bridge. Lets Parker react to the insight rather than being pitched at.</div>
+      </div>
+      <div class="question-item">
+        <div class="q-text">"If you could wave a magic wand and fix one thing about how the Battlefield community is being managed right now, what would it be?"</div>
+        <div class="q-why">Gives Parker permission to be honest about his challenges. Whatever he says becomes your proposal's starting point.</div>
+      </div>
+      <div class="question-item">
+        <div class="q-text">"What would a small, focused win look like for you in the next 90 days?"</div>
+        <div class="q-why">Gets to scope without forcing a big commitment. Shows you're practical, not trying to boil the ocean.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOURCES -->
+  <div class="section">
+    <div class="section-label">Sources</div>
+    <h2>Citations & References</h2>
+    <p>All data points, quotes, and statistics are sourced from publicly available platforms. Click any citation to verify.</p>
+
+    <div class="sources-container">
+      <h4>📎 Source Index</h4>
+
+      <div class="source-item" id="src1">
+        <span class="source-num">[1]</span>
+        <div><a class="source-link" href="https://en.wikipedia.org/wiki/Battlefield_6" target="_blank">en.wikipedia.org/wiki/Battlefield_6</a><br><span class="source-desc">Beta concurrent player data, launch date, platform info</span></div>
+      </div>
+
+      <div class="source-item" id="src2">
+        <span class="source-num">[2]</span>
+        <div><a class="source-link" href="https://www.ign.com/articles/anything-can-change-battlefield-6-dev-says-it-plans-to-listen-to-community-feedback-for-a-very-long-time" target="_blank">ign.com — "Anything Can Change" Dev Interview</a><br><span class="source-desc">Best-selling title, community feedback commitment</span></div>
+      </div>
+
+      <div class="source-item" id="src3">
+        <span class="source-num">[3]</span>
+        <div><a class="source-link" href="https://wccftech.com/battlefield-6-season-2-nightfall-update-live/" target="_blank">wccftech.com — Season 2 Nightfall Update Live</a><br><span class="source-desc">Season 2 launch details, Nightfall content, March 17 release</span></div>
+      </div>
+
+      <div class="source-item" id="src4">
+        <span class="source-num">[4]</span>
+        <div><a class="source-link" href="https://www.gamedeveloper.com/business/battlefield-studios-unites-ea-s-internal-teams-to-reinvigorate-shooter-series" target="_blank">gamedeveloper.com — Battlefield Studios Unites EA Teams</a><br><span class="source-desc">Multi-studio development structure (DICE, Criterion, Ripple Effect, Motive)</span></div>
+      </div>
+
+      <div class="source-item" id="src5">
+        <span class="source-num">[5]</span>
+        <div><a class="source-link" href="https://www.marketing-beat.co.uk/2025/03/04/electronic-arts-media-agency/" target="_blank">marketing-beat.co.uk — EA Appoints GroupM</a><br><span class="source-desc">GroupM named media agency of record, March 2025</span></div>
+      </div>
+
+      <div class="source-item" id="src6">
+        <span class="source-num">[6]</span>
+        <div><a class="source-link" href="https://creative.salon/articles/features/battlefield-redsec-electronic-arts-mother-la" target="_blank">creative.salon — Mother LA x EA Battlefield</a><br><span class="source-desc">Mother Los Angeles global launch campaign creative</span></div>
+      </div>
+
+      <div class="source-item" id="src7">
+        <span class="source-num">[7]</span>
+        <div><a class="source-link" href="https://www.wearebond.com/case-studies/battlefield6" target="_blank">wearebond.com — Battlefield 6 Case Study</a><br><span class="source-desc">BOND entertainment marketing partnership, launch art + seasonal creative</span></div>
+      </div>
+
+      <div class="source-item" id="src8">
+        <span class="source-num">[8]</span>
+        <div><a class="source-link" href="https://tracker.gg/population/steam/2807960" target="_blank">tracker.gg — Battlefield 6 Steam Population</a><br><span class="source-desc">Live player counts, 30-day trends, peak data</span></div>
+      </div>
+
+      <div class="source-item" id="src9">
+        <span class="source-num">[9]</span>
+        <div><a class="source-link" href="https://store.steampowered.com/app/2807960/" target="_blank">store.steampowered.com — Battlefield 6</a><br><span class="source-desc">Steam review data: 59% recent positive, 46% overall positive, 323K+ reviews</span></div>
+      </div>
+
+      <div class="source-item" id="src10">
+        <span class="source-num">[10]</span>
+        <div><a class="source-link" href="https://sullygnome.com/game/battlefield_2021_" target="_blank">sullygnome.com — Battlefield Twitch Stats</a><br><span class="source-desc">Twitch viewership data: peak viewers, hours watched, channel counts</span></div>
+      </div>
+
+      <div class="source-item" id="src11">
+        <span class="source-num">[11]</span>
+        <div><a class="source-link" href="https://streamscharts.com/news/top-battlefield-streamers-2025" target="_blank">streamscharts.com — Top Battlefield Streamers</a><br><span class="source-desc">Creator/streamer landscape, viewership breakdowns</span></div>
+      </div>
+
+      <div class="source-item" id="src12">
+        <span class="source-num">[12]</span>
+        <div><a class="source-link" href="https://videos.feedspot.com/battlefield_youtube_channels/" target="_blank">feedspot.com — Top Battlefield YouTube Channels</a><br><span class="source-desc">Creator ecosystem overview: JackFrags, Westie, LevelCap, etc.</span></div>
+      </div>
+
+      <div class="source-item" id="src13">
+        <span class="source-num">[13]</span>
+        <div><a class="source-link" href="https://www.reddit.com/r/Battlefield/comments/1q2zixi/its_2026_and_battlefield_4_is_still_the_best_in/" target="_blank">r/Battlefield — "It's 2026 and BF4 is still the best"</a><br><span class="source-desc">Nostalgia sentiment, map design criticism, BF4 comparisons</span></div>
+      </div>
+
+      <div class="source-item" id="src14">
+        <span class="source-num">[14]</span>
+        <div><a class="source-link" href="https://www.reddit.com/r/Battlefield/comments/1psy8fd/what_do_you_want_to_see_from_battlefield_6_in_2026/" target="_blank">r/Battlefield — "What do you want to see from BF6 in 2026?"</a><br><span class="source-desc">Fan wishlist, live service complaints, content pacing criticism</span></div>
+      </div>
+
+      <div class="source-item" id="src15">
+        <span class="source-num">[15]</span>
+        <div><a class="source-link" href="https://www.eurogamer.net/battlefield-6-developers-u-turn-on-a-multiplayer-adjustment-following-community-feedback" target="_blank">eurogamer.net — BF6 Devs U-Turn After Community Feedback</a><br><span class="source-desc">DICE reversed Conquest spawn ticket change after Reddit backlash</span></div>
+      </div>
+
+      <div class="source-item" id="src16">
+        <span class="source-num">[16]</span>
+        <div><a class="source-link" href="https://www.pcgamer.com/games/fps/we-give-players-what-they-want-battlefield-6-devs-sing-the-praises-of-battlefield-labs-and-chatty-players-we-believe-in-the-power-of-tapping-into-the-community/" target="_blank">pcgamer.com — BF6 Devs on Community Content</a><br><span class="source-desc">DICE acknowledging organic clip culture across social platforms</span></div>
+      </div>
+
+      <div class="source-item" id="src17">
+        <span class="source-num">[17]</span>
+        <div><a class="source-link" href="https://battlefieldstats.com/data" target="_blank">battlefieldstats.com — Bot Reach Data</a><br><span class="source-desc">Battlefield Stats Bot: 11K+ servers, 1.8M+ member reach</span></div>
+      </div>
+
+      <div class="source-item" id="src18">
+        <span class="source-num">[18]</span>
+        <div><a class="source-link" href="https://help.ea.com/en/articles/battlefield/discord/" target="_blank">help.ea.com — Official Battlefield Discord</a><br><span class="source-desc">EA's official Discord server for news, squads, and dev feedback</span></div>
+      </div>
+
+      <div class="source-item" id="src19">
+        <span class="source-num">[19]</span>
+        <div><a class="source-link" href="https://www.reddit.com/r/Battlefield6/comments/1p7eu4t/idk_why_most_people_are_unhappy_bf6_is_actually/" target="_blank">r/Battlefield6 — "BF6 is actually amazing"</a><br><span class="source-desc">Positive reception thread: gunplay, sound design praise</span></div>
+      </div>
+
+      <div class="source-item" id="src20">
+        <span class="source-num">[20]</span>
+        <div><a class="source-link" href="https://www.reddit.com/r/Battlefield6/comments/1q6y1ry/is_it_worth_it_in_2026_battlefield_2026_as_a_new/" target="_blank">r/Battlefield6 — "Is it worth it in 2026?"</a><br><span class="source-desc">Mixed sentiment: solid foundation, needs time, cautious optimism</span></div>
+      </div>
+
+      <div class="source-item" id="src21">
+        <span class="source-num">[21]</span>
+        <div><a class="source-link" href="https://steamcommunity.com/app/2807960/discussions/0/802342466057549541/" target="_blank">Steam Community — BF6 Discussion Forums</a><br><span class="source-desc">REDSEC BR criticism, feature request threads</span></div>
+      </div>
+
+      <div class="source-item" id="src22">
+        <span class="source-num">[22]</span>
+        <div><a class="source-link" href="https://www.reddit.com/r/Battlefield/comments/1qpcqc2/rbattlefield_just_hit_1500000_subscribers/" target="_blank">r/Battlefield — "Just hit 1,500,000 subscribers"</a><br><span class="source-desc">Subreddit milestone post, January 28, 2026</span></div>
+      </div>
+
+      <div class="source-item" id="src23">
+        <span class="source-num">[23]</span>
+        <div><a class="source-link" href="https://www.reddit.com/r/Battlefield6/" target="_blank">r/Battlefield6 — Subreddit</a><br><span class="source-desc">280K subscribers as of December 2025</span></div>
+      </div>
+
+      <div class="source-item" id="src25">
+        <span class="source-num">[25]</span>
+        <div><a class="source-link" href="https://www.instrument.com/work/electronic-arts" target="_blank">instrument.com — Electronic Arts Rebrand</a><br><span class="source-desc">Instrument's 2025 rebrand of EA from publisher to entertainment brand</span></div>
+      </div>
+
+      <div class="source-item" id="src26">
+        <span class="source-num">[26]</span>
+        <div><a class="source-link" href="https://insider-gaming.com/eas-all-in-bet-with-battlefield-6-includes-a-multi-million-dollar-creator-campaign/" target="_blank">insider-gaming.com — EA's Multi-Million Dollar Creator Campaign</a><br><span class="source-desc">EA's creator outreach strategy, outsourced agency model, investment scale</span></div>
+      </div>
+
+      <div class="source-item" id="src24">
+        <span class="source-num">[24]</span>
+        <div><a class="source-link" href="https://www.mast-jaegermeister.de/en/2024/03/21/for-more-engagement-with-gen-z-jaegermeister-partners-with-glow/" target="_blank">mast-jaegermeister.de — Jägermeister Partners with GLOW</a><br><span class="source-desc">Official partnership announcement, global social media AOR</span></div>
+      </div>
+
+    </div>
+
+    <div class="callout">
+      <p><strong>Methodology note:</strong> Quantitative data (player counts, review scores, subscriber numbers, viewership stats) is sourced from public tracking platforms with direct API access to each service. Community sentiment analysis is a qualitative audit of dominant conversation themes across Reddit, Steam, and social media. Fan quotes are representative of recurring themes across high-engagement threads. For ongoing tracking, GLOW would layer in enterprise social listening tools (Brandwatch, Sprinklr) for real-time scoring.</p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-logo">
+      <img src="glow-logo.svg" alt="glow" class="glow-logo-img footer-glow-logo">
+    </div>
+    <p>The independent creative shop that helps brands find their glow.</p>
+    <p style="margin-top: 8px;"><a href="https://weareglow.com">weareglow.com</a></p>
+    <p style="margin-top: 24px; font-size: 11px; color: #333;">GLOW New Business Intelligencer / March 2026 / Confidential</p>
+  </div>
+
+</div>
+
+<script>
+  const now = new Date();
+  const options = { month: 'long', day: 'numeric', year: 'numeric' };
+  document.getElementById('pulseDate').textContent = 'As of ' + now.toLocaleDateString('en-US', options);
+</script>
+
+</body>
+</html>
