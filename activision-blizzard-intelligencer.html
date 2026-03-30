@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLOW x Blizzard — New Business Intelligencer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+  :root {
+    --bliz-dark: #070b14;
+    --bliz-navy: #0d1b2e;
+    --bliz-blue: #0074e0;
+    --bliz-gold: #c89b3c;
+    --bliz-orange: #e8651a;
+    --bliz-purple: #7b2fff;
+    --bliz-red: #b91c1c;
+    --bliz-cream: #f0ead8;
+    --glow-gold: #c5953a;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:var(--bliz-dark); color:var(--text-primary); line-height:1.6; }
+
+  /* NAV */
+  .sticky-nav {
+    position:sticky; top:0; z-index:100;
+    background:rgba(7,11,20,0.97); backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    padding:12px 24px;
+    display:flex; justify-content:center; gap:8px; flex-wrap:wrap;
+  }
+  .nav-btn {
+    font-family:'Space Grotesk',sans-serif;
+    font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase;
+    color:rgba(255,255,255,0.5); background:none; border:1px solid rgba(255,255,255,0.12);
+    padding:6px 14px; border-radius:20px; cursor:pointer; text-decoration:none;
+    transition:all 0.2s;
+  }
+  .nav-btn:hover { color:white; border-color:var(--bliz-gold); }
+  .nav-btn.active { color:var(--bliz-gold); border-color:var(--bliz-gold); background:rgba(200,155,60,0.1); }
+
+  /* HERO */
+  .hero {
+    background:linear-gradient(135deg, #070b14 0%, #0d1b2e 40%, #0f2040 70%, #1a0a2e 100%);
+    color:white; padding:80px 40px 60px; text-align:center; position:relative; overflow:hidden;
+  }
+  .hero::before { content:'⚔️'; position:absolute; font-size:300px; opacity:0.04; top:-60px; right:-40px; pointer-events:none; }
+  .hero::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at center top, rgba(0,116,224,0.12) 0%, transparent 70%); pointer-events:none; }
+  .hero-eyebrow { font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--bliz-gold); margin-bottom:16px; }
+  .hero h1 { font-family:'Space Grotesk',sans-serif; font-size:clamp(32px,5vw,60px); font-weight:700; line-height:1.1; margin-bottom:12px; }
+  .hero h1 .brand { color:var(--bliz-blue); }
+  .hero h1 .name { color:var(--bliz-gold); }
+  .hero .subtitle { font-size:17px; color:rgba(255,255,255,0.65); max-width:640px; margin:0 auto 24px; }
+  .hero-meta { display:flex; justify-content:center; gap:30px; flex-wrap:wrap; font-size:13px; color:rgba(255,255,255,0.45); }
+  .hero-badges { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:24px; }
+  .hero-badge { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:20px; padding:6px 16px; font-size:12px; color:rgba(255,255,255,0.7); font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:0.5px; }
+
+  /* SECTIONS */
+  .section-inner { padding:56px 40px; max-width:1100px; margin:0 auto; }
+  section { position:relative; z-index:2; }
+  .section-light { background:white; }
+  .section-dark { background:var(--bliz-dark); color:white; }
+  .section-navy { background:var(--bliz-navy); color:white; }
+  .section-deep { background:linear-gradient(180deg, #0a0f1e 0%, #060810 100%); color:white; }
+
+  /* TYPOGRAPHY */
+  .section-label { font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--bliz-gold); margin-bottom:10px; font-weight:600; }
+  .section-dark .section-label, .section-navy .section-label, .section-deep .section-label { color:var(--bliz-gold); }
+  h2 { font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,3.5vw,40px); font-weight:700; line-height:1.2; margin-bottom:20px; }
+  h3 { font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:600; margin-bottom:12px; }
+  h4 { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:1px; }
+  p { margin-bottom:14px; color:var(--text-secondary); }
+  .section-dark p, .section-navy p, .section-deep p { color:rgba(255,255,255,0.72); }
+
+  /* GRIDS */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  @media(max-width:768px) { .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;} .section-inner{padding:36px 20px;} .sticky-nav{gap:4px;padding:8px 12px;} .nav-btn{font-size:10px;padding:4px 10px;} }
+
+  /* CARDS */
+  .card { background:white; border-radius:12px; padding:28px; border:1px solid #e5e5e5; transition:transform 0.2s,box-shadow 0.2s; }
+  .card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.1); }
+  .dark-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09); border-radius:12px; padding:24px; }
+  .dark-card h4 { color:white; text-transform:none; letter-spacing:0; }
+  .dark-card p { font-size:14px; color:rgba(255,255,255,0.65); }
+  .dark-card:hover { background:rgba(255,255,255,0.07); }
+  .card-icon { font-size:32px; margin-bottom:14px; display:block; }
+
+  /* FRANCHISE CARDS */
+  .franchise-card { border-radius:16px; padding:32px; color:white; position:relative; overflow:hidden; }
+  .franchise-card::before { content:attr(data-emoji); position:absolute; font-size:120px; opacity:0.07; bottom:-20px; right:-10px; pointer-events:none; }
+  .franchise-wow { background:linear-gradient(135deg, #0a1f3c, #0d2f5c); border:1px solid rgba(0,116,224,0.3); }
+  .franchise-ow { background:linear-gradient(135deg, #1a0a00, #2e1500); border:1px solid rgba(232,101,26,0.3); }
+  .franchise-diablo { background:linear-gradient(135deg, #1a0000, #2e0808); border:1px solid rgba(185,28,28,0.3); }
+  .franchise-card h3 { font-family:'Space Grotesk',sans-serif; margin-bottom:6px; }
+  .franchise-card .fc-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; opacity:0.5; margin-bottom:16px; font-weight:600; }
+  .franchise-card p { color:rgba(255,255,255,0.72); font-size:14px; margin-bottom:10px; }
+  .franchise-card .fc-stat { font-family:'Space Grotesk',sans-serif; font-size:26px; font-weight:700; color:var(--bliz-gold); }
+  .franchise-card .fc-stat-label { font-size:12px; color:rgba(255,255,255,0.4); margin-top:-4px; margin-bottom:16px; }
+
+  /* PROFILE CARD */
+  .profile-card { background:linear-gradient(135deg, #0d1b2e, #0f2040); border:1px solid rgba(0,116,224,0.2); border-radius:16px; padding:36px; color:white; display:flex; gap:32px; align-items:flex-start; flex-wrap:wrap; }
+  .profile-avatar { width:80px; height:80px; background:linear-gradient(135deg,var(--bliz-blue),var(--bliz-purple)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; flex-shrink:0; }
+  .profile-info h3 { font-size:26px; margin-bottom:4px; }
+  .profile-info .title { color:var(--bliz-gold); font-size:14px; font-weight:600; letter-spacing:0.5px; margin-bottom:12px; }
+  .profile-info .company { color:rgba(255,255,255,0.5); font-size:13px; }
+  .profile-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+
+  /* TAGS */
+  .tag { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; margin:2px; }
+  .tag-blue { background:rgba(0,116,224,0.15); color:#60b0ff; border:1px solid rgba(0,116,224,0.25); }
+  .tag-gold { background:rgba(200,155,60,0.15); color:var(--bliz-gold); border:1px solid rgba(200,155,60,0.25); }
+  .tag-orange { background:rgba(232,101,26,0.15); color:#ff9a5c; border:1px solid rgba(232,101,26,0.25); }
+  .tag-red { background:rgba(185,28,28,0.15); color:#ff8080; border:1px solid rgba(185,28,28,0.25); }
+  .tag-purple { background:rgba(123,47,255,0.15); color:#b388ff; border:1px solid rgba(123,47,255,0.25); }
+  .tag-green { background:rgba(34,197,94,0.12); color:#4ade80; border:1px solid rgba(34,197,94,0.2); }
+
+  /* INSIGHT BLOCK */
+  .insight-block { background:rgba(0,116,224,0.06); border:1px solid rgba(0,116,224,0.18); border-radius:12px; padding:24px; margin:16px 0; }
+  .insight-block h4 { color:#60b0ff; text-transform:none; letter-spacing:0; font-size:15px; }
+  .insight-block p { font-size:14px; color:rgba(255,255,255,0.68); margin:0; }
+  .warning-block { background:rgba(232,101,26,0.06); border:1px solid rgba(232,101,26,0.2); border-radius:12px; padding:24px; margin:16px 0; }
+  .warning-block h4 { color:#ff9a5c; text-transform:none; letter-spacing:0; font-size:15px; }
+  .warning-block p { font-size:14px; color:rgba(255,255,255,0.68); margin:0; }
+  .gold-block { background:rgba(200,155,60,0.07); border:1px solid rgba(200,155,60,0.2); border-left:3px solid var(--bliz-gold); border-radius:0 12px 12px 0; padding:20px 24px; margin:16px 0; }
+  .gold-block h4 { color:var(--bliz-gold); text-transform:none; letter-spacing:0; font-size:15px; margin-bottom:6px; }
+  .gold-block p { font-size:14px; color:rgba(255,255,255,0.68); margin:0; }
+
+  /* ANGLE CARD */
+  .angle-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09); border-radius:12px; padding:24px; }
+  .angle-card .angle-num { font-family:'Space Grotesk',sans-serif; font-size:36px; font-weight:700; color:rgba(255,255,255,0.08); line-height:1; margin-bottom:8px; }
+  .angle-card h4 { color:var(--bliz-gold); text-transform:none; letter-spacing:0; font-size:16px; margin-bottom:8px; }
+  .angle-card p { font-size:14px; color:rgba(255,255,255,0.65); margin:0; }
+
+  /* CONVO CARD */
+  .convo-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:12px; padding:24px 28px; margin-bottom:14px; }
+  .convo-card .convo-label { font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--bliz-gold); margin-bottom:8px; font-weight:700; }
+  .convo-card .convo-q { font-size:16px; font-weight:600; color:white; margin-bottom:6px; font-family:'Space Grotesk',sans-serif; }
+  .convo-card .convo-why { font-size:13px; color:rgba(255,255,255,0.48); font-style:italic; }
+
+  /* GLOW OFFER */
+  .offer-card { border-radius:14px; padding:28px; color:white; }
+  .offer-wow { background:linear-gradient(135deg, rgba(0,116,224,0.15), rgba(0,116,224,0.05)); border:1px solid rgba(0,116,224,0.25); }
+  .offer-ow { background:linear-gradient(135deg, rgba(232,101,26,0.15), rgba(232,101,26,0.05)); border:1px solid rgba(232,101,26,0.25); }
+  .offer-diablo { background:linear-gradient(135deg, rgba(185,28,28,0.15), rgba(185,28,28,0.05)); border:1px solid rgba(185,28,28,0.25); }
+  .offer-card h4 { color:white; text-transform:none; letter-spacing:0; font-size:16px; margin-bottom:10px; }
+  .offer-card p { font-size:14px; color:rgba(255,255,255,0.68); margin-bottom:10px; }
+  .offer-card ul { list-style:none; padding:0; }
+  .offer-card li { font-size:13px; color:rgba(255,255,255,0.6); padding:4px 0; }
+  .offer-card li::before { content:'→ '; color:var(--bliz-gold); }
+
+  /* STAT */
+  .stat-row { display:flex; gap:16px; flex-wrap:wrap; margin:20px 0; }
+  .stat-box { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:20px 24px; flex:1; min-width:140px; }
+  .stat-box .stat-num { font-family:'Space Grotesk',sans-serif; font-size:30px; font-weight:700; color:var(--bliz-gold); line-height:1; }
+  .stat-box .stat-label { font-size:12px; color:rgba(255,255,255,0.45); margin-top:4px; }
+
+  /* LIST */
+  .check-list { list-style:none; padding:0; }
+  .check-list li { padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06); font-size:14px; color:rgba(255,255,255,0.78); display:flex; align-items:flex-start; gap:10px; line-height:1.5; }
+  .check-list li:last-child { border:none; }
+  .check-list li::before { content:'✦'; color:var(--bliz-gold); flex-shrink:0; margin-top:2px; }
+
+  /* DIVIDER */
+  .divider { height:3px; background:linear-gradient(90deg, var(--bliz-blue), var(--bliz-gold), var(--bliz-red)); border:none; margin:0; }
+  .divider-wow { height:2px; background:linear-gradient(90deg, #0074e0, #004a8f); border:none; margin:24px 0; }
+  .divider-ow { height:2px; background:linear-gradient(90deg, #e8651a, #ff9a5c); border:none; margin:24px 0; }
+  .divider-diablo { height:2px; background:linear-gradient(90deg, #b91c1c, #7f1d1d); border:none; margin:24px 0; }
+
+  /* FOOTER */
+  .footer { background:#020408; color:rgba(255,255,255,0.25); text-align:center; padding:48px 20px; font-size:12px; border-top:1px solid rgba(255,255,255,0.05); }
+  .footer strong { color:var(--bliz-gold); }
+  .footer .footer-logo { font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:700; color:rgba(255,255,255,0.4); margin-bottom:8px; }
+</style>
+</head>
+<body>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <a href="#contact" class="nav-btn">👤 The Contact</a>
+  <a href="#company" class="nav-btn">🏰 The Company</a>
+  <a href="#franchises" class="nav-btn">⚔️ Franchises</a>
+  <a href="#landscape" class="nav-btn">📊 Agency Landscape</a>
+  <a href="#angles" class="nav-btn">💡 Our Angles</a>
+  <a href="#prep" class="nav-btn">🎯 Meeting Prep</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <!-- LOGO LOCKUP -->
+  <div style="display:flex; align-items:center; justify-content:center; gap:24px; margin-bottom:28px; flex-wrap:wrap;">
+    <img src="glow-logo.svg" alt="GLOW" style="height:44px; width:auto; filter:brightness(0) invert(1); opacity:0.95;">
+    <div style="width:1px; height:48px; background:rgba(255,255,255,0.2);"></div>
+    <img src="blizzard-logo.svg" alt="Blizzard" style="height:40px; width:auto; opacity:0.95;">
+  </div>
+
+  <p class="subtitle" style="margin-top:8px;">Everything you need to walk into this meeting sharp. Background on Kevin, the brands, the opportunity, and the angle.</p>
+  <div class="hero-meta">
+    <span>📅 Meeting: Week of March 27, 2026</span>
+    <span>👤 Kevin Bjelajac</span>
+    <span>🏰 Blizzard Entertainment</span>
+  </div>
+  <div class="hero-badges">
+    <span class="hero-badge">🗡️ World of Warcraft</span>
+    <span class="hero-badge">⚡ Overwatch 2</span>
+    <span class="hero-badge">🔥 Diablo IV</span>
+    <span class="hero-badge">🎮 135M+ Players</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 1: THE CONTACT                 -->
+<!-- ═══════════════════════════════════════ -->
+<section class="section-navy" id="contact">
+  <div class="section-inner">
+    <div class="section-label">Know Your Room</div>
+    <h2>Kevin Bjelajac</h2>
+
+    <div class="profile-card">
+      <div class="profile-avatar">🧙</div>
+      <div class="profile-info" style="flex:1;">
+        <h3>Kevin Bjelajac</h3>
+        <div class="title">VP, Brand &amp; Creative — Blizzard Entertainment</div>
+        <div class="company">Activision Blizzard · Manhattan Beach, CA · 500+ LinkedIn connections</div>
+        <div class="profile-tags">
+          <span class="tag tag-blue">Brand Strategy</span>
+          <span class="tag tag-gold">Creative Direction</span>
+          <span class="tag tag-purple">World of Warcraft</span>
+          <span class="tag tag-orange">Overwatch</span>
+          <span class="tag tag-red">Diablo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:28px;">
+      <div>
+        <h3 style="color:white;margin-bottom:16px;">What He Actually Does</h3>
+        <p>Kevin is VP of Brand &amp; Creative at Blizzard, which means he sits at the intersection of marketing strategy and creative output. He isn't just approving budgets — he's shaping what campaigns look and feel like. He has direct ownership over brand work for Warcraft, Overwatch, and Diablo.</p>
+        <p>He's the person who decides whether your creative partner is doing work worthy of the IP — or just making assets. That's who you're in front of.</p>
+        <div class="insight-block">
+          <h4>💡 What This Means for the Meeting</h4>
+          <p>Don't pitch tactics. Pitch creative perspective. Kevin is evaluating whether Glow <em>gets</em> these worlds — whether you can be a trusted brand steward, not just a production shop.</p>
+        </div>
+      </div>
+      <div>
+        <h3 style="color:white;margin-bottom:16px;">His Known Work</h3>
+        <ul class="check-list">
+          <li><strong>"Bringing the 80s to WoW"</strong> — Shorty Award-recognized. Used in-game nostalgia and clever cultural tie-ins to reactivate lapsed players. Loved creative that breaks the fourth wall.</li>
+          <li><strong>"The Reven Pack"</strong> — WoW as a Force for Change. Used in-game items to raise awareness &amp; funds for Duchenne muscular dystrophy. Showed he values brand doing something <em>real</em>, not just cool.</li>
+          <li><strong>Oversaw the WoW 30th Anniversary</strong> — Warcraft Direct at Gamescom, Zillow integration, Mountain Dew Game Fuel comeback. He greenlit brands embedding in daily utility, not just ads.</li>
+        </ul>
+        <div class="gold-block" style="margin-top:16px;">
+          <h4>🎯 His Creative POV in Three Words</h4>
+          <p><strong>Unexpected. Embedded. Real.</strong> Kevin gravitates toward work that doesn't feel like marketing. He wants IP to live in the world, not just screens.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 2: THE COMPANY                 -->
+<!-- ═══════════════════════════════════════ -->
+<section class="section-dark" id="company">
+  <div class="section-inner">
+    <div class="section-label">The Empire</div>
+    <h2>Activision Blizzard — Big Picture</h2>
+    <p style="max-width:700px;">Acquired by Microsoft in 2023 for $68.7 billion. Now operating under Xbox Game Studios. Blizzard is the prestige gaming IP division — their franchises aren't just games, they're decades-old fandoms with billions in annual revenue.</p>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-num">$68.7B</div>
+        <div class="stat-label">Microsoft acquisition price (2023)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">135M+</div>
+        <div class="stat-label">WoW active player accounts</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Massive franchises Kevin oversees</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">30+</div>
+        <div class="stat-label">Years of Warcraft IP</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="insight-block">
+        <h4>🏢 What Microsoft Ownership Changes</h4>
+        <p>Microsoft wants to turn Blizzard IP into a broader entertainment ecosystem — TV, film, merchandise, live events. This is the critical window where brand work expands <em>beyond</em> games. Marketing teams are being asked to think bigger than game launches.</p>
+      </div>
+      <div class="insight-block">
+        <h4>👩‍💼 New CMO: Monica Austin (Aug 2024)</h4>
+        <p>New CMO just landed eight months ago. That means the marketing org is still in a reset. New CMO = new relationships to build, new vendor landscape, new creative briefs. This is the moment to get in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 3: THE FRANCHISES              -->
+<!-- ═══════════════════════════════════════ -->
+<section class="section-deep" id="franchises">
+  <div class="section-inner">
+    <div class="section-label">The Three Worlds</div>
+    <h2>What Kevin Is Actually Working On</h2>
+    <p style="max-width:700px;">These aren't just games. Each one is a universe with its own tone, audience, and creative mandate. Understanding all three — and how they differ — is table stakes for this meeting.</p>
+
+    <div class="grid-3" style="margin-top:32px;">
+      <!-- WoW -->
+      <div class="franchise-card franchise-wow" data-emoji="⚔️">
+        <div class="fc-label">Franchise 01</div>
+        <h3>World of Warcraft</h3>
+        <div class="fc-stat">135M+</div>
+        <div class="fc-stat-label">Active player accounts</div>
+        <p>The OG. Currently in "The Worldsoul Saga" — three-expansion arc that started with <em>The War Within</em> (2024). 30-year anniversary just celebrated. Marketing leans hard on nostalgia, cultural embedding, and utility-based partnerships.</p>
+        <div style="margin-top:16px;">
+          <span class="tag tag-blue">Nostalgia Play</span>
+          <span class="tag tag-gold">Utility Marketing</span>
+          <span class="tag tag-purple">Cultural Collabs</span>
+        </div>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);">
+          <p style="font-size:13px;"><strong style="color:#60b0ff;">Recent Win:</strong> Listed iconic in-game properties on Zillow. WoW integrated into Waze navigation. These are Kevin-era ideas — he likes brands living in unexpected real-world contexts.</p>
+        </div>
+      </div>
+
+      <!-- Overwatch -->
+      <div class="franchise-card franchise-ow" data-emoji="⚡">
+        <div class="fc-label">Franchise 02</div>
+        <h3>Overwatch 2</h3>
+        <div class="fc-stat">2025</div>
+        <div class="fc-stat-label">"Biggest year yet" per Blizzard</div>
+        <p>The hero shooter. Transitioned to free-to-play. Esports broadcasting moved exclusively to YouTube 2025. Blizzard is developing cinematic/TV projects to convert viewers to players — huge IP expansion play underway.</p>
+        <div style="margin-top:16px;">
+          <span class="tag tag-orange">Esports</span>
+          <span class="tag tag-gold">IP Expansion</span>
+          <span class="tag tag-green">Free-to-Play</span>
+        </div>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);">
+          <p style="font-size:13px;"><strong style="color:#ff9a5c;">The Gap:</strong> OW marketing has been quieter than Diablo or WoW. There's an opening for a creative partner to help define what the franchise looks like as it matures and grows its esports audience.</p>
+        </div>
+      </div>
+
+      <!-- Diablo -->
+      <div class="franchise-card franchise-diablo" data-emoji="🔥">
+        <div class="fc-label">Franchise 03</div>
+        <h3>Diablo IV</h3>
+        <div class="fc-stat">2026</div>
+        <div class="fc-stat-label">Next major expansion planned</div>
+        <p>Blizzard's most theatrically marketed franchise right now. IP collabs with dark-themed universes planned. Cinematic ambitions are high. Next expansion 2026 — the campaign cycle is starting now.</p>
+        <div style="margin-top:16px;">
+          <span class="tag tag-red">Dark Creative</span>
+          <span class="tag tag-gold">IP Collaborations</span>
+          <span class="tag tag-purple">Cinematic</span>
+        </div>
+        <div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);">
+          <p style="font-size:13px;"><strong style="color:#ff8080;">Recent Campaign:</strong> "Ballad of the Blood" — a two-minute cinematic directed by the Spider-Man director, filmed in Thailand, with Camila Cabello. Created by 72andSunny. The bar is high. But creative agencies rotate.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 4: AGENCY LANDSCAPE            -->
+<!-- ═══════════════════════════════════════ -->
+<section class="section-navy" id="landscape">
+  <div class="section-inner">
+    <div class="section-label">The Competitive Landscape</div>
+    <h2>Who's Already in the Room</h2>
+    <p style="max-width:700px;">Knowing who they're working with — and where the gaps are — tells you exactly where to position Glow.</p>
+
+    <div class="grid-2" style="margin-top:28px;">
+      <div class="dark-card">
+        <h4 style="color:white;text-transform:none;letter-spacing:0;font-size:17px;margin-bottom:8px;">72andSunny</h4>
+        <span class="tag tag-red">Incumbent (Diablo)</span>
+        <p style="margin-top:12px;">Long-standing relationship with Diablo. Did the Renaissance mural for IV's launch, then "Ballad of the Blood" — Hollywood director, filmed in Thailand, full cinematic treatment. They go big-budget theatrical. That's their lane.</p>
+        <div class="warning-block" style="margin-top:12px;">
+          <h4>⚠️ Don't Try to Out-72andSunny Them</h4>
+          <p>Glow can't win on "bigger cinematic." But you can win on fandom, community, social-native, and speed. Don't compete on their terrain.</p>
+        </div>
+      </div>
+
+      <div class="dark-card">
+        <h4 style="color:white;text-transform:none;letter-spacing:0;font-size:17px;margin-bottom:8px;">Kairos Media</h4>
+        <span class="tag tag-blue">Influencer/Social</span>
+        <p style="margin-top:12px;">Influencer marketing and content production. Known Blizzard agency. Their play is creator partnerships and managed social distribution — not brand strategy or original creative.</p>
+        <div class="insight-block" style="margin-top:12px;">
+          <h4>💡 The Gap Kairos Doesn't Fill</h4>
+          <p>There's no agency in this roster doing sports/entertainment-level brand positioning, paid creative (key art, OOH, arena-scale), and community strategy simultaneously. That's Glow's lane.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gold-block" style="margin-top:24px;">
+      <h4>🚪 The Real Opening: New CMO, New Era</h4>
+      <p>Monica Austin joined as CMO in August 2024. She's eight months in. She is almost certainly evaluating the agency roster — who stays, who goes, who's new. The timing for Glow to get in front of the brand decision-makers is genuinely good right now. New CMO tenure = relationship reset.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 5: GLOW ANGLES                 -->
+<!-- ═══════════════════════════════════════ -->
+<section class="section-dark" id="angles">
+  <div class="section-inner">
+    <div class="section-label">Glow's Play</div>
+    <h2>How to Win This</h2>
+    <p style="max-width:700px;">Three distinct angles — pick the one that fits where the conversation goes. Don't pitch all three. Read the room, pick your lane.</p>
+
+    <div class="grid-3" style="margin-top:32px;">
+      <div class="angle-card">
+        <div class="angle-num">01</div>
+        <h4>The Fandom Agency</h4>
+        <p>Glow's core thesis is fan-led community. Blizzard fandoms are among the most passionate and longest-running in gaming — WoW players have been active for 20 years. If any brand needs a fandom marketing partner, it's Blizzard. NBA experience = proof that Glow builds fan advocacy, not just reach.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-gold">NBA Proof Point</span>
+          <span class="tag tag-blue">Community Strategy</span>
+        </div>
+      </div>
+
+      <div class="angle-card">
+        <div class="angle-num">02</div>
+        <h4>Sports x Gaming Crossover</h4>
+        <p>Blizzard is actively developing TV/streaming properties. Overwatch esports just went full YouTube. There's an audience bridge being built between gaming and mainstream entertainment. Glow has deep sports and entertainment marketing credibility. We know how to market to live-event-going, passion-economy audiences.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-orange">Esports</span>
+          <span class="tag tag-purple">Entertainment Bridge</span>
+        </div>
+      </div>
+
+      <div class="angle-card">
+        <div class="angle-num">03</div>
+        <h4>The Paid Creative Partner</h4>
+        <p>Glow produces key art, digital, OOH, and arena-scale creative. The "Ballad of the Blood" campaign proves Blizzard invests in high-production creative. What they may not have is a paid creative partner who also understands fandom and can do the brand strategy <em>and</em> production. That's a rarer shop.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-red">Key Art</span>
+          <span class="tag tag-gold">Production</span>
+          <span class="tag tag-green">OOH + Digital</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color:white;margin-top:48px;margin-bottom:20px;">How Glow Maps to Each Franchise</h3>
+    <div class="grid-3">
+      <div class="offer-card offer-wow">
+        <span style="font-size:28px;display:block;margin-bottom:12px;">⚔️</span>
+        <h4>World of Warcraft</h4>
+        <p>They already do the clever cultural embedding plays (Zillow, Waze). Where they likely need help:</p>
+        <ul>
+          <li>Social-native, always-on community content</li>
+          <li>OOH for expansion launches</li>
+          <li>Fan advocacy programs that deepen loyalty</li>
+          <li>Nostalgia marketing (Glow understands cultural callbacks)</li>
+        </ul>
+      </div>
+      <div class="offer-card offer-ow">
+        <span style="font-size:28px;display:block;margin-bottom:12px;">⚡</span>
+        <h4>Overwatch 2</h4>
+        <p>The least-defined marketing presence of the three. Their esports-to-mainstream pivot = big opportunity:</p>
+        <ul>
+          <li>Brand identity work for esports audience</li>
+          <li>Hero/character campaign creative</li>
+          <li>Sports crossover positioning (OW = sport)</li>
+          <li>Arena/event creative as esports scales</li>
+        </ul>
+      </div>
+      <div class="offer-card offer-diablo">
+        <span style="font-size:28px;display:block;margin-bottom:12px;">🔥</span>
+        <h4>Diablo IV</h4>
+        <p>72andSunny owns theatrical. Glow's opening is everything they don't do:</p>
+        <ul>
+          <li>Social and digital extensions of big campaigns</li>
+          <li>Community and fandom activation</li>
+          <li>IP collab creative (2 new collabs planned in 2025)</li>
+          <li>2026 expansion campaign — cycle starting now</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 6: MEETING PREP                -->
+<!-- ═══════════════════════════════════════ -->
+<section class="section-navy" id="prep">
+  <div class="section-inner">
+    <div class="section-label">Walk In Ready</div>
+    <h2>Meeting Prep — Questions That Open Doors</h2>
+    <p style="max-width:700px;">You said you don't know what you're discussing yet. Good — that means the goal of this meeting is intelligence-gathering and relationship-building, not pitching. These questions do that while demonstrating you know their world.</p>
+
+    <div style="margin-top:32px;">
+      <div class="convo-card">
+        <div class="convo-label">Open with Curiosity</div>
+        <div class="convo-q">"You've built some of the most iconic gaming campaigns out there — the Zillow integration, the Reven Pack, Ballad of the Blood. How do you decide when to go theatrical vs. cultural embedding vs. community-led?"</div>
+        <div class="convo-why">Why it works: Shows you've done homework. Gets him talking about his creative philosophy. You learn how he makes decisions.</div>
+      </div>
+
+      <div class="convo-card">
+        <div class="convo-label">Explore the Opportunity</div>
+        <div class="convo-q">"With Monica Austin coming in as CMO, are you going through a period of reassessing how you think about creative partners? Or is the team pretty set?"</div>
+        <div class="convo-why">Why it works: Acknowledges the leadership change without being weird about it. Directly surfaces whether there's an agency evaluation happening.</div>
+      </div>
+
+      <div class="convo-card">
+        <div class="convo-label">Surface the Fandom Angle</div>
+        <div class="convo-q">"The thing that strikes us about Blizzard is the depth of fandom — WoW players who've been with you for 20 years, the Diablo community that came back after the Vessel of Hatred launch. How are you thinking about deepening that fandom vs. acquiring new players?"</div>
+        <div class="convo-why">Why it works: Gets him to articulate his current strategic priority. "Deepening fandom" is Glow's lane. "Acquiring new players" is performance marketing. You want to know which he's focused on.</div>
+      </div>
+
+      <div class="convo-card">
+        <div class="convo-label">Understand the Full Scope</div>
+        <div class="convo-q">"You oversee three very different franchises — WoW, Overwatch, Diablo. Each has its own audience and tone. Is there one you're spending the most energy on right now, or is it balanced across all three?"</div>
+        <div class="convo-why">Why it works: Lets you understand budget/attention priority and figure out where the real opportunity is. Also shows you understand the nuance between franchises.</div>
+      </div>
+
+      <div class="convo-card">
+        <div class="convo-label">Hint at the Bridge</div>
+        <div class="convo-q">"We do a lot of work in sports — we've built our NBA account to over a million a season — and the crossover between sports fandom and gaming fandom is something we think about a lot. Does that overlap matter to how you think about reaching Overwatch's audience?"</div>
+        <div class="convo-why">Why it works: Name-drops the NBA cred naturally. Opens the sports/gaming bridge conversation without it feeling like a pitch.</div>
+      </div>
+    </div>
+
+    <h3 style="color:white;margin-top:48px;margin-bottom:20px;">Things to Know Before You Walk In</h3>
+    <div class="grid-2">
+      <div>
+        <ul class="check-list">
+          <li>WoW: The War Within is the current expansion. Next two are Midnight and The Last Titan.</li>
+          <li>Diablo IV: "Vessel of Hatred" expansion launched Oct 2024. Two IP collabs planned in 2025. Next expansion 2026.</li>
+          <li>Overwatch 2: Esports now exclusively on YouTube. "Biggest year ever" per Blizzard for 2025.</li>
+          <li>Monica Austin is the new CMO. She came from... (worth Googling her background before meeting).</li>
+        </ul>
+      </div>
+      <div>
+        <ul class="check-list">
+          <li>Kevin's LinkedIn: <strong>linkedin.com/in/kevin-bjelajac-3990b5a/</strong> — review before meeting.</li>
+          <li>Blizzard is part of Microsoft/Xbox now. Decisions may have new layers vs. independent era.</li>
+          <li>72andSunny has Diablo. Don't position against them directly — position around them.</li>
+          <li>The goal of Meeting 1: learn, listen, build trust. Leave with a clear next step.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="gold-block" style="margin-top:32px;">
+      <h4>🎯 What "Win" Looks Like for This Meeting</h4>
+      <p>Kevin walks away thinking: <em>"These people actually understand our worlds, they're not just a generic agency. I want to bring them back for a specific brief."</em> That's it. You're planting a flag, not closing a deal.</p>
+    </div>
+
+    <div class="warning-block" style="margin-top:16px;">
+      <h4>⚠️ Don't Do This</h4>
+      <p>Don't pitch a speculative campaign for a franchise you don't have the brief for yet. Don't try to cover all three franchises in one meeting. Don't position against 72andSunny by name. Let Kevin tell you where the opening is — then step into it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-logo">GLOW</div>
+  <p>New Business Intelligencer — Activision Blizzard · Prepared March 2026</p>
+  <p style="margin-top:8px;">Confidential. Internal use only. <strong>weareglow.com</strong></p>
+</div>
+
+</body>
+</html>

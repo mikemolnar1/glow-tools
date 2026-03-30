@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jägermeister — The Alchemist's Playbook</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+  :root {
+    --jager-green: #004d2b;
+    --jager-dark: #0a0f0d;
+    --jager-orange: #e8651a;
+    --jager-gold: #c5953a;
+    --jager-cream: #f5f0e8;
+    --accent-purple: #6b3fa0;
+    --accent-blue: #2d6bcf;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:var(--jager-dark); color:var(--text-primary); line-height:1.6; }
+
+  /* NAV */
+  .sticky-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,15,13,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 12px 24px;
+    display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+  }
+  .nav-btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    color: rgba(255,255,255,0.5); background: none; border: 1px solid rgba(255,255,255,0.12);
+    padding: 6px 14px; border-radius: 20px; cursor: pointer; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { color: white; border-color: var(--jager-orange); }
+  .nav-btn.nav-nightlife:hover, .nav-btn.nav-nightlife.active { color: #b388ff; border-color: #b388ff; background: rgba(107,63,160,0.15); }
+  .nav-btn.nav-hipster:hover, .nav-btn.nav-hipster.active { color: var(--jager-orange); border-color: var(--jager-orange); background: rgba(232,101,26,0.15); }
+  .nav-btn.nav-frat:hover, .nav-btn.nav-frat.active { color: #80b0ff; border-color: #80b0ff; background: rgba(45,107,207,0.15); }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--jager-dark) 0%, #0d1f15 50%, var(--jager-green) 100%);
+    color: white; padding: 80px 40px 60px; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before { content:'🔥'; position:absolute; font-size:200px; opacity:0.05; top:-20px; right:-20px; }
+  .hero-label { font-family:'Space Grotesk',sans-serif; font-size:12px; letter-spacing:4px; text-transform:uppercase; color:var(--jager-gold); margin-bottom:16px; }
+  .hero h1 { font-family:'Space Grotesk',sans-serif; font-size:clamp(36px,5vw,64px); font-weight:700; line-height:1.1; margin-bottom:12px; }
+  .hero h1 span { color:var(--jager-orange); }
+  .hero .subtitle { font-size:18px; color:rgba(255,255,255,0.7); max-width:600px; margin:0 auto 20px; }
+  .hero-meta { display:flex; justify-content:center; gap:30px; flex-wrap:wrap; font-size:13px; color:rgba(255,255,255,0.5); }
+  .trend-update { font-size: 12px; color: var(--jager-gold); margin-top: 16px; font-style: italic; }
+
+  /* SECTIONS */
+  .section-inner { padding:50px 40px; max-width:1100px; margin:0 auto; }
+  section { background:white; position:relative; z-index:2; }
+  .section-dark { background:var(--jager-dark); color:white; }
+  .section-cream { background:var(--jager-cream); }
+  .section-green { background:var(--jager-green); color:white; }
+  .section-nightlife { background: linear-gradient(180deg, #1a0a2e 0%, #120820 100%); color: white; }
+  .section-hipster { background: linear-gradient(180deg, #1a1a1a 0%, #111 100%); color: white; }
+  .section-frat { background: linear-gradient(180deg, #0a1929 0%, #081422 100%); color: white; }
+
+  /* TYPOGRAPHY */
+  .section-label { font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--jager-orange); margin-bottom:10px; font-weight:600; }
+  .section-dark .section-label, .section-nightlife .section-label, .section-hipster .section-label, .section-frat .section-label { color:var(--jager-gold); }
+  h2 { font-family:'Space Grotesk',sans-serif; font-size:clamp(28px,3.5vw,40px); font-weight:700; line-height:1.2; margin-bottom:20px; }
+  h3 { font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:600; margin-bottom:12px; }
+  h4 { font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:1px; }
+  p { margin-bottom:14px; color:var(--text-secondary); }
+  .section-dark p, .section-nightlife p, .section-hipster p, .section-frat p, .section-green p { color:rgba(255,255,255,0.75); }
+
+  /* PERSONA HEADER */
+  .persona-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .persona-header .emoji { font-size: 52px; }
+  .persona-header h2 { margin: 0; }
+  .persona-header .persona-sub { font-size: 14px; color: rgba(255,255,255,0.5); font-style: italic; margin: 0; }
+
+  /* SUBSECTION */
+  .subsection { margin-top: 40px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.08); }
+  .subsection:first-of-type { margin-top: 24px; padding-top: 0; border: none; }
+  .subsection-title { font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:600; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; }
+  .nightlife-accent { color: #b388ff; }
+  .hipster-accent { color: var(--jager-orange); }
+  .frat-accent { color: #80b0ff; }
+
+  /* GRIDS */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:768px) { .grid-2,.grid-3{grid-template-columns:1fr;} .section-inner{padding:36px 20px;} .sticky-nav{gap:4px;padding:8px 12px;} .nav-btn{font-size:10px;padding:4px 10px;} }
+
+  /* CARDS */
+  .card { background:white; border-radius:12px; padding:28px; border:1px solid #e5e5e5; transition:transform 0.2s,box-shadow 0.2s; }
+  .card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.08); }
+  .section-dark .card, .section-nightlife .card, .section-hipster .card, .section-frat .card { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); }
+  .section-dark .card p, .section-nightlife .card p, .section-hipster .card p, .section-frat .card p { color:rgba(255,255,255,0.7); }
+  .card-icon { font-size:32px; margin-bottom:14px; display:block; }
+
+  /* FORMULA BOX */
+  .formula-box { background:linear-gradient(135deg,var(--jager-dark),#142a1e); border:1px solid rgba(197,149,58,0.3); border-radius:12px; padding:30px; margin:30px 0; text-align:center; color:white; }
+  .formula { font-family:'Space Grotesk',sans-serif; font-size:28px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; margin-bottom:12px; }
+  .formula .op { color:var(--jager-orange); font-size:32px; }
+  .formula .result { color:var(--jager-gold); }
+
+  /* TREND LIST */
+  .trend-list { list-style:none; padding:0; margin:12px 0; }
+  .trend-list li { padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.08); font-size:14px; color:rgba(255,255,255,0.8); display:flex; align-items:flex-start; gap:8px; }
+  .trend-list li:last-child { border:none; }
+
+  /* TAGS */
+  .tag { display:inline-block; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; margin:2px; }
+  .tag-purple { background:rgba(107,63,160,0.2); color:#b388ff; }
+  .tag-orange { background:rgba(232,101,26,0.2); color:#ff9a5c; }
+  .tag-blue { background:rgba(45,107,207,0.2); color:#80b0ff; }
+  .tag-green { background:rgba(0,77,43,0.3); color:#66cc99; }
+
+  /* PLATFORM CARD */
+  .platform-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:24px; }
+  .platform-card h4 { font-size:16px; color:white; text-transform:none; letter-spacing:0; margin-bottom:10px; }
+  .platform-card p { font-size:13px; color:rgba(255,255,255,0.6); }
+  .strength { color:#66cc99; }
+  .opportunity { color:var(--jager-gold); }
+  .gap-text { color:#ff8080; }
+
+  /* SCRIPT BLOCK */
+  .script-block { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:24px; margin-bottom:16px; }
+  .script-block h4 { color:var(--jager-gold); margin-bottom:6px; font-size:15px; }
+  .script-block p { font-size:14px; color:rgba(255,255,255,0.65); margin-bottom:8px; }
+  .script-block .sound-note { font-size:13px; color:rgba(255,255,255,0.45); font-style:italic; }
+
+  /* MIX CARD */
+  .mix-card { background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:24px; }
+  .mix-card h4 { color:var(--jager-gold); margin-bottom:8px; }
+  .mix-card p { font-size:14px; }
+  .mix-formula { font-family:'Space Grotesk',sans-serif; font-size:14px; color:var(--jager-orange); margin-bottom:10px; font-weight:500; }
+
+  /* BUCKET */
+  .bucket-tag { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:16px 20px; margin-bottom:12px; }
+  .bucket-tag h4 { color:var(--jager-gold); margin-bottom:4px; font-size:14px; }
+  .bucket-tag p { font-size:13px; color:rgba(255,255,255,0.55); margin:0; }
+
+  /* EXAMPLE OUTPUT */
+  .example-output { background:rgba(197,149,58,0.08); border-left:3px solid var(--jager-gold); padding:20px; border-radius:0 8px 8px 0; margin:16px 0; }
+  .example-output h4 { color:var(--jager-gold); text-transform:none; letter-spacing:0; font-size:14px; margin-bottom:8px; }
+  .example-output p { font-size:13px; color:rgba(255,255,255,0.65); margin:0 0 8px; }
+  .example-output ul { list-style:none; padding:0; }
+  .example-output li { font-size:13px; color:rgba(255,255,255,0.6); padding:4px 0; }
+  .example-output li::before { content:'→ '; color:var(--jager-orange); }
+
+  /* PROMPTER */
+  .prompter { background:linear-gradient(135deg,#0a0a0a,#1a1a1a); border:2px solid var(--jager-orange); border-radius:16px; padding:36px; margin:30px 0; color:white; }
+  .prompter h3 { color:var(--jager-orange); font-size:24px; margin-bottom:6px; }
+  .prompter .prompt-desc { color:rgba(255,255,255,0.6); font-size:14px; margin-bottom:24px; }
+  .prompt-step { display:flex; align-items:flex-start; gap:16px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .prompt-step:last-child { border:none; margin-bottom:0; padding-bottom:0; }
+  .step-num { background:var(--jager-orange); color:white; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; flex-shrink:0; }
+  .step-content h4 { color:white; text-transform:none; letter-spacing:0; font-size:15px; margin-bottom:4px; }
+  .step-content p { font-size:13px; color:rgba(255,255,255,0.55); margin:0; }
+
+  /* CALLOUT */
+  .callout { background:rgba(232,101,26,0.08); border:1px solid rgba(232,101,26,0.2); border-radius:12px; padding:24px; margin:20px 0; }
+  .callout p { font-size:14px; }
+  .section-dark .callout p, .section-nightlife .callout p, .section-hipster .callout p, .section-frat .callout p { color:rgba(255,255,255,0.7); }
+  .highlight { color:var(--jager-orange); font-weight:600; }
+
+  /* DIVIDER */
+  .divider { height:4px; background:linear-gradient(90deg,var(--jager-orange),var(--jager-gold),var(--jager-green)); border:none; margin:0; }
+  .divider-nightlife { height:3px; background:linear-gradient(90deg,#6b3fa0,#b388ff,#6b3fa0); border:none; margin:0; }
+  .divider-hipster { height:3px; background:linear-gradient(90deg,var(--jager-orange),var(--jager-gold),var(--jager-orange)); border:none; margin:0; }
+  .divider-frat { height:3px; background:linear-gradient(90deg,#2d6bcf,#80b0ff,#2d6bcf); border:none; margin:0; }
+
+  /* FOOTER */
+  .footer { background:var(--jager-dark); color:rgba(255,255,255,0.3); text-align:center; padding:40px 20px; font-size:12px; }
+  .footer strong { color:var(--jager-gold); }
+
+  /* TABLE */
+  table { width:100%; border-collapse:collapse; font-size:14px; background:white; border-radius:12px; overflow:hidden; }
+  thead tr { background:var(--jager-dark); color:white; }
+  th { padding:14px 16px; text-align:left; font-family:'Space Grotesk',sans-serif; font-weight:600; }
+  td { padding:12px 16px; }
+  tbody tr { border-bottom:1px solid #eee; }
+  tbody tr:nth-child(even) { background:#fafafa; }
+</style>
+</head>
+<body>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <a href="#foundation" class="nav-btn">🧪 Foundation</a>
+  <a href="#audit" class="nav-btn">📊 Social Audit</a>
+  <a href="#nightlife" class="nav-btn nav-nightlife">🪩 Nightlife</a>
+  <a href="#hipsters" class="nav-btn nav-hipster">🛹 Hipsters</a>
+  <a href="#fratbros" class="nav-btn nav-frat">🍻 Frat Bros</a>
+  <a href="#cross" class="nav-btn">🎯 Cross-Persona</a>
+  <a href="#engine" class="nav-btn">⚗️ Alchemy Engine</a>
+  <a href="#cheatsheet" class="nav-btn">📋 Cheat Sheet</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Glow x Jägermeister — Reimagined Creative Brief</div>
+  <h1>The <span>Alchemist's</span> Playbook</h1>
+  <p class="subtitle">Persona-first creative brief with cultural trend mapping, voice guides, UGC scripts, and a creative prompting engine.</p>
+  <div class="hero-meta">
+    <span>📅 May 2026</span>
+    <span>🎯 Social Content</span>
+    <span>🧪 "We Mix Sh*t Up"</span>
+  </div>
+  <p class="trend-update">📡 Trends auto-refresh daily at 8am ET · Last updated: <span id="lastUpdated">March 30, 2026 (11:11am ET)</span></p>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 1: BRAND FOUNDATION            -->
+<!-- ═══════════════════════════════════════ -->
+<section id="foundation">
+  <div class="section-inner">
+    <div class="section-label">Brand Foundation</div>
+    <h2>The Alchemy Formula</h2>
+    <p>As a spirit born of alchemy, Jägermeister embraces the art of mixing things up to create something new. From our 56 botanicals to our defiance of convention, Jägermeister embodies the magic that happens when unexpected elements collide.</p>
+    <div class="formula-box">
+      <div class="formula">
+        <span>TENSION</span><span class="op">+</span><span>TWIST</span><span class="op">=</span><span class="result">ALCHEMY</span>
+      </div>
+      <p style="color:rgba(255,255,255,0.5);font-size:14px;margin:0;">This legacy of alchemy challenges the ordinary and disrupts the predictable.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card">
+        <span class="card-icon">🎭</span>
+        <h3>Our Persona</h3>
+        <h4 style="color:var(--jager-orange);">"We Mix Sh*t Up"</h4>
+        <p>Mischievous. Spicy. Fun. We're the friend who turns a quiet Tuesday into a story you tell for years.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">💡</span>
+        <h3>The Insight</h3>
+        <p>Alchemy is the antidote to homogeneity. When everything feels the same, unexpected combinations keep things interesting.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎯</span>
+        <h3>The Strategy</h3>
+        <p>If everyone embraced alchemy, the nights would be anything but boring. Anything routine, or even taboo, is meant to be shaken up, stirred together, and reimagined.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 2: SOCIAL AUDIT                -->
+<!-- ═══════════════════════════════════════ -->
+<section class="section-dark" id="audit">
+  <div class="section-inner">
+    <div class="section-label">Social Landscape Audit</div>
+    <h2>Where Jägermeister Lives Online</h2>
+    <p>Verified data pulled directly from each platform as of March 2026. No placeholders. Where something doesn't exist, we say so.</p>
+
+    <h3 style="color:white;margin-top:30px;">📸 Instagram</h3>
+    <div class="grid-2" style="margin:16px 0 30px;">
+      <div class="platform-card">
+        <h4>@jagermeister (Global) ✅ Verified</h4>
+        <p style="color:rgba(255,255,255,0.9);"><strong>513K followers</strong> · 2,848 posts · 680 following</p>
+        <p>Bio: "Chill AF. Drink responsibly. Don't share with anyone underage."</p>
+        <p>Story Highlights: Sip & Snap, Prost!, THE DEER, Save The Night, Night Embassy, Meisters</p>
+        <p style="margin-top:10px;"><span class="strength">What's Working:</span> Heavy UGC and meme-style content. Strong Reels presence. Group hang energy. Content feels casual and internet-native. This is clearly the account Glow touches. Nightlife culture and internet culture buckets are well-represented.</p>
+        <p style="margin-top:10px;"><span class="gap-text">What's Missing:</span> The feed leans heavily toward one voice/energy. Hard to distinguish content aimed at club kids vs. frat bros vs. hipsters. The alchemy/craft angle (56 botanicals, heritage) is almost absent. No visible persona segmentation.</p>
+      </div>
+      <div class="platform-card">
+        <h4>@jagermeisterusa (US) ✅ Verified</h4>
+        <p style="color:rgba(255,255,255,0.9);"><strong>23K followers</strong> · 2,314 posts · 435 following</p>
+        <p>Bio: "The ice cold shot that speaks for itself. Damn, That's Cold. Must be 21+ to follow."</p>
+        <p style="margin-top:10px;"><span class="strength">What's Working:</span> Very UGC-forward. Content is scrappy and authentic: "SHOTCUTERIE BOARD," "How to draw a Stag." Feels like it's run by someone who actually drinks Jäger.</p>
+        <p style="margin-top:10px;"><span class="gap-text">What's Missing:</span> Content is almost entirely "bro energy" and shot culture. Missing nightlife connoisseur and hipster audiences entirely. No cocktail sophistication, no craft angle, no cultural depth.</p>
+      </div>
+    </div>
+
+    <h3 style="color:white;">🎵 TikTok</h3>
+    <div class="platform-card" style="margin:16px 0 30px;border-left:3px solid #ff8080;">
+      <h4>@jagermeister — ⚠️ Empty / Inactive</h4>
+      <p style="color:rgba(255,255,255,0.9);"><strong>1 follower · 1 following · 0 likes · No bio · No content posted.</strong></p>
+      <p>The handle exists but is a placeholder. Zero videos published. @jagermeisterusa does not exist on TikTok.</p>
+      <p style="margin-top:12px;"><span class="gap-text">This is a major gap.</span> TikTok is the #1 discovery platform for all three personas. The brand has zero owned presence here. Any Jäger content on TikTok is entirely user-generated or from creator partnerships, not the brand's.</p>
+      <p style="margin-top:8px;"><span class="opportunity">Opportunity:</span> Massive first-mover advantage if/when activated. For now, creator-posted content and hashtag plays are the only path.</p>
+    </div>
+
+    <h3 style="color:white;">💬 X (Twitter)</h3>
+    <div class="grid-2" style="margin:16px 0 30px;">
+      <div class="platform-card">
+        <h4>@JagermeisterUSA ✅ Verified</h4>
+        <p style="color:rgba(255,255,255,0.9);"><strong>107.6K followers</strong> · 13.7K posts · 983 following</p>
+        <p style="margin-top:10px;">Recent posts: "Say less" (422 views, 4 likes), "High priority mail" (598 views, 9 likes), "What our freezer sees" (844 views, 9 likes), "Like for ice cold shots" (1.1K views, 26 likes).</p>
+        <p style="margin-top:10px;"><span class="gap-text">Engagement is very low relative to 107K followers.</span> Posts averaging 400-1,100 views and 4-26 likes. The account is active but the audience isn't engaging.</p>
+      </div>
+      <div class="platform-card">
+        <h4>@Jagermeister (Global) — ❌ Suspended</h4>
+        <p style="color:rgba(255,255,255,0.9);"><strong>Account suspended by X.</strong></p>
+        <p>The global handle is offline. Worth flagging to the client if they don't already know.</p>
+      </div>
+    </div>
+
+    <h3 style="color:white;">📺 YouTube</h3>
+    <div class="platform-card" style="margin:16px 0 30px;">
+      <h4>Jägermeister (Global) — 8.9K subscribers · 515 videos</h4>
+      <p>Playlists: #SAVETHENIGHT, Night Embassy, Meister Classes, Product, Collaborations, Shorts.</p>
+      <p style="margin-top:10px;"><span class="opportunity">Opportunity:</span> Meister Classes and Night Embassy are exactly the kind of long-form content hipster and nightlife audiences consume. Shorts underutilized. Could be the deep-dive home for stories that don't fit IG.</p>
+    </div>
+
+    <div class="callout">
+      <p><strong>🔑 TL;DR:</strong> Instagram Global (513K) is the strongest asset but one-note. Instagram USA (23K) is bro-heavy. <span class="highlight">TikTok is completely dark.</span> X Global is suspended. X USA has 107K followers but near-zero engagement. YouTube has good bones but tiny audience.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider-nightlife">
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PERSONA 1: NIGHTLIFE CONNOISSEURS              -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section-nightlife" id="nightlife">
+  <div class="section-inner">
+    <div class="persona-header">
+      <span class="emoji">🪩</span>
+      <div>
+        <h2 style="color:white;">Nightlife Connoisseurs</h2>
+        <p class="persona-sub">Club rats, DJs, fashionistas</p>
+      </div>
+    </div>
+    <p>These are the curators of the night. They don't just go out, they orchestrate experiences. They know the right DJ, the right door, the right drink. For them, nightlife is identity.</p>
+
+    <!-- TRENDS -->
+    <div class="subsection" id="nightlife-trends">
+      <div class="subsection-title nightlife-accent">🔥 What's on Their Feeds Right Now</div>
+      <ul class="trend-list">
+        <li><span>🎵</span> Afro House confirmed dominant — 778% download growth on Splice now translating to main-room mainstage globally. UK Garage, Jazz House, Baile Funk, Melodic Techno, and Drift Phonk are the fastest-rising genres alongside it. BPM War accelerating: speed garage, hard techno, jump-up D&amp;B and hard dance all showing triple-digit growth, 140 BPM+ becoming standard programming. Tech house maturing past peak; the floor wants roots</li>
+        <li><span>⚡</span> Stems technique is the biggest DJ skill story right now — breaking tracks into vocals/drums/bassline/melody for live layering and spontaneous mashups. Paired with Pioneer CDJ-3000 + DJM A-9/V10 + controllers triggering samples and loops in real time. Custom edits and exclusive versions crafted weeks in advance, synchronized visuals responding directly to music. AI crate tools automating phrase detection and library prep so DJs arrive smarter</li>
+        <li><span>🌙</span> "Daycap culture" reshaping venue economics — brunch-to-dusk and early-evening concept formats outpacing midnight-to-close. Pop-up events gaining over fixed venues: flexibility, experimental music choices, unconventional spaces. Themed nights making a strong return — active participation, shared musical journey over isolated moments. "Intentional partying" with real offline connection is the premium positioning this week</li>
+        <li><span>💡</span> Venue infrastructure is the content: immersive lighting with holographic elements, AI-driven crowd-reading adapting the room in real time, VR gaming zones appearing in club spaces. Biometric entry (fingerprint/face) streamlining door flow at premium venues. The room itself is the share — what gets posted isn't the drink, it's the environment. Cashless, sustainability-forward, mobile-ticketed venues winning the premium segment</li>
+        <li><span>🥂</span> Wellness fully embedded in nightlife economics: adaptogens, low-ABV craft options, functional cocktails and probiotics now expected on serious menus. Sober-curious guests are a real competitive segment — not a fringe. Sophisticated intentional drinking, smaller volume, higher quality, is the new status signal. Maximalist mixology with regional botanicals, Asian ingredients, and theatrical umami-forward presentations elevating bar programs</li>
+        <li><span>🔊</span> Club fashion this week: bold elemental colors — red, yellow, green — moving from runway to real club floors. Relaxed silhouettes but with deliberate edge: satin, leather, fluid shapes. The look is less "bottle service uniform," more personal and editorial. Sex appeal returning but on the wearer's terms. A room that feels like 2016 requires a look that references it — elevated and chosen, not packaged</li>
+      </ul>
+    </div>
+
+    <!-- VOICE + VISUAL -->
+    <div class="subsection">
+      <div class="subsection-title nightlife-accent">🧪 Brand Voice for This Persona</div>
+      <div class="mix-card">
+        <div class="mix-formula">BRAND VOICE = Insider + Provocateur</div>
+        <p><strong>Tone:</strong> Knowing, suggestive, a little dangerous. Like a whisper from someone who's already inside.</p>
+        <p><strong>Language:</strong> Clipped. Evocative. Dripping with atmosphere. Less explaining, more implying.</p>
+        <p><strong>Visual:</strong> Dark, flash photography, neon bleeds, motion blur, close-up textures. Think Nan Goldin meets club photography.</p>
+        <p><strong>Example post:</strong> "Your best night doesn't start with a plan. It starts with a pour." [dark, blurred shot of a Jäger pour in a low-lit venue]</p>
+        <p><strong>Hashtag:</strong> #UnscriptedAlchemy</p>
+      </div>
+    </div>
+
+    <!-- CONTENT BUCKETS -->
+    <div class="subsection">
+      <div class="subsection-title nightlife-accent">📦 Priority Content Buckets</div>
+      <div class="bucket-tag"><h4>🌃 Nightlife Culture 🟢</h4><p>Core bucket. On the Block, Residency, Pride. This audience IS nightlife.</p></div>
+      <div class="bucket-tag"><h4>🌍 Brand Purpose 🟢</h4><p>Save the Night Fund, Night Embassy, Queertopia. They care about protecting nightlife.</p></div>
+      <div class="bucket-tag"><h4>🌐 Internet Culture 🟢</h4><p>Club memes, DJ culture memes, "you had to be there" content. Not generic memes.</p></div>
+      <div class="bucket-tag"><h4>🥃 Drinking Culture 🟢</h4><p>Cocktail as experience, not just consumption. The ritual of the pour, the toast, the moment.</p></div>
+    </div>
+
+    <!-- MAY RECS -->
+    <div class="subsection">
+      <div class="subsection-title nightlife-accent">📅 May Content Recommendations</div>
+      <div class="card" style="margin-bottom:16px;">
+        <p><strong>1. "The Alchemy Hour" launch (Reel series)</strong> — Raw footage from real venues. The moment a night transforms. Jäger as the tipping point.</p>
+        <p><strong>2. DJ collab: "56 BPM"</strong> — A DJ creates a mix using 56 different samples. Behind-the-scenes of the session.</p>
+        <p><strong>3. Night Embassy recap (Carousel)</strong> — Purpose-driven content from Queertopia or similar events. Community-first.</p>
+        <p><strong>4. "Dress Code: Alchemy" (IG Story poll)</strong> — What are you wearing out this weekend? Fashion x nightlife.</p>
+      </div>
+    </div>
+
+    <!-- UGC SCRIPTS -->
+    <div class="subsection">
+      <div class="subsection-title nightlife-accent">🎬 UGC Scripts (10-15 sec spots)</div>
+      <p style="color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:20px;">Vibe: dark, intimate, flash photography energy, insider POV</p>
+
+      <div class="script-block" style="border-left:3px solid #b388ff;">
+        <h4>Script 1: "The Signal" — 12 sec</h4>
+        <p><strong>[0-3s]</strong> Close-up phone screen. Group chat blowing up. Text: <em>"the group chat just said pull up"</em></p>
+        <p><strong>[3-7s]</strong> Quick cuts: getting ready, jacket on, keys, out the door. Energy building. No talking.</p>
+        <p><strong>[7-10s]</strong> Arrive at venue. Door opens. Bass hits. Flash of neon. Someone hands them a Jäger shot.</p>
+        <p><strong>[10-12s]</strong> Clink. Sip. Smile. Cut to black. Text: <em>"alchemy starts with yes"</em></p>
+        <p class="sound-note">🎵 Trending bass-drop sound or moody electronic snippet</p>
+      </div>
+
+      <div class="script-block" style="border-left:3px solid #b388ff;">
+        <h4>Script 2: "Read the Room" — 14 sec</h4>
+        <p><strong>[0-4s]</strong> POV: Walking into a dead bar. Elevator music. Two people in silence. Text: <em>"the vibe was... not it"</em></p>
+        <p><strong>[4-8s]</strong> Record scratch. Same bar, different energy. Someone orders Jäger. Bartender pours with flair.</p>
+        <p><strong>[8-12s]</strong> Quick montage: laughing, dancing, DJ appears, flash photos going off.</p>
+        <p><strong>[12-14s]</strong> Creator shrugs at camera: <em>"alchemy."</em></p>
+        <p class="sound-note">🎵 Dead silence → "yeah!" transition sound</p>
+      </div>
+
+      <div class="script-block" style="border-left:3px solid #b388ff;">
+        <h4>Script 3: "Nightlife Translator" — 13 sec</h4>
+        <p><strong>[0-3s]</strong> Text: <em>"things that mean something different after midnight"</em></p>
+        <p><strong>[3-6s]</strong> "One more" → cuts to 3 more hours. "I'm leaving soon" → closing the venue.</p>
+        <p><strong>[6-10s]</strong> "Let's keep it low-key" → absolute chaos, Jäger shots being passed around.</p>
+        <p><strong>[10-13s]</strong> <em>"low-key is never low-key."</em> Text: <em>"we mix sh*t up"</em></p>
+        <p class="sound-note">🎵 Trending "no literally" voiceover</p>
+      </div>
+
+      <div class="script-block" style="border-left:3px solid #b388ff;">
+        <h4>Script 4: "The Handoff" — 10 sec</h4>
+        <p><strong>[0-3s]</strong> Close-up: Jäger shot slides across bar in slow motion. Dramatic lighting.</p>
+        <p><strong>[3-6s]</strong> Hand catches it. Camera follows up to reveal someone mid-laugh with friends.</p>
+        <p><strong>[6-10s]</strong> Raise. Clink. Cut to black. Text: <em>"the best nights don't start with a plan"</em></p>
+        <p class="sound-note">🎵 Single bass note, then silence on the clink</p>
+      </div>
+
+      <div class="script-block" style="border-left:3px solid #b388ff;">
+        <h4>Script 5: "GRWM: Unscripted" — 15 sec</h4>
+        <p><strong>[0-5s]</strong> Classic GRWM. Creator: <em>"tonight the plan is dinner, maybe one drink, home by 11—"</em></p>
+        <p><strong>[5-8s]</strong> Hard cut. Different outfit, different venue, sweaty, having the time of their life.</p>
+        <p><strong>[8-12s]</strong> Flash cuts: dance floor, Jäger Mule being mixed, toast, laughter.</p>
+        <p><strong>[12-15s]</strong> Back to mirror. Messy hair. Giant smile. <em>"alchemy happened. #UnscriptedAlchemy"</em></p>
+        <p class="sound-note">🎵 Trending "well that escalated" sound</p>
+      </div>
+    </div>
+
+    <!-- ALCHEMY ENGINE EXAMPLE -->
+    <div class="subsection">
+      <div class="subsection-title nightlife-accent">⚗️ Alchemy Engine Example</div>
+      <div class="example-output">
+        <h4>Cultural Truth: "AI is everywhere. Even nightlife feels algorithmic. Same playlists, same vibes, same venues."</h4>
+        <p><strong>TENSION:</strong> Algorithm-driven sameness → <strong>TWIST:</strong> Jäger celebrates the unprogrammable moment → <strong>= ALCHEMY</strong></p>
+        <ul>
+          <li><strong>Reel/TikTok:</strong> "Things the algorithm can't predict" series. Algorithm-fed moments vs. chaos of a real night. End card: "Alchemy > Algorithm."</li>
+          <li><strong>Static/Carousel:</strong> Split graphic: curated IG grid vs. blurry, beautiful, chaotic night. "Your best night wasn't on your FYP."</li>
+          <li><strong>UGC:</strong> "Show us the moment your night went off-script." #UnscriptedAlchemy</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider-hipster">
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PERSONA 2: HIPSTERS                            -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section-hipster" id="hipsters">
+  <div class="section-inner">
+    <div class="persona-header">
+      <span class="emoji">🛹</span>
+      <div>
+        <h2 style="color:white;">Self-Proclaimed Hipsters</h2>
+        <p class="persona-sub">Artists, musicians, skaters</p>
+      </div>
+    </div>
+    <p>They define themselves by what they find, not what finds them. Tastemakers who value craft, process, and the underground. They'll drink Jäger because it's not what you'd expect, not because it's popular.</p>
+
+    <!-- TRENDS -->
+    <div class="subsection" id="hipster-trends">
+      <div class="subsection-title hipster-accent">🔥 What's on Their Feeds Right Now</div>
+      <ul class="trend-list">
+        <li><span>✋</span> The art world's loudest counter-signal this week: handmade as proof of life. Rebalancing away from purely digital — oil paint, watercolor, craft, and assemblage gaining serious collector traction as a rebuke to AI-generated smoothness. "Experience-led collecting" replacing trophy-purchase: collectors engaging directly with artists, funding public-facing projects. Global art conversation broadening to Global South voices and cultural fusion narratives. Art Basel-level validation for naive and surrealist work with personal myth-making logic</li>
+        <li><span>🎭</span> Surrealism getting more psychological and intimate: inner-world imagery, dream logic, childlike wonder used seriously. Moodier palettes — deep earthy tones, rich browns, muted blues — signaling emotional complexity over visual noise. Affordable and accessible art gaining ground: galleries and platforms spotlighting emerging/mid-career artists, not just marquee names. The physical canvas itself is the status object right now — something to live with, not flip</li>
+        <li><span>🛹</span> Skate culture at mainstream tipping point — global market heading to $4.53B by 2033. "Vehicles of Expression: The Craft of the Skateboard" exhibition in LA right now. Sprite x Crenshaw Skate Club celebrating originality at SXSW. Baggy pants with curved hips, eco-friendly bamboo/recycled nylon, 90s/early-2000s nostalgia in footwear. Brooks and Hoka running shoes replacing basketball shoes as everyday lifestyle footwear. "Drip over skill" backlash still generating heat in core media</li>
+        <li><span>🎵</span> Underground music a rich moment: ZLATA, Kiara Scuro, BB Shaine pushing trance, club experimentation, techno/electro/jungle/footwork hybrids. Minimalism the recurring underground electronic theme — subtle changes, steady grooves, patience as artistry. Vinyl Physical Renaissance accelerating: superfans driving tangible ownership over streams. AI shifting from "villain" to "studio assistant" in producer conversation. Mood-based discovery ("late-night drive") replacing genre tags as the primary search behavior</li>
+        <li><span>🌿</span> Subculture revival is the macro frame — algorithm exhaustion driving people back to owning specific niche tastes. DIY ethics surging: cutting, sewing, vintage reworking, "buy less make more" as lived practice. Authenticity and human pulse explicitly sought as counter to "endless churn of AI images." SXSW this month was the convergence point for culture, tech, and creator economy — where underground trends take physical form and cross-pollinate</li>
+        <li><span>🔍</span> Analog life gaining converts: physical media resurgence, hyperlocal activations, less screen time as status signal. TikTok algorithm fragmentation paradoxically increasing the value of true underground subculture — if everyone can surface it, it's not underground. "Naive Design" and "Warm Minimalism" as dominant digital aesthetics. Game engines for art creation, 2D/3D technique merging as signature of the moment. Wisdom flexing — demonstrating cultural depth — officially replacing logo status</li>
+      </ul>
+    </div>
+
+    <!-- VOICE + VISUAL -->
+    <div class="subsection">
+      <div class="subsection-title hipster-accent">🧪 Brand Voice for This Persona</div>
+      <div class="mix-card">
+        <div class="mix-formula">BRAND VOICE = Irreverent Craftsperson</div>
+        <p><strong>Tone:</strong> Self-aware, clever, anti-corporate. Earned credibility through craft, not clout.</p>
+        <p><strong>Language:</strong> Understated wit. References that reward the in-crowd. Never try-hard.</p>
+        <p><strong>Visual:</strong> Lo-fi, film grain, analog textures, zine layouts, hand-drawn type. Studio/workshop environments.</p>
+        <p><strong>Example post:</strong> "56 botanicals. Zero focus groups." [35mm film shot of the bottle on a paint-splattered studio table]</p>
+        <p><strong>Hashtag:</strong> #56Ways</p>
+      </div>
+    </div>
+
+    <!-- CONTENT BUCKETS -->
+    <div class="subsection">
+      <div class="subsection-title hipster-accent">📦 Priority Content Buckets</div>
+      <div class="bucket-tag"><h4>🤝 Brand Collaborations 🟢</h4><p>Santa Cruz, unexpected brand collisions, artist partnerships. They love when brands take creative risks.</p></div>
+      <div class="bucket-tag"><h4>🌐 Internet Culture 🟢</h4><p>Niche memes, art memes, skate humor. NOT mainstream memes. The weirder the better.</p></div>
+      <div class="bucket-tag"><h4>🌍 Brand Purpose 🟢</h4><p>Save the Night, Night Embassy. They care about community and causes, especially if it's underground.</p></div>
+      <div class="bucket-tag"><h4>🥃 Drinking Culture 🟡</h4><p>Frame as craft/mixology, not party shots. "Cocktail as art form" angle. Ingredients as medium.</p></div>
+    </div>
+
+    <!-- MAY RECS -->
+    <div class="subsection">
+      <div class="subsection-title hipster-accent">📅 May Content Recommendations</div>
+      <div class="card" style="margin-bottom:16px;">
+        <p><strong>1. "56 Ways" series kickoff (Reel/TikTok)</strong> — First installment featuring a local artist or skater. Lo-fi, process-driven.</p>
+        <p><strong>2. Santa Cruz collab content (Carousel)</strong> — Lean into the skate collab. Feature real skaters, not models.</p>
+        <p><strong>3. "Botanical Zine" digital drop (Static)</strong> — Downloadable digital zine about the 56 botanicals, designed by a real illustrator.</p>
+        <p><strong>4. Vinyl x Jäger (TikTok)</strong> — Record store session. Crate digging meets cocktail making. Two forms of alchemy.</p>
+      </div>
+    </div>
+
+    <!-- UGC SCRIPTS -->
+    <div class="subsection">
+      <div class="subsection-title hipster-accent">🎬 UGC Scripts (10-15 sec spots)</div>
+      <p style="color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:20px;">Vibe: lo-fi, film grain, process-driven, anti-polish, studio/street energy</p>
+
+      <div class="script-block" style="border-left:3px solid var(--jager-orange);">
+        <h4>Script 6: "56 Ways to Kickflip" — 15 sec</h4>
+        <p><strong>[0-3s]</strong> Text: <em>"56 attempts. 1 landing."</em> Skater setting up. Film grain filter.</p>
+        <p><strong>[3-10s]</strong> Rapid-fire failed attempts. Different angles, bails, laughs, getting back up.</p>
+        <p><strong>[10-13s]</strong> THE LANDING. Slow-mo. Friends erupt.</p>
+        <p><strong>[13-15s]</strong> Someone hands the skater a Jäger. Text: <em>"56 ingredients. 1 perfect mix. #56Ways"</em></p>
+        <p class="sound-note">🎵 Lo-fi beat or raw ambient (wheels on concrete, cheering)</p>
+      </div>
+
+      <div class="script-block" style="border-left:3px solid var(--jager-orange);">
+        <h4>Script 7: "Studio Hours" — 13 sec</h4>
+        <p><strong>[0-4s]</strong> Artist in studio. Canvas half-done. Steps back, stares. Text: <em>"when the mix isn't right yet"</em></p>
+        <p><strong>[4-8s]</strong> Grabs unexpected color. Slaps it on. It changes everything. The piece comes alive.</p>
+        <p><strong>[8-11s]</strong> Cut to: pouring a Jäger cocktail. Same energy. Unexpected ingredients combining.</p>
+        <p><strong>[11-13s]</strong> Side by side: painting and drink. Text: <em>"alchemy is alchemy. 🧪"</em></p>
+        <p class="sound-note">🎵 Ambient studio sounds, brush strokes, liquid pouring. No music.</p>
+      </div>
+
+      <div class="script-block" style="border-left:3px solid var(--jager-orange);">
+        <h4>Script 8: "The Crate Dig" — 14 sec</h4>
+        <p><strong>[0-4s]</strong> Hands flipping vinyl in a record shop. Film grain. Text: <em>"looking for something nobody's heard"</em></p>
+        <p><strong>[4-7s]</strong> Pull a record. Blow dust off. Drop needle. A weird, beautiful sample.</p>
+        <p><strong>[7-11s]</strong> Same person mixing a Jäger cocktail with unexpected ingredients. Same discovery energy.</p>
+        <p><strong>[11-14s]</strong> Sip. Nod. Same face as when the record hit. Text: <em>"56 botanicals. the original crate dig."</em></p>
+        <p class="sound-note">🎵 Vinyl crackle → the sample → liquid pour ASMR</p>
+      </div>
+
+      <div class="script-block" style="border-left:3px solid var(--jager-orange);">
+        <h4>Script 9: "Don't Google It" — 12 sec</h4>
+        <p><strong>[0-3s]</strong> Text: <em>"things I refuse to look up because the mystery is better"</em></p>
+        <p><strong>[3-6s]</strong> Quick cuts: "what's in a hot dog" / "how sausage gets made" / "what my landlord does all day"</p>
+        <p><strong>[6-9s]</strong> "what's in Jägermeister" — dramatic pour. 56 botanicals. Secret recipe.</p>
+        <p><strong>[9-12s]</strong> Sips, shrugs: <em>"some things are better as a mystery."</em> <em>"since 1934."</em></p>
+        <p class="sound-note">🎵 Trending "I don't wanna know" audio or deadpan voiceover</p>
+      </div>
+
+      <div class="script-block" style="border-left:3px solid var(--jager-orange);">
+        <h4>Script 10: "The Collab No One Asked For" — 15 sec</h4>
+        <p><strong>[0-4s]</strong> Two creators from different worlds. Painter + drummer. Chef + skater. Text: <em>"we have nothing in common"</em></p>
+        <p><strong>[4-10s]</strong> They combine crafts. Awkward, then something clicks. Painter drums on canvas. Chef kickflips a cutting board.</p>
+        <p><strong>[10-13s]</strong> Share a Jäger cocktail. Both surprised it's good.</p>
+        <p><strong>[13-15s]</strong> Text: <em>"unexpected combinations > safe choices. #56Ways"</em></p>
+        <p class="sound-note">🎵 Building beat: awkward → fire</p>
+      </div>
+    </div>
+
+    <!-- ALCHEMY ENGINE EXAMPLE -->
+    <div class="subsection">
+      <div class="subsection-title hipster-accent">⚗️ Alchemy Engine Example</div>
+      <div class="example-output">
+        <h4>Cultural Truth: "Sustainability is important but the messaging is boring and preachy."</h4>
+        <p><strong>TENSION:</strong> Eco-fatigue → <strong>TWIST:</strong> Jäger's 56 botanicals are literally nature, but we'd never preach → <strong>= ALCHEMY</strong></p>
+        <ul>
+          <li><strong>Reel/TikTok:</strong> "Things that are natural but never boring." Skater grinding a fallen tree, musician sampling bird sounds, a Jäger pour. No voiceover.</li>
+          <li><strong>Static/Carousel:</strong> Zine-style: "56 things from the earth that have no business being this good together."</li>
+          <li><strong>UGC/Collab:</strong> Partner with artist to create a limited "botanical map" poster. Available only at indie venues.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider-frat">
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- PERSONA 3: RETIRED FRAT BROS                   -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section-frat" id="fratbros">
+  <div class="section-inner">
+    <div class="persona-header">
+      <span class="emoji">🍻</span>
+      <div>
+        <h2 style="color:white;">The Retired Frat Bros</h2>
+        <p class="persona-sub">Men ages 24-32, nostalgia meets grown-up energy</p>
+      </div>
+    </div>
+    <p>They've outgrown the frat house but not the energy. Now they've got a salary, a nicer apartment, and weekends that still matter. Jäger is their origin story drink and they're ready to meet it again as adults.</p>
+
+    <!-- TRENDS -->
+    <div class="subsection" id="frat-trends">
+      <div class="subsection-title frat-accent">🔥 What's on Their Feeds Right Now</div>
+      <ul class="trend-list">
+        <li><span>🏀</span> March Madness 2026 still the dominant sports conversation — IPL 2026 now joining it as a meme engine. Chennai Super Kings early collapse vs. Rajasthan Royals generating meme wave this morning. Milan Winter Olympics 2026 curling and sliding sports humor still circulating ("I could do that" spiral). FIFA World Cup 2026 hype building steadily. Men 24-32 are the primary engine of sports reaction humor on every platform, all month</li>
+        <li><span>😂</span> Meme landscape this week: "Punch the Monkey" wholesome content flooded feeds. Fake Jim Carrey meme doing numbers. Chinese internet users changing profile pics to Kris Jenner to "pray for money and jobs" — #krisjenner blowing up globally. AI-generated POV historical reenactment videos popular. March Madness bracket failure formats still dominant — emotional fan reaction content, upset humor, pop culture crossovers. Short deadpan reaction clips with dramatic scoring are the primary share format</li>
+        <li><span>👕</span> Spring 2026 menswear: quiet luxury era officially over — bold elemental colors (red, yellow, green, blue) moving confidently into everyday wear. Quarter zip having its moment as the defining performance-lifestyle piece. Relaxed silhouettes everywhere: loose baggy jeans, linen trousers, oversized shirts. Suede making comeback in jackets and loafers. Brooks/Hoka running shoes as lifestyle footwear fully normalized. Darker tone-on-tone as the quiet flex alongside the color shift</li>
+        <li><span>💪</span> Fitness culture for this demo: performance over aesthetics is the posture. Goals are functional — completing a Hyrox race, holding a handstand, winning at Padel. Padel is the sport exploding right now: hybrid of tennis and squash, intense cardio, social atmosphere, and fast enough to be shareable. Pilates gaining male converts for core strength and mobility. Wearables (WHOOP, Oura, Garmin) as everyday accessories, not gym accessories</li>
+        <li><span>📱</span> Underproduced phone-shot content still massively outperforming polished production for this demo. Social-as-search fully normalized. Short-form rules but authenticity-first — real group hang moments, not produced lifestyle content. Physical Renaissance: vinyl buying, event going, in-person socializing as status signals for men who've leveled up from pure digital consumption. Peaky Blinders movie already generating anticipation content</li>
+        <li><span>🍸</span> Intentional drinking replacing consumption theater for this demo — smaller volume, quality selection, sophisticated taste cues as social signal. "Performance over aesthetics" applies to drinking too: what you choose says more than how much you pour. Darker, more textured aesthetic sensibility trending. The moment for Jägermeister to be the drink that signals you've actually leveled up — not the shot you regret, the one you chose on purpose</li>
+      </ul>
+    </div>
+
+    <!-- VOICE + VISUAL -->
+    <div class="subsection">
+      <div class="subsection-title frat-accent">🧪 Brand Voice for This Persona</div>
+      <div class="mix-card">
+        <div class="mix-formula">BRAND VOICE = Your Funniest Friend</div>
+        <p><strong>Tone:</strong> Self-deprecating, warm, nostalgic but forward-looking. The friend who roasts you AND buys the round.</p>
+        <p><strong>Language:</strong> Casual, punchy, meme-literate. Short sentences. Setup/punchline structure.</p>
+        <p><strong>Visual:</strong> Bright, clean, lifestyle-forward. Group hangs, rooftops, game day. Shot-on-phone aesthetic but well-composed.</p>
+        <p><strong>Example post:</strong> "You used to take Jäger shots in a dorm room. Now you make Jäger cocktails in a kitchen that has an island. Same energy. Better taste." [carousel: then vs. now]</p>
+        <p><strong>Hashtag:</strong> #JägerGlowUp</p>
+      </div>
+    </div>
+
+    <!-- CONTENT BUCKETS -->
+    <div class="subsection">
+      <div class="subsection-title frat-accent">📦 Priority Content Buckets</div>
+      <div class="bucket-tag"><h4>🥃 Drinking Culture 🟢</h4><p>Shot occasions, cocktail upgrades, hosting moments. This is their entry point.</p></div>
+      <div class="bucket-tag"><h4>❤️ Brand Fandom 🟢</h4><p>UGC, nostalgia, brand love. They LOVE seeing themselves reflected. Carousels, fan content, "Rennmeister."</p></div>
+      <div class="bucket-tag"><h4>🌐 Internet Culture 🟢</h4><p>Sports memes, nostalgia memes, "things that just hit different." Shareable, low-lift, high-volume.</p></div>
+      <div class="bucket-tag"><h4>🌃 Nightlife Culture 🟡</h4><p>Engages when it's THEIR kind of nightlife: sports bars, rooftops, game nights, apartment hangs.</p></div>
+    </div>
+
+    <!-- MAY RECS -->
+    <div class="subsection">
+      <div class="subsection-title frat-accent">📅 May Content Recommendations</div>
+      <div class="card" style="margin-bottom:16px;">
+        <p><strong>1. "Then vs. Now" launch (Reel/TikTok)</strong> — Side-by-side nostalgia play. Humor-driven. Self-roast energy.</p>
+        <p><strong>2. "Upgrade Your Order" cocktail tutorial (Reel)</strong> — Simple, one-camera recipe. Jäger accessible and elevated.</p>
+        <p><strong>3. Game Night Alchemy (Carousel)</strong> — Hosting tips + a Jäger cocktail recipe. Adult hosting moment.</p>
+        <p><strong>4. Meme series: "Same Energy" (Static/TikTok)</strong> — Pop culture moments that share Jäger's "mix it up" energy.</p>
+      </div>
+    </div>
+
+    <!-- UGC SCRIPTS -->
+    <div class="subsection">
+      <div class="subsection-title frat-accent">🎬 UGC Scripts (10-15 sec spots)</div>
+      <p style="color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:20px;">Vibe: bright, funny, self-aware, nostalgia meets glow-up, group hang energy</p>
+
+      <div class="script-block" style="border-left:3px solid #80b0ff;">
+        <h4>Script 11: "The Glow-Up Pour" — 12 sec</h4>
+        <p><strong>[0-3s]</strong> Shaky throwback footage: dorm room, red cups, Jäger into plastic cup. Chaos. Text: <em>"2016"</em></p>
+        <p><strong>[3-4s]</strong> HARD transition. Screen wipe.</p>
+        <p><strong>[4-9s]</strong> Same guy, 2026. Nice apartment. Making a Jäger Mule in a copper mug. Garnish. Smooth jazz.</p>
+        <p><strong>[9-12s]</strong> Looks at camera: <em>"same spirit. better taste."</em> Winks. <em>"#JägerGlowUp"</em></p>
+        <p class="sound-note">🎵 Muffled party noise → smooth jazz or trending glow-up sound</p>
+      </div>
+
+      <div class="script-block" style="border-left:3px solid #80b0ff;">
+        <h4>Script 12: "The Group Chat Decides" — 14 sec</h4>
+        <p><strong>[0-4s]</strong> Group chat chaos. "Where are we going?" "idk you pick" "not that place" "no." Text: <em>"every. single. weekend."</em></p>
+        <p><strong>[4-8s]</strong> One text: "I'm making Jäger cocktails. My place. 8pm." Instant: "say less" "omw" "bet" "🔥🔥🔥"</p>
+        <p><strong>[8-12s]</strong> The apartment. Everyone there. Jäger on counter. Cocktails. Laughter.</p>
+        <p><strong>[12-14s]</strong> Text: <em>"stop planning. start mixing."</em></p>
+        <p class="sound-note">🎵 Typing sounds → notification dings → music drop</p>
+      </div>
+
+      <div class="script-block" style="border-left:3px solid #80b0ff;">
+        <h4>Script 13: "The Honest Menu" — 13 sec</h4>
+        <p><strong>[0-3s]</strong> Guy at bar staring at cocktail menu. Text: <em>"drinks I pretend to understand at nice bars"</em></p>
+        <p><strong>[3-7s]</strong> "deconstructed negroni" (confused), "smoked rosemary infusion" (more confused), "barrel-aged something" (panic)</p>
+        <p><strong>[7-10s]</strong> Closes menu: <em>"Jäger Mule."</em> Bartender nods. Respect.</p>
+        <p><strong>[10-13s]</strong> Sips. Satisfied. Text: <em>"56 botanicals. zero pretension."</em></p>
+        <p class="sound-note">🎵 Trending "I don't know what I'm doing but I'm doing it" audio</p>
+      </div>
+
+      <div class="script-block" style="border-left:3px solid #80b0ff;">
+        <h4>Script 14: "Game Day Alchemy" — 15 sec</h4>
+        <p><strong>[0-4s]</strong> Game day. Usual spread: chips, wings, beer. Text: <em>"every game day is the same"</em></p>
+        <p><strong>[4-8s]</strong> Friend walks in with Jäger + cocktail supplies. "Bro what are you doing?"</p>
+        <p><strong>[8-12s]</strong> Makes Jäger Spice (Jäger + apple cider + cinnamon). First sips. Eyes go wide.</p>
+        <p><strong>[12-15s]</strong> Text: <em>"the guy who mixed it up won game day."</em> <em>"#JägerGlowUp"</em></p>
+        <p class="sound-note">🎵 Sports commentary → crowd roar on the sip reveal</p>
+      </div>
+
+      <div class="script-block" style="border-left:3px solid #80b0ff;">
+        <h4>Script 15: "Things That Peaked in College" — 14 sec</h4>
+        <p><strong>[0-8s]</strong> "my metabolism" (📉), "my tolerance for small talk" (📉), "3 hours of sleep" (📉📉📉), "my hairline" (😬📉)</p>
+        <p><strong>[8-11s]</strong> "How I drink Jäger" → dorm-room chug to a beautifully made cocktail (📈📈📈)</p>
+        <p><strong>[11-14s]</strong> <em>"at least one thing got better."</em> <em>"we mix sh*t up."</em></p>
+        <p class="sound-note">🎵 Trending "and I took that personally" or self-deprecating humor sound</p>
+      </div>
+    </div>
+
+    <!-- ALCHEMY ENGINE EXAMPLE -->
+    <div class="subsection">
+      <div class="subsection-title frat-accent">⚗️ Alchemy Engine Example</div>
+      <div class="example-output">
+        <h4>Cultural Truth: "Guys in their late 20s are upgrading everything, but their drink order hasn't evolved."</h4>
+        <p><strong>TENSION:</strong> Life leveling up but bar order stuck in 2018 → <strong>TWIST:</strong> Jäger was always more than a shot → <strong>= ALCHEMY</strong></p>
+        <ul>
+          <li><strong>Reel/TikTok:</strong> "Your apartment has a credenza but you're still ordering vodka sodas?" Glow-up montage ending with Jäger cocktail recipe.</li>
+          <li><strong>Static/Carousel:</strong> "The Glow-Up Guide": 5 ways to upgrade your night with Jäger.</li>
+          <li><strong>UGC:</strong> "Show us your glow-up." Before/after content. Jäger in the "now" frame. #JägerGlowUp</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- CROSS-PERSONA                                  -->
+<!-- ═══════════════════════════════════════════════ -->
+<section id="cross">
+  <div class="section-inner">
+    <div class="section-label">Cross-Persona</div>
+    <h2>Content That Works for Everyone</h2>
+    <p>Some content transcends persona. These are the evergreen plays that all three audiences can engage with.</p>
+    <div class="grid-2" style="margin-top:24px;">
+      <div class="card">
+        <span class="card-icon">🎯</span>
+        <h3>May Evergreen</h3>
+        <p><strong>1. UGC carousel refresh</strong> — Curated fan content from all three persona worlds. One post, three vibes.</p>
+        <p><strong>2. "Florian the Historian" continuation</strong> — Brand heritage content all audiences appreciate.</p>
+        <p><strong>3. Manifest cocktail elevation</strong> — Premium product content that skews nightlife + hipster.</p>
+        <p><strong>4. Astrology x Jäger</strong> — "What your sign mixes with." Universal appeal, shareable.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📋</span>
+        <h3>Creator Brief Notes</h3>
+        <p>All scripts: shot vertical, on phone, single creator or small crew. No scripted dialogue beyond noted lines. Encourage ad-lib.</p>
+        <p>Hook in the first 2 seconds. Every script ends with Jäger moment + brand text. Under 15 seconds for max completion rates.</p>
+        <p>Prioritize trending sounds at time of shoot. Platform-specific: IG Reels can run slightly longer, TikTok tighter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- THE ALCHEMY ENGINE                             -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section-dark" id="engine">
+  <div class="section-inner">
+    <div class="section-label">The Alchemy Engine</div>
+    <h2>Cultural Truth → Content Brainstorm</h2>
+    <p>A repeatable creative tool. Drop a cultural truth in, pick a persona, generate content directions.</p>
+
+    <div class="prompter">
+      <h3>⚗️ How to Use the Engine</h3>
+      <p class="prompt-desc">Use this in brainstorms, creative sessions, or solo ideation. Works for any persona, any month.</p>
+      <div class="prompt-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Drop in a Cultural Truth</h4>
+          <p>What's real right now? A behavior, tension, shift. Something your persona is living or reacting to.</p>
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Pick Your Persona</h4>
+          <p>🪩 Nightlife Connoisseur / 🛹 Hipster / 🍻 Retired Frat Bro — the lens changes everything.</p>
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Apply the Formula</h4>
+          <p>TENSION (cultural truth) + TWIST (unexpected Jäger angle) = ALCHEMY (content idea)</p>
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Assign a Bucket</h4>
+          <p>Internet Culture / Drinking Culture / Brand Collabs / Brand Purpose / Brand Fandom / Nightlife Culture</p>
+        </div>
+      </div>
+      <div class="prompt-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>Output: 3 Content Directions</h4>
+          <p>A Reel/TikTok, a static/carousel, and a community/UGC activation. Minimum.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:24px;">
+      <p><strong>💡 Brainstorm format:</strong> 10 min cultural truth gathering per persona → run 3 truths through the engine → walk out with 9+ content directions. The formula keeps it on-brand while the persona lens keeps it targeted.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- CHEAT SHEET                                    -->
+<!-- ═══════════════════════════════════════════════ -->
+<section class="section-cream" id="cheatsheet">
+  <div class="section-inner">
+    <div class="section-label">Quick Reference</div>
+    <h2>The Cheat Sheet</h2>
+    <p>Pin this. Use it in every brainstorm.</p>
+    <div style="overflow-x:auto;margin-top:24px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>🪩 Nightlife</th>
+            <th>🛹 Hipsters</th>
+            <th>🍻 Frat Bros</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="font-weight:600;color:var(--jager-green);">Voice</td><td>Insider + Provocateur</td><td>Irreverent Craftsperson</td><td>Your Funniest Friend</td></tr>
+          <tr><td style="font-weight:600;color:var(--jager-green);">Visual</td><td>Dark, flash, neon, motion blur</td><td>Lo-fi, film grain, zine layouts</td><td>Bright, lifestyle, phone-shot</td></tr>
+          <tr><td style="font-weight:600;color:var(--jager-green);">Key Buckets</td><td>Nightlife Culture, Brand Purpose</td><td>Brand Collabs, Internet Culture</td><td>Drinking Culture, Brand Fandom</td></tr>
+          <tr><td style="font-weight:600;color:var(--jager-green);">Platform</td><td>IG Reels > Stories</td><td>IG Feed > Collab posts</td><td>Reels > Meme statics</td></tr>
+          <tr><td style="font-weight:600;color:var(--jager-green);">Alchemy Angle</td><td>Jäger = the night's catalyst</td><td>Jäger = craft before it was cool</td><td>Jäger = growing up, not out</td></tr>
+          <tr><td style="font-weight:600;color:var(--jager-green);">Hashtag</td><td>#UnscriptedAlchemy</td><td>#56Ways</td><td>#JägerGlowUp</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:16px;font-size:13px;color:var(--text-secondary);"><em>Note: TikTok removed from platform weights since the brand has no active TikTok presence. All TikTok scripts are designed for creator-posted content, not brand-owned channels.</em></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p><strong>GLOW x JÄGERMEISTER</strong> — The Alchemist's Playbook, May 2026</p>
+  <p style="margin-top:8px;">Prepared by Matrix for Mike & Kat | Confidential</p>
+  <p style="margin-top:4px;">Trends refresh daily at 8am ET via automated scan</p>
+</div>
+
+</body>
+</html>
