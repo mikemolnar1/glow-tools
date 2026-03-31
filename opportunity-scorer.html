@@ -125,6 +125,13 @@
   .saved-empty { text-align: center; padding: 60px 20px; color: #444; font-size: 14px; }
   .saved-empty .icon { font-size: 36px; margin-bottom: 12px; }
 
+  /* Saved detail overlay */
+  .saved-detail { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; overflow-y: auto; padding: 40px 20px; }
+  .saved-detail.visible { display: block; }
+  .saved-detail-inner { max-width: 560px; margin: 0 auto; }
+  .saved-detail-back { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #666; cursor: pointer; margin-bottom: 20px; border: none; background: none; padding: 0; }
+  .saved-detail-back:hover { color: #f0f0f0; }
+
   .saved-card {
     background: #111;
     border: 1px solid #1e1e1e;
@@ -241,12 +248,14 @@
           <label>How did this lead come in?</label>
           <select id="q1">
             <option value="">Select...</option>
-            <option value="10">Current client intro or expansion</option>
-            <option value="9">Personal contact / my network</option>
-            <option value="7">Past client</option>
+            <option value="10">Current client — intro or expansion</option>
+            <option value="9">Personal contact / direct network</option>
+            <option value="8">Our outbound — we initiated the relationship</option>
+            <option value="7">Past client came back</option>
             <option value="6">Referral from trusted source</option>
-            <option value="3">Cold / inbound / unknown</option>
-            <option value="1">Procurement only</option>
+            <option value="4">Inbound via weareglow.com or social</option>
+            <option value="3">Cold / unknown origin</option>
+            <option value="1">Procurement only / vendor list</option>
           </select>
         </div>
         <div class="field">
@@ -353,6 +362,22 @@
   <!-- SAVED TAB -->
   <div class="panel" id="panel-saved">
     <div id="savedContent"></div>
+  </div>
+
+  <!-- Saved Detail Overlay -->
+  <div class="saved-detail" id="savedDetail">
+    <div class="saved-detail-inner">
+      <button class="saved-detail-back" onclick="closeSavedDetail()">← Back to saved</button>
+      <div id="savedDetailHero" class="result-hero" style="margin-bottom:12px;"></div>
+      <div class="breakdown-card">
+        <div class="breakdown-title">Score Breakdown</div>
+        <div id="savedDetailBreakdown"></div>
+      </div>
+      <div class="door-result" id="savedDetailDoor">
+        <div class="door-result-label">Door-Opener Play</div>
+        <p id="savedDetailDoorText"></p>
+      </div>
+    </div>
   </div>
 
   <!-- METHODOLOGY TAB -->
@@ -552,7 +577,7 @@
     scores.forEach((s, i) => {
       const scoreDisplay = s.isDoor ? '🚪' : s.score;
       html += `
-        <div class="saved-card">
+        <div class="saved-card" onclick="openSavedDetail(${i})">
           <div class="saved-score-pill ${s.cls}">${scoreDisplay}</div>
           <div class="saved-info">
             <div class="saved-name">${s.opp}</div>
@@ -563,6 +588,45 @@
         </div>`;
     });
     el.innerHTML = html;
+  }
+
+  function openSavedDetail(i) {
+    const s = getScores()[i];
+    if (!s) return;
+
+    // Hero
+    const hero = document.getElementById('savedDetailHero');
+    hero.className = 'result-hero ' + s.cls;
+    hero.innerHTML = `
+      <div class="r-tier ${s.cls}">${s.tier}</div>
+      <div class="r-score ${s.cls}">${s.isDoor ? '🚪' : s.score}</div>
+      <div class="r-action">${s.action}</div>
+      <div class="r-opp">${s.opp} · ${s.date}</div>`;
+
+    // Breakdown
+    const bd = document.getElementById('savedDetailBreakdown');
+    bd.innerHTML = '';
+    if (s.breakdown) {
+      s.breakdown.forEach(item => {
+        bd.innerHTML += `<div class="b-row"><div class="b-label">${item.label}</div><div class="b-track"><div class="b-fill" style="width:${item.raw*10}%"></div></div></div>`;
+      });
+    }
+
+    // Door opener
+    const dr = document.getElementById('savedDetailDoor');
+    if (s.isDoor) {
+      dr.style.display = 'block';
+      document.getElementById('savedDetailDoorText').textContent = s.doorNote || 'Strategic relationship investment.';
+    } else {
+      dr.style.display = 'none';
+    }
+
+    document.getElementById('savedDetail').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function closeSavedDetail() {
+    document.getElementById('savedDetail').classList.remove('visible');
   }
 
   function deleteScore(i, e) {
