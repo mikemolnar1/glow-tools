@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLOW Opportunity Scorer</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: #0a0a0a;
+    color: #f0f0f0;
+    min-height: 100vh;
+    padding: 48px 20px;
+  }
+  .container { max-width: 580px; margin: 0 auto; }
+  header { text-align: center; margin-bottom: 32px; }
+  header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  header p { color: #666; font-size: 13px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 2px; background: #111; border: 1px solid #1e1e1e; border-radius: 10px; padding: 4px; margin-bottom: 20px; }
+  .tab { flex: 1; text-align: center; padding: 9px; font-size: 13px; font-weight: 600; color: #555; border-radius: 7px; cursor: pointer; transition: all 0.2s; user-select: none; position: relative; }
+  .tab.active { background: #1e1e1e; color: #f0f0f0; }
+  .tab:hover:not(.active) { color: #aaa; }
+  .tab-badge { position: absolute; top: 4px; right: 8px; background: #ff6b35; color: #fff; font-size: 9px; font-weight: 900; border-radius: 10px; padding: 1px 5px; min-width: 16px; text-align: center; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* Thresholds */
+  .thresholds { display: flex; gap: 6px; margin-bottom: 20px; }
+  .threshold { flex: 1; text-align: center; padding: 8px 4px; border-radius: 6px; font-size: 10px; font-weight: 700; line-height: 1.4; }
+  .threshold.pass    { background: #1a0808; color: #ef4444; border: 1px solid #3d1515; }
+  .threshold.caution { background: #1a1200; color: #f59e0b; border: 1px solid #3d2e00; }
+  .threshold.proceed { background: #081a08; color: #22c55e; border: 1px solid #153d15; }
+  .threshold.go      { background: #081508; color: #4ade80; border: 1px solid #1a4d1a; }
+  .threshold.all-in  { background: #1a0e00; color: #ff6b35; border: 1px solid #ff6b35; }
+  .threshold .range  { font-size: 12px; font-weight: 900; display: block; margin-bottom: 2px; }
+  .threshold .tlabel { font-size: 9px; letter-spacing: 0.5px; opacity: 0.8; }
+
+  /* Form */
+  .form-card { background: #111; border: 1px solid #1e1e1e; border-radius: 12px; padding: 28px; margin-bottom: 16px; }
+  .field { margin-bottom: 18px; }
+  .field:last-child { margin-bottom: 0; }
+  .field label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; color: #777; text-transform: uppercase; margin-bottom: 6px; }
+  .field input[type="text"], .field select {
+    width: 100%; background: #0a0a0a; border: 1px solid #2a2a2a; color: #f0f0f0;
+    padding: 11px 14px; border-radius: 7px; font-size: 14px; outline: none;
+    transition: border-color 0.2s; appearance: none; -webkit-appearance: none;
+  }
+  .field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23555' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer;
+  }
+  .field input[type="text"]:focus, .field select:focus { border-color: #ff6b35; }
+  .field select option { background: #1a1a1a; color: #f0f0f0; }
+  .divider { border: none; border-top: 1px solid #1e1e1e; margin: 20px 0; }
+
+  /* Door opener */
+  .door-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; }
+  .door-label { font-size: 14px; font-weight: 600; color: #c4b5fd; }
+  .door-sub { font-size: 12px; color: #555; margin-top: 2px; }
+  .toggle { width: 40px; height: 22px; background: #2a2a2a; border-radius: 11px; position: relative; flex-shrink: 0; transition: background 0.2s; }
+  .toggle.on { background: #7c3aed; }
+  .toggle::after { content: ''; width: 16px; height: 16px; background: #fff; border-radius: 50%; position: absolute; top: 3px; left: 3px; transition: left 0.2s; }
+  .toggle.on::after { left: 21px; }
+  .door-note { display: none; margin-top: 14px; }
+  .door-note.visible { display: block; }
+  .door-note textarea { width: 100%; background: #0a0a0a; border: 1px solid #3a2a5a; color: #d0d0f0; padding: 11px 14px; border-radius: 7px; font-size: 13px; outline: none; resize: none; height: 68px; font-family: inherit; }
+  .door-note textarea:focus { border-color: #7c3aed; }
+
+  .score-btn { width: 100%; padding: 15px; background: #ff6b35; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; margin-top: 8px; }
+  .score-btn:hover { background: #e85a24; }
+  .score-btn:disabled { background: #1e1e1e; color: #444; cursor: not-allowed; }
+
+  /* Results */
+  .results { display: none; }
+  .results.visible { display: block; }
+  .result-hero { border-radius: 12px; padding: 36px 28px; text-align: center; margin-bottom: 12px; }
+  .result-hero.pass    { background: #1a0808; border: 1px solid #3d1515; }
+  .result-hero.caution { background: #1a1200; border: 1px solid #3d2e00; }
+  .result-hero.proceed { background: #081a08; border: 1px solid #153d15; }
+  .result-hero.go      { background: #081508; border: 1px solid #1a4d1a; }
+  .result-hero.all-in  { background: #1a0e00; border: 1px solid #ff6b35; }
+  .result-hero.door-opener { background: #0e0818; border: 1px solid #7c3aed; }
+  .r-tier { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 12px; }
+  .r-tier.pass    { color: #ef4444; }
+  .r-tier.caution { color: #f59e0b; }
+  .r-tier.proceed { color: #22c55e; }
+  .r-tier.go      { color: #4ade80; }
+  .r-tier.all-in  { color: #ff6b35; }
+  .r-tier.door-opener { color: #a78bfa; }
+  .r-score { font-size: 80px; font-weight: 900; line-height: 1; margin-bottom: 10px; }
+  .r-score.pass    { color: #ef4444; }
+  .r-score.caution { color: #f59e0b; }
+  .r-score.proceed { color: #22c55e; }
+  .r-score.go      { color: #4ade80; }
+  .r-score.all-in  { color: #ff6b35; }
+  .r-score.door-opener { color: #a78bfa; }
+  .r-action { font-size: 18px; font-weight: 700; color: #f0f0f0; margin-bottom: 6px; }
+  .r-opp { font-size: 13px; color: #555; margin-bottom: 10px; }
+  .r-desc { font-size: 13px; color: #999; line-height: 1.6; max-width: 420px; margin: 0 auto; }
+
+  .breakdown-card { background: #111; border: 1px solid #1e1e1e; border-radius: 12px; padding: 22px 26px; margin-bottom: 12px; }
+  .breakdown-title { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #444; margin-bottom: 16px; }
+  .b-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .b-label { font-size: 12px; color: #888; width: 160px; flex-shrink: 0; }
+  .b-track { flex: 1; height: 4px; background: #1e1e1e; border-radius: 2px; }
+  .b-fill { height: 100%; background: #ff6b35; border-radius: 2px; }
+
+  .door-result { background: #0e0818; border: 1px solid #2a1a4a; border-radius: 12px; padding: 18px 22px; margin-bottom: 12px; display: none; }
+  .door-result-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #7c3aed; margin-bottom: 7px; }
+  .door-result p { font-size: 13px; color: #c4b5fd; line-height: 1.6; }
+
+  /* Save button */
+  .save-btn { width: 100%; padding: 13px; background: #1e1e1e; color: #aaa; border: 1px solid #2a2a2a; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 10px; }
+  .save-btn:hover { background: #2a2a2a; color: #f0f0f0; border-color: #444; }
+  .save-btn.saved { background: #0a1a0a; color: #22c55e; border-color: #153d15; cursor: default; }
+
+  .reset-btn { width: 100%; padding: 13px; background: transparent; color: #555; border: 1px solid #1e1e1e; border-radius: 8px; font-size: 13px; cursor: pointer; transition: all 0.2s; margin-bottom: 40px; }
+  .reset-btn:hover { color: #f0f0f0; border-color: #444; }
+
+  /* Saved Scores tab */
+  .saved-empty { text-align: center; padding: 60px 20px; color: #444; font-size: 14px; }
+  .saved-empty .icon { font-size: 36px; margin-bottom: 12px; }
+
+  .saved-card {
+    background: #111;
+    border: 1px solid #1e1e1e;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .saved-card:hover { border-color: #333; }
+  .saved-score-pill {
+    font-size: 22px;
+    font-weight: 900;
+    min-width: 44px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .saved-score-pill.pass    { color: #ef4444; }
+  .saved-score-pill.caution { color: #f59e0b; }
+  .saved-score-pill.proceed { color: #22c55e; }
+  .saved-score-pill.go      { color: #4ade80; }
+  .saved-score-pill.all-in  { color: #ff6b35; }
+  .saved-score-pill.door-opener { color: #a78bfa; }
+  .saved-info { flex: 1; min-width: 0; }
+  .saved-name { font-size: 14px; font-weight: 600; color: #f0f0f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .saved-meta { font-size: 12px; color: #555; margin-top: 2px; }
+  .saved-tier { font-size: 10px; font-weight: 700; letter-spacing: 1px; margin-top: 4px; }
+  .saved-tier.pass    { color: #ef4444; }
+  .saved-tier.caution { color: #f59e0b; }
+  .saved-tier.proceed { color: #22c55e; }
+  .saved-tier.go      { color: #4ade80; }
+  .saved-tier.all-in  { color: #ff6b35; }
+  .saved-tier.door-opener { color: #a78bfa; }
+  .saved-delete { color: #333; font-size: 18px; cursor: pointer; padding: 4px; transition: color 0.2s; flex-shrink: 0; }
+  .saved-delete:hover { color: #ef4444; }
+
+  .saved-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .saved-count { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #555; }
+  .clear-all-btn { font-size: 11px; color: #444; background: none; border: none; cursor: pointer; padding: 4px 0; }
+  .clear-all-btn:hover { color: #ef4444; }
+
+  /* Methodology */
+  .method-card { background: #111; border: 1px solid #1e1e1e; border-radius: 12px; padding: 28px; margin-bottom: 16px; }
+  .method-card h2 { font-size: 14px; font-weight: 700; color: #f0f0f0; margin-bottom: 6px; }
+  .method-card .intro { font-size: 13px; color: #777; line-height: 1.6; margin-bottom: 24px; }
+  .method-section { margin-bottom: 28px; }
+  .method-section:last-child { margin-bottom: 0; }
+  .method-section-title { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #ff6b35; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid #1e1e1e; }
+  .dim-row { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 4px; gap: 12px; }
+  .dim-name { font-size: 13px; color: #ccc; font-weight: 500; }
+  .dim-weight { font-size: 12px; color: #ff6b35; font-weight: 700; flex-shrink: 0; }
+  .dim-desc { font-size: 12px; color: #666; margin-bottom: 12px; }
+  .band-grid { display: flex; flex-direction: column; gap: 8px; }
+  .band-row { display: flex; align-items: center; gap: 14px; padding: 10px 14px; border-radius: 7px; }
+  .band-row.pass    { background: #1a0808; border: 1px solid #3d1515; }
+  .band-row.caution { background: #1a1200; border: 1px solid #3d2e00; }
+  .band-row.proceed { background: #081a08; border: 1px solid #153d15; }
+  .band-row.go      { background: #081508; border: 1px solid #1a4d1a; }
+  .band-row.all-in  { background: #1a0e00; border: 1px solid #c2410c; }
+  .band-row.door-opener { background: #0e0818; border: 1px solid #7c3aed; }
+  .band-range { font-size: 14px; font-weight: 900; min-width: 50px; flex-shrink: 0; }
+  .band-row.pass .band-range    { color: #ef4444; }
+  .band-row.caution .band-range { color: #f59e0b; }
+  .band-row.proceed .band-range { color: #22c55e; }
+  .band-row.go .band-range      { color: #4ade80; }
+  .band-row.all-in .band-range  { color: #ff6b35; }
+  .band-row.door-opener .band-range { color: #a78bfa; }
+  .band-info { flex: 1; }
+  .band-verdict { font-size: 12px; font-weight: 700; color: #f0f0f0; margin-bottom: 2px; }
+  .band-action { font-size: 12px; color: #888; }
+
+  .progress-bar { position: fixed; top: 0; left: 0; height: 2px; background: #ff6b35; transition: width 0.3s; z-index: 100; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress" style="width:0%"></div>
+
+<div class="container">
+
+  <header>
+    <img src="/glow-logo.png" alt="GLOW" style="height:48px;margin-bottom:14px;display:block;margin-left:auto;margin-right:auto;">
+    <h1>Opportunity Scorer</h1>
+    <p>Know before you go big.</p>
+  </header>
+
+  <div class="tabs">
+    <div class="tab active" id="tab-score" onclick="switchTab('score')">Score</div>
+    <div class="tab" id="tab-saved" onclick="switchTab('saved')">Saved <span class="tab-badge" id="savedBadge" style="display:none"></span></div>
+    <div class="tab" id="tab-method" onclick="switchTab('method')">Methodology</div>
+  </div>
+
+  <!-- SCORE TAB -->
+  <div class="panel active" id="panel-score">
+    <div class="thresholds">
+      <div class="threshold pass"><span class="range">0–35</span><span class="tlabel">PASS</span></div>
+      <div class="threshold caution"><span class="range">36–50</span><span class="tlabel">LIGHT TOUCH</span></div>
+      <div class="threshold proceed"><span class="range">51–70</span><span class="tlabel">PROCEED</span></div>
+      <div class="threshold go"><span class="range">71–85</span><span class="tlabel">GO HARD</span></div>
+      <div class="threshold all-in"><span class="range">86–100</span><span class="tlabel">ALL IN</span></div>
+    </div>
+
+    <div id="formWrap">
+      <div class="form-card">
+        <div class="field">
+          <label>Opportunity</label>
+          <input type="text" id="oppName" placeholder="Company or project name..." />
+        </div>
+        <hr class="divider">
+        <div class="field">
+          <label>How did this lead come in?</label>
+          <select id="q1">
+            <option value="">Select...</option>
+            <option value="10">Current client intro or expansion</option>
+            <option value="9">Personal contact / my network</option>
+            <option value="7">Past client</option>
+            <option value="6">Referral from trusted source</option>
+            <option value="3">Cold / inbound / unknown</option>
+            <option value="1">Procurement only</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Access to the decision maker</label>
+          <select id="q2">
+            <option value="">Select...</option>
+            <option value="10">Direct access to the buyer</option>
+            <option value="7">Access to a strong champion</option>
+            <option value="4">Unclear / working on it</option>
+            <option value="1">Procurement wall — no direct access</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Budget potential</label>
+          <select id="q3">
+            <option value="">Select...</option>
+            <option value="10">$2M+</option>
+            <option value="8">$1M – $2M</option>
+            <option value="6">$500K – $1M</option>
+            <option value="4">$100K – $500K</option>
+            <option value="2">Under $100K</option>
+            <option value="5">Unknown</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>How many agencies are pitching?</label>
+          <select id="q4">
+            <option value="">Select...</option>
+            <option value="10">Only us</option>
+            <option value="7">2 agencies</option>
+            <option value="4">3 agencies</option>
+            <option value="2">4+ agencies</option>
+            <option value="1">Open RFP</option>
+            <option value="5">Unknown</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Expansion potential</label>
+          <select id="q5">
+            <option value="">Select...</option>
+            <option value="10">Clear AOR or major ongoing scope</option>
+            <option value="8">Small now, obvious path to more</option>
+            <option value="5">Some potential, not defined</option>
+            <option value="2">Project only, no expansion</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Capability fit</label>
+          <select id="q6">
+            <option value="">Select...</option>
+            <option value="10">We own this — category and work type</option>
+            <option value="7">Strong in one, decent in the other</option>
+            <option value="5">New category, proven work type</option>
+            <option value="3">New territory for us</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Cost to pursue</label>
+          <select id="q7">
+            <option value="">Select...</option>
+            <option value="10">Minimal — existing assets, quick conversation</option>
+            <option value="7">Standard deck + credentials</option>
+            <option value="4">Custom pitch, some new thinking</option>
+            <option value="1">Full spec creative — major lift</option>
+          </select>
+        </div>
+        <hr class="divider">
+        <div class="door-row" id="doorToggle">
+          <div>
+            <div class="door-label">Door-Opener Play</div>
+            <div class="door-sub">Intentionally below-market to crack a relationship</div>
+          </div>
+          <div class="toggle" id="doorSwitch"></div>
+        </div>
+        <div class="door-note" id="doorNote">
+          <textarea id="doorText" placeholder="Why is this a door-opener? (optional)"></textarea>
+        </div>
+      </div>
+      <button class="score-btn" id="scoreBtn" disabled>Score This Opportunity</button>
+    </div>
+
+    <!-- Results -->
+    <div class="results" id="results">
+      <div class="result-hero" id="resultHero">
+        <div class="r-tier" id="rTier"></div>
+        <div class="r-score" id="rScore"></div>
+        <div class="r-action" id="rAction"></div>
+        <div class="r-opp" id="rOpp"></div>
+        <div class="r-desc" id="rDesc"></div>
+      </div>
+      <div class="breakdown-card">
+        <div class="breakdown-title">Score Breakdown</div>
+        <div id="breakdownRows"></div>
+      </div>
+      <div class="door-result" id="doorResult">
+        <div class="door-result-label">Door-Opener Play</div>
+        <p id="doorResultText"></p>
+      </div>
+      <button class="save-btn" id="saveBtn">Save this score</button>
+      <button class="reset-btn" id="resetBtn">Score another opportunity</button>
+    </div>
+  </div>
+
+  <!-- SAVED TAB -->
+  <div class="panel" id="panel-saved">
+    <div id="savedContent"></div>
+  </div>
+
+  <!-- METHODOLOGY TAB -->
+  <div class="panel" id="panel-method">
+    <div class="method-card">
+      <h2>How the Score Works</h2>
+      <p class="intro">Each opportunity is scored across 7 dimensions, each weighted by how much it actually predicts success. Answers are scored 1–10, multiplied by their weight, and summed to a final score out of 100.</p>
+      <div class="method-section">
+        <div class="method-section-title">The 7 Dimensions</div>
+        <div class="dim-row"><div class="dim-name">Relationship Origin</div><div class="dim-weight">20%</div></div>
+        <div class="dim-desc">How the lead came in. Warm relationships close faster and at higher rates — this carries the most weight.</div>
+        <div class="dim-row"><div class="dim-name">Decision Maker Access</div><div class="dim-weight">15%</div></div>
+        <div class="dim-desc">Can we get to the actual buyer? Procurement walls kill deals that should close.</div>
+        <div class="dim-row"><div class="dim-name">Budget Potential</div><div class="dim-weight">15%</div></div>
+        <div class="dim-desc">How big can this get? Unknown budget scores neutral (5/10) — not penalized for early-stage opps.</div>
+        <div class="dim-row"><div class="dim-name">Win Probability</div><div class="dim-weight">15%</div></div>
+        <div class="dim-desc">Fewer agencies = better odds. Unknown field scores neutral.</div>
+        <div class="dim-row"><div class="dim-name">Expansion Potential</div><div class="dim-weight">15%</div></div>
+        <div class="dim-desc">Is this a one-off project or a gateway to something bigger? AOR potential scores highest.</div>
+        <div class="dim-row"><div class="dim-name">Capability Fit</div><div class="dim-weight">10%</div></div>
+        <div class="dim-desc">How well does the work match what GLOW does best — category experience and work type combined.</div>
+        <div class="dim-row"><div class="dim-name">Cost to Pursue</div><div class="dim-weight">10%</div></div>
+        <div class="dim-desc">Lower pitch cost = higher score. Full spec creative with major resource pull scores lowest.</div>
+      </div>
+      <div class="method-section">
+        <div class="method-section-title">Score Bands</div>
+        <div class="band-grid">
+          <div class="band-row pass"><div class="band-range">0–35</div><div class="band-info"><div class="band-verdict">PASS</div><div class="band-action">Do not pursue — the math doesn't work</div></div></div>
+          <div class="band-row caution"><div class="band-range">36–50</div><div class="band-info"><div class="band-verdict">LIGHT TOUCH</div><div class="band-action">Credentials only — no speculative work or pulling people off paying accounts</div></div></div>
+          <div class="band-row proceed"><div class="band-range">51–70</div><div class="band-info"><div class="band-verdict">PROCEED</div><div class="band-action">Assign a lead, build a proper pitch, pursue with intent</div></div></div>
+          <div class="band-row go"><div class="band-range">71–85</div><div class="band-info"><div class="band-verdict">GO HARD</div><div class="band-action">Pull in the right people — senior attention, real creative energy</div></div></div>
+          <div class="band-row all-in"><div class="band-range">86–100</div><div class="band-info"><div class="band-verdict">ALL IN</div><div class="band-action">Clear the decks — full team, best work, whatever it takes</div></div></div>
+          <div class="band-row door-opener"><div class="band-range">🚪</div><div class="band-info"><div class="band-verdict">DOOR-OPENER PLAY</div><div class="band-action">Overrides the score — intentional loss-leader to crack a strategic relationship</div></div></div>
+        </div>
+      </div>
+      <div class="method-section">
+        <div class="method-section-title">The Door-Opener Flag</div>
+        <p style="font-size:13px;color:#888;line-height:1.7;">Some opportunities score low but are tactically brilliant — taking a small, cheap gig to get in front of a decision maker you otherwise couldn't reach. The Door-Opener toggle flags this intentionally, so the team knows it's a strategic move, not a mistake.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const weights = { q1:.20, q2:.15, q3:.15, q4:.15, q5:.15, q6:.10, q7:.10 };
+  const qLabels = { q1:'Relationship origin', q2:'Decision maker access', q3:'Budget potential', q4:'Win probability', q5:'Expansion potential', q6:'Capability fit', q7:'Cost to pursue' };
+  const selects = ['q1','q2','q3','q4','q5','q6','q7'];
+  let doorOn = false;
+  let lastResult = null;
+
+  // Storage
+  function getScores() { try { return JSON.parse(localStorage.getItem('glowScores') || '[]'); } catch(e) { return []; } }
+  function saveScores(arr) { localStorage.setItem('glowScores', JSON.stringify(arr)); }
+  function updateBadge() {
+    const n = getScores().length;
+    const b = document.getElementById('savedBadge');
+    b.style.display = n > 0 ? 'inline' : 'none';
+    b.textContent = n;
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('panel-' + tab).classList.add('active');
+    if (tab === 'saved') renderSaved();
+  }
+
+  selects.forEach(id => {
+    document.getElementById(id).addEventListener('change', () => {
+      const answered = selects.filter(id => document.getElementById(id).value !== '').length;
+      document.getElementById('progress').style.width = (answered / 7 * 100) + '%';
+      document.getElementById('scoreBtn').disabled = answered < 7;
+    });
+  });
+
+  document.getElementById('doorToggle').addEventListener('click', () => {
+    doorOn = !doorOn;
+    document.getElementById('doorSwitch').classList.toggle('on', doorOn);
+    document.getElementById('doorNote').classList.toggle('visible', doorOn);
+  });
+
+  document.getElementById('scoreBtn').addEventListener('click', calculate);
+  document.getElementById('resetBtn').addEventListener('click', reset);
+
+  document.getElementById('saveBtn').addEventListener('click', () => {
+    if (!lastResult) return;
+    const scores = getScores();
+    // avoid duplicate saves
+    const btn = document.getElementById('saveBtn');
+    scores.unshift(lastResult);
+    saveScores(scores);
+    updateBadge();
+    btn.textContent = '✓ Saved';
+    btn.classList.add('saved');
+    btn.disabled = true;
+  });
+
+  function tierClass(score, isDoor) {
+    if (isDoor) return 'door-opener';
+    if (score <= 35) return 'pass';
+    if (score <= 50) return 'caution';
+    if (score <= 70) return 'proceed';
+    if (score <= 85) return 'go';
+    return 'all-in';
+  }
+
+  function tierLabel(score, isDoor) {
+    if (isDoor) return 'DOOR-OPENER PLAY';
+    if (score <= 35) return 'PASS';
+    if (score <= 50) return 'LIGHT TOUCH';
+    if (score <= 70) return 'PROCEED';
+    if (score <= 85) return 'GO HARD';
+    return 'ALL IN';
+  }
+
+  function calculate() {
+    let score = 0;
+    const breakdown = [];
+    selects.forEach(id => {
+      const raw = parseFloat(document.getElementById(id).value);
+      score += raw * weights[id] * 10;
+      breakdown.push({ label: qLabels[id], raw });
+    });
+    score = Math.round(score);
+
+    const opp = document.getElementById('oppName').value.trim();
+    const doorText = document.getElementById('doorText').value.trim();
+    const cls = tierClass(score, doorOn);
+    const tier = tierLabel(score, doorOn);
+
+    let action, desc;
+    if (doorOn) {
+      action = 'Proceed — Strategic Investment';
+      desc = 'Flagged as a deliberate relationship play. Score reflects market rate, but the strategic upside justifies the move. Keep the pitch lean and the investment intentional.';
+    } else if (score <= 35) { action = 'Do not pursue'; desc = 'The math doesn\'t work. Move on.'; }
+    else if (score <= 50) { action = 'Credentials only — no spec work'; desc = 'Worth a conversation. Don\'t pull your best people off paying work.'; }
+    else if (score <= 70) { action = 'Assign a lead and build the pitch'; desc = 'Good opportunity. Assign ownership and pursue with intent.'; }
+    else if (score <= 85) { action = 'Pull in the right people'; desc = 'Strong opportunity. Senior attention and real creative energy.'; }
+    else { action = 'Whatever it takes'; desc = 'Clear the decks. Full team, best work, no excuses.'; }
+
+    lastResult = { id: Date.now(), opp: opp || 'Unnamed', score, cls, tier, action, isDoor: doorOn, doorNote: doorText, breakdown, date: new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}) };
+
+    const hero = document.getElementById('resultHero');
+    hero.className = 'result-hero ' + cls;
+    const rt = document.getElementById('rTier'); rt.className = 'r-tier ' + cls; rt.textContent = tier;
+    const rs = document.getElementById('rScore'); rs.className = 'r-score ' + cls; rs.textContent = score;
+    document.getElementById('rAction').textContent = action;
+    document.getElementById('rOpp').textContent = opp;
+    document.getElementById('rDesc').textContent = desc;
+
+    const rows = document.getElementById('breakdownRows');
+    rows.innerHTML = '';
+    breakdown.forEach(item => {
+      rows.innerHTML += `<div class="b-row"><div class="b-label">${item.label}</div><div class="b-track"><div class="b-fill" style="width:${item.raw*10}%"></div></div></div>`;
+    });
+
+    const dr = document.getElementById('doorResult');
+    if (doorOn) { dr.style.display = 'block'; document.getElementById('doorResultText').textContent = doorText || 'Strategic relationship investment. Keep the effort lean and the intent clear.'; }
+    else { dr.style.display = 'none'; }
+
+    // Reset save button
+    const sb = document.getElementById('saveBtn');
+    sb.textContent = 'Save this score';
+    sb.classList.remove('saved');
+    sb.disabled = false;
+
+    document.getElementById('progress').style.width = '100%';
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('results').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function reset() {
+    selects.forEach(id => document.getElementById(id).value = '');
+    document.getElementById('oppName').value = '';
+    document.getElementById('doorText').value = '';
+    doorOn = false; lastResult = null;
+    document.getElementById('doorSwitch').classList.remove('on');
+    document.getElementById('doorNote').classList.remove('visible');
+    document.getElementById('progress').style.width = '0%';
+    document.getElementById('results').classList.remove('visible');
+    document.getElementById('formWrap').style.display = 'block';
+    document.getElementById('scoreBtn').disabled = true;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function renderSaved() {
+    const scores = getScores();
+    const el = document.getElementById('savedContent');
+    if (scores.length === 0) {
+      el.innerHTML = '<div class="saved-empty"><div class="icon">📋</div>No saved scores yet.<br>Score an opportunity and hit "Save this score".</div>';
+      return;
+    }
+    let html = `<div class="saved-header"><div class="saved-count">${scores.length} saved</div><button class="clear-all-btn" onclick="clearAll()">Clear all</button></div>`;
+    scores.forEach((s, i) => {
+      const scoreDisplay = s.isDoor ? '🚪' : s.score;
+      html += `
+        <div class="saved-card">
+          <div class="saved-score-pill ${s.cls}">${scoreDisplay}</div>
+          <div class="saved-info">
+            <div class="saved-name">${s.opp}</div>
+            <div class="saved-meta">${s.date}</div>
+            <div class="saved-tier ${s.cls}">${s.tier}</div>
+          </div>
+          <div class="saved-delete" onclick="deleteScore(${i}, event)">×</div>
+        </div>`;
+    });
+    el.innerHTML = html;
+  }
+
+  function deleteScore(i, e) {
+    e.stopPropagation();
+    const scores = getScores();
+    scores.splice(i, 1);
+    saveScores(scores);
+    updateBadge();
+    renderSaved();
+  }
+
+  function clearAll() {
+    if (confirm('Clear all saved scores?')) {
+      saveScores([]);
+      updateBadge();
+      renderSaved();
+    }
+  }
+
+  updateBadge();
+</script>
+</body>
+</html>
