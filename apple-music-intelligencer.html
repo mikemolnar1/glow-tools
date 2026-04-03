@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLOW x Apple Music — New Business Intelligencer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+  :root {
+    --am-red: #fc3c44;
+    --am-pink: #ff6b8a;
+    --am-rose: #ff2d55;
+    --am-dark: #080406;
+    --am-navy: #140608;
+    --am-deep: #0c0305;
+    --am-silver: #c8c8d0;
+    --glow-gold: #c5953a;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',-apple-system,sans-serif; background:var(--am-dark); color:var(--text-primary); line-height:1.6; }
+
+  /* NAV */
+  .sticky-nav {
+    position:sticky; top:0; z-index:100;
+    background:rgba(8,4,6,0.97); backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    padding:12px 24px;
+    display:flex; justify-content:center; gap:8px; flex-wrap:wrap;
+  }
+  .nav-btn {
+    font-family:'Space Grotesk',sans-serif;
+    font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase;
+    color:rgba(255,255,255,0.5); background:none; border:1px solid rgba(255,255,255,0.12);
+    padding:6px 14px; border-radius:20px; cursor:pointer; text-decoration:none;
+    transition:all 0.2s;
+  }
+  .nav-btn:hover { color:white; border-color:var(--am-red); }
+  .nav-btn.active { color:var(--am-red); border-color:var(--am-red); background:rgba(252,60,68,0.1); }
+
+  /* HERO */
+  .hero {
+    background:linear-gradient(135deg, #080406 0%, #1a040a 40%, #220612 70%, #0d0208 100%);
+    color:white; padding:80px 40px 60px; text-align:center; position:relative; overflow:hidden;
+  }
+  .hero::before { content:'♫'; position:absolute; font-size:320px; opacity:0.03; top:-80px; right:-40px; pointer-events:none; }
+  .hero::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at center top, rgba(252,60,68,0.14) 0%, transparent 70%); pointer-events:none; }
+  .hero-eyebrow { font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--am-red); margin-bottom:16px; }
+  .hero h1 { font-family:'Space Grotesk',sans-serif; font-size:clamp(32px,5vw,60px); font-weight:700; line-height:1.1; margin-bottom:12px; }
+  .hero h1 .brand { color:var(--am-red); }
+  .hero .subtitle { font-size:17px; color:rgba(255,255,255,0.65); max-width:640px; margin:0 auto 24px; }
+  .hero-meta { display:flex; justify-content:center; gap:30px; flex-wrap:wrap; font-size:13px; color:rgba(255,255,255,0.45); }
+  .hero-badges { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:24px; }
+  .hero-badge { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:20px; padding:6px 16px; font-size:12px; color:rgba(255,255,255,0.7); font-family:'Space Grotesk',sans-serif; font-weight:600; letter-spacing:0.5px; }
+
+  /* SECTIONS */
+  .section-inner { padding:56px 40px; max-width:1100px; margin:0 auto; }
+  section { position:relative; z-index:2; }
+  .section-light { background:white; }
+  .section-dark { background:var(--am-dark); color:white; }
+  .section-navy { background:var(--am-navy); color:white; }
+  .section-deep { background:linear-gradient(180deg, #120308 0%, #070204 100%); color:white; }
+
+  /* TYPOGRAPHY */
+  .section-label { font-family:'Space Grotesk',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--am-red); margin-bottom:10px; font-weight:600; }
+  .section-dark .section-label, .section-navy .section-label, .section-deep .section-label { color:var(--am-red); }
+  h2 { font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,3.5vw,40px); font-weight:700; line-height:1.2; margin-bottom:20px; }
+  h3 { font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:600; margin-bottom:12px; }
+  h4 { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:600; margin-bottom:8px; text-transform:uppercase; letter-spacing:1px; }
+  p { margin-bottom:14px; color:var(--text-secondary); }
+  .section-dark p, .section-navy p, .section-deep p { color:rgba(255,255,255,0.72); }
+
+  /* GRIDS */
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  @media(max-width:768px) { .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;} .section-inner{padding:36px 20px;} .sticky-nav{gap:4px;padding:8px 12px;} .nav-btn{font-size:10px;padding:4px 10px;} }
+
+  /* CARDS */
+  .card { background:white; border-radius:12px; padding:28px; border:1px solid #e5e5e5; transition:transform 0.2s,box-shadow 0.2s; }
+  .card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.1); }
+  .dark-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09); border-radius:12px; padding:24px; }
+  .dark-card h4 { color:white; text-transform:none; letter-spacing:0; }
+  .dark-card p { font-size:14px; color:rgba(255,255,255,0.65); }
+  .dark-card:hover { background:rgba(255,255,255,0.07); }
+
+  /* PROFILE CARD */
+  .profile-card { background:linear-gradient(135deg, #1a040a, #220612); border:1px solid rgba(252,60,68,0.2); border-radius:16px; padding:28px; color:white; display:flex; gap:28px; align-items:flex-start; flex-wrap:wrap; margin-bottom:20px; }
+  .profile-avatar { width:72px; height:72px; background:linear-gradient(135deg,var(--am-red),var(--am-pink)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:30px; flex-shrink:0; }
+  .profile-info { flex:1; }
+  .profile-info h3 { font-size:22px; margin-bottom:4px; color:white; }
+  .profile-info .title { color:var(--am-red); font-size:14px; font-weight:600; letter-spacing:0.5px; margin-bottom:6px; }
+  .profile-info .company { color:rgba(255,255,255,0.45); font-size:13px; margin-bottom:12px; }
+  .profile-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .profile-unknown { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:24px; color:white; display:flex; gap:24px; align-items:center; flex-wrap:wrap; }
+  .unknown-badge { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 14px; font-size:12px; color:rgba(255,255,255,0.4); font-style:italic; }
+
+  /* TAGS */
+  .tag { display:inline-block; padding:4px 12px; border-radius:20px; font-size:11px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; margin:2px; }
+  .tag-red { background:rgba(252,60,68,0.15); color:#ff8a8a; border:1px solid rgba(252,60,68,0.25); }
+  .tag-pink { background:rgba(255,107,138,0.15); color:#ffb3c6; border:1px solid rgba(255,107,138,0.25); }
+  .tag-gold { background:rgba(197,149,58,0.15); color:var(--glow-gold); border:1px solid rgba(197,149,58,0.25); }
+  .tag-silver { background:rgba(200,200,208,0.12); color:#d0d0dc; border:1px solid rgba(200,200,208,0.2); }
+  .tag-blue { background:rgba(30,144,255,0.12); color:#88c8ff; border:1px solid rgba(30,144,255,0.2); }
+  .tag-green { background:rgba(34,197,94,0.12); color:#4ade80; border:1px solid rgba(34,197,94,0.2); }
+  .tag-purple { background:rgba(147,51,234,0.15); color:#c084fc; border:1px solid rgba(147,51,234,0.25); }
+
+  /* INSIGHT BLOCKS */
+  .insight-block { background:rgba(252,60,68,0.06); border:1px solid rgba(252,60,68,0.18); border-radius:12px; padding:24px; margin:16px 0; }
+  .insight-block h4 { color:#ff8a8a; text-transform:none; letter-spacing:0; font-size:15px; }
+  .insight-block p { font-size:14px; color:rgba(255,255,255,0.68); margin:0; }
+  .warning-block { background:rgba(255,165,0,0.06); border:1px solid rgba(255,165,0,0.2); border-radius:12px; padding:24px; margin:16px 0; }
+  .warning-block h4 { color:#ffc266; text-transform:none; letter-spacing:0; font-size:15px; }
+  .warning-block p { font-size:14px; color:rgba(255,255,255,0.68); margin:0; }
+  .gold-block { background:rgba(197,149,58,0.07); border:1px solid rgba(197,149,58,0.2); border-left:3px solid var(--glow-gold); border-radius:0 12px 12px 0; padding:20px 24px; margin:16px 0; }
+  .gold-block h4 { color:var(--glow-gold); text-transform:none; letter-spacing:0; font-size:15px; margin-bottom:6px; }
+  .gold-block p { font-size:14px; color:rgba(255,255,255,0.68); margin:0; }
+
+  /* PILLAR CARDS */
+  .pillar-card { border-radius:16px; padding:28px; color:white; position:relative; overflow:hidden; }
+  .pillar-card::before { content:attr(data-emoji); position:absolute; font-size:100px; opacity:0.06; bottom:-15px; right:-5px; pointer-events:none; }
+  .pillar-halftime { background:linear-gradient(135deg, #1a040a, #2e0a12); border:1px solid rgba(252,60,68,0.3); }
+  .pillar-sports { background:linear-gradient(135deg, #08080a, #141428); border:1px solid rgba(30,144,255,0.25); }
+  .pillar-fandom { background:linear-gradient(135deg, #100816, #1c0f28); border:1px solid rgba(147,51,234,0.25); }
+  .pillar-card h3 { font-family:'Space Grotesk',sans-serif; margin-bottom:6px; color:white; }
+  .pillar-card .pc-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; opacity:0.5; margin-bottom:14px; font-weight:600; }
+  .pillar-card p { color:rgba(255,255,255,0.72); font-size:14px; margin-bottom:8px; }
+  .pillar-card .pc-stat { font-family:'Space Grotesk',sans-serif; font-size:30px; font-weight:700; color:var(--am-red); }
+  .pillar-card .pc-stat-label { font-size:12px; color:rgba(255,255,255,0.4); margin-top:-4px; margin-bottom:14px; }
+
+  /* ANGLE CARD */
+  .angle-card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09); border-radius:12px; padding:24px; }
+  .angle-card .angle-num { font-family:'Space Grotesk',sans-serif; font-size:36px; font-weight:700; color:rgba(255,255,255,0.07); line-height:1; margin-bottom:8px; }
+  .angle-card h4 { color:var(--glow-gold); text-transform:none; letter-spacing:0; font-size:16px; margin-bottom:8px; }
+  .angle-card p { font-size:14px; color:rgba(255,255,255,0.65); margin:0; }
+
+  /* CONVO CARD */
+  .convo-card { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:12px; padding:24px 28px; margin-bottom:14px; }
+  .convo-card .convo-label { font-family:'Space Grotesk',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--am-red); margin-bottom:8px; font-weight:700; }
+  .convo-card .convo-q { font-size:16px; font-weight:600; color:white; margin-bottom:6px; font-family:'Space Grotesk',sans-serif; }
+  .convo-card .convo-why { font-size:13px; color:rgba(255,255,255,0.45); font-style:italic; }
+
+  /* OFFER CARDS */
+  .offer-card { border-radius:14px; padding:24px; color:white; }
+  .offer-halftime { background:linear-gradient(135deg, rgba(252,60,68,0.15), rgba(252,60,68,0.05)); border:1px solid rgba(252,60,68,0.25); }
+  .offer-sports { background:linear-gradient(135deg, rgba(30,144,255,0.12), rgba(30,144,255,0.04)); border:1px solid rgba(30,144,255,0.2); }
+  .offer-fandom { background:linear-gradient(135deg, rgba(147,51,234,0.12), rgba(147,51,234,0.04)); border:1px solid rgba(147,51,234,0.2); }
+  .offer-card h4 { color:white; text-transform:none; letter-spacing:0; font-size:16px; margin-bottom:10px; }
+  .offer-card p { font-size:14px; color:rgba(255,255,255,0.68); margin-bottom:10px; }
+  .offer-card ul { list-style:none; padding:0; }
+  .offer-card li { font-size:13px; color:rgba(255,255,255,0.6); padding:4px 0; }
+  .offer-card li::before { content:'→ '; color:var(--glow-gold); }
+
+  /* STAT */
+  .stat-row { display:flex; gap:16px; flex-wrap:wrap; margin:20px 0; }
+  .stat-box { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:20px 24px; flex:1; min-width:140px; }
+  .stat-box .stat-num { font-family:'Space Grotesk',sans-serif; font-size:28px; font-weight:700; color:var(--am-red); line-height:1; }
+  .stat-box .stat-label { font-size:12px; color:rgba(255,255,255,0.45); margin-top:4px; }
+
+  /* LIST */
+  .check-list { list-style:none; padding:0; }
+  .check-list li { padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06); font-size:14px; color:rgba(255,255,255,0.78); display:flex; align-items:flex-start; gap:10px; line-height:1.5; }
+  .check-list li:last-child { border:none; }
+  .check-list li::before { content:'✦'; color:var(--am-red); flex-shrink:0; margin-top:2px; }
+
+  /* DIVIDER */
+  .divider { height:3px; background:linear-gradient(90deg, var(--am-red), var(--am-pink), #ff8c00); border:none; margin:0; }
+
+  /* FOOTER */
+  .footer { background:#040102; color:rgba(255,255,255,0.25); text-align:center; padding:48px 20px; font-size:12px; border-top:1px solid rgba(255,255,255,0.05); }
+  .footer strong { color:var(--glow-gold); }
+  .footer .footer-logo { font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:700; color:rgba(255,255,255,0.4); margin-bottom:8px; }
+
+  /* PDF BUTTON */
+  .pdf-btn { display:inline-flex; align-items:center; gap:8px; background:var(--am-red); color:white; font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:10px 20px; border-radius:24px; border:none; cursor:pointer; text-decoration:none; transition:all 0.2s; margin-top:12px; }
+  .pdf-btn:hover { background:#e02030; transform:translateY(-1px); box-shadow:0 4px 16px rgba(252,60,68,0.4); }
+
+  /* ONE-SHEETER (hidden by default, shown on print) */
+  #onesheet { display:none; }
+
+  @media print {
+    * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    body > *:not(#onesheet) { display:none !important; }
+    #onesheet { display:block !important; font-family:'Helvetica Neue',Arial,sans-serif; color:#111; background:white; padding:32px 36px; font-size:11px; line-height:1.5; max-width:100%; }
+    #onesheet .os-header { display:flex; justify-content:space-between; align-items:flex-start; border-bottom:3px solid #fc3c44; padding-bottom:12px; margin-bottom:16px; }
+    #onesheet .os-title { font-size:20px; font-weight:800; color:#fc3c44; letter-spacing:-0.5px; }
+    #onesheet .os-meta { font-size:10px; color:#666; text-align:right; line-height:1.8; }
+    #onesheet .os-flag { background:#fff5f5; border:1px solid #fc3c44; border-left:4px solid #fc3c44; border-radius:4px; padding:8px 12px; margin-bottom:14px; font-size:10.5px; }
+    #onesheet .os-flag strong { color:#fc3c44; }
+    #onesheet .os-section { margin-bottom:14px; }
+    #onesheet .os-section-title { font-size:9px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#fc3c44; margin-bottom:6px; border-bottom:1px solid #fce4e4; padding-bottom:3px; }
+    #onesheet .os-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:14px; }
+    #onesheet .os-person { background:#fafafa; border:1px solid #eee; border-radius:6px; padding:8px 10px; }
+    #onesheet .os-person-name { font-weight:800; font-size:11px; color:#111; }
+    #onesheet .os-person-role { font-size:9.5px; color:#fc3c44; font-weight:600; margin-bottom:4px; }
+    #onesheet .os-person-note { font-size:9.5px; color:#444; }
+    #onesheet .os-angles { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:14px; }
+    #onesheet .os-angle { background:#fff8f0; border:1px solid #f0d080; border-radius:6px; padding:8px 10px; }
+    #onesheet .os-angle-num { font-size:18px; font-weight:900; color:#f0d080; line-height:1; }
+    #onesheet .os-angle-title { font-size:10px; font-weight:800; color:#c5953a; margin-bottom:3px; }
+    #onesheet .os-angle-body { font-size:9.5px; color:#555; }
+    #onesheet .os-nonobvious { margin-bottom:4px; padding:5px 8px; border-left:2px solid #fc3c44; background:#fafafa; border-radius:0 4px 4px 0; }
+    #onesheet .os-nonobvious strong { color:#111; font-size:10px; }
+    #onesheet .os-nonobvious span { font-size:9.5px; color:#555; }
+    #onesheet .os-win { background:#f0fff4; border:1px solid #86efac; border-radius:6px; padding:10px 12px; font-size:10.5px; }
+    #onesheet .os-win strong { color:#166534; }
+    #onesheet .os-footer { border-top:1px solid #eee; margin-top:16px; padding-top:8px; display:flex; justify-content:space-between; font-size:9px; color:#999; }
+  }
+</style>
+</head>
+<body>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <a href="#room" class="nav-btn">👥 The Room</a>
+  <a href="#company" class="nav-btn">🎵 Apple Music</a>
+  <a href="#pillars" class="nav-btn">🏆 Big Moves</a>
+  <a href="#landscape" class="nav-btn">📊 Agency Landscape</a>
+  <a href="#angles" class="nav-btn">💡 Our Angles</a>
+  <a href="#prep" class="nav-btn">🎯 Meeting Prep</a>
+  <button class="pdf-btn" onclick="window.print()">⬇ Print One-Sheeter</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <!-- LOGO LOCKUP -->
+  <div style="display:flex; align-items:center; justify-content:center; gap:24px; margin-bottom:28px; flex-wrap:wrap;">
+    <img src="glow-logo.svg" alt="GLOW" style="height:44px; width:auto; filter:brightness(0) invert(1); opacity:0.95;">
+    <div style="width:1px; height:48px; background:rgba(255,255,255,0.2);"></div>
+    <div style="font-family:'Space Grotesk',sans-serif; font-size:26px; font-weight:700; color:var(--am-red); letter-spacing:-0.5px;">Apple Music</div>
+  </div>
+
+  <p class="hero-eyebrow">New Business Intelligencer</p>
+  <h1>GLOW x <span class="brand">Apple Music</span></h1>
+  <p class="subtitle">Everything you need to walk into Monday's meeting sharp. Background on the room, the brand, the opportunity, and exactly how Glow wins.</p>
+  <div class="hero-meta">
+    <span>📅 Meeting: Monday, April 6, 2026</span>
+    <span>👤 Josh Noa · Chase Meacham · Kimberly Noel</span>
+    <span>🎵 Apple Music</span>
+  </div>
+  <div class="hero-badges">
+    <span class="hero-badge">🏈 Super Bowl Halftime Sponsor</span>
+    <span class="hero-badge">🏎️ F1 US Broadcast 2026</span>
+    <span class="hero-badge">⚽ MLS Season Pass</span>
+    <span class="hero-badge">~94M Subscribers</span>
+  </div>
+  <div style="margin-top:28px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap; font-size:11px; color:rgba(255,255,255,0.3); font-family:'Space Grotesk',sans-serif; letter-spacing:0.5px;">
+    <span>✅ Confirmed = sourced from Apple Newsroom, SBJ, or F1.com</span>
+    <span>〜 Estimated = industry analyst data, Apple doesn't publicly disclose</span>
+    <span>⚠️ Unverified = noted inline, verify before using</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 1: THE ROOM                    -->
+<!-- ═══════════════════════════════════════ -->
+<section class="section-navy" id="room">
+  <div class="section-inner">
+    <div class="section-label">Know Your Room</div>
+    <h2>The Three People in This Meeting</h2>
+    <p style="max-width:700px; color:rgba(255,255,255,0.65);">All three confirmed from LinkedIn. Different mandates, different things they need to hear. Read the room accordingly.</p>
+
+    <!-- GLOW x APPLE EXISTING RELATIONSHIP -->
+    <div class="gold-block" style="margin-bottom:36px; border-left:4px solid var(--am-red); background:rgba(252,60,68,0.07); border-color:var(--am-red);">
+      <h4 style="color:var(--am-red);">🔑 You're Already in the Building</h4>
+      <p><strong>Glow is a current Apple TV+ partner</strong> — social strategy and title social/content marketing. This is not a cold meeting. You have an existing relationship with Apple as a vendor and creative partner. Lead with this early. It reframes everything: you're not pitching to get in the door, you're expanding a relationship that's already working. The ask is a natural next step, not a cold ask.</p>
+      <p style="margin-top:8px; margin-bottom:0;"><strong style="color:rgba(255,255,255,0.9);">Use it like this:</strong> <em>"We've been doing social strategy and title marketing for Apple TV+ — and the more we work inside the Apple ecosystem, the more we see the opportunity for what we do to extend into Apple Music specifically. That's why this meeting feels like a natural conversation for us."</em></p>
+    </div>
+
+    <!-- KIMBERLY NOEL - well-documented -->
+    <div class="profile-card" style="margin-top:32px;">
+      <div class="profile-avatar">🎨</div>
+      <div class="profile-info">
+        <h3>Kimberly Noel</h3>
+        <div class="title">Global Lead, Brand, Content &amp; Product Marketing — Apple Music &amp; Podcasts</div>
+        <div class="company">Apple · Previously: Fuse TV (Dir. Consumer Marketing), The New School (Faculty), Strategic Consultant</div>
+        <div class="profile-tags">
+          <span class="tag tag-red">Brand Strategy</span>
+          <span class="tag tag-pink">Cultural Marketing</span>
+          <span class="tag tag-gold">Consumer Insights</span>
+          <span class="tag tag-purple">Content Marketing</span>
+          <span class="tag tag-silver">Harvard · Sociology</span>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:32px;">
+      <div>
+        <h3 style="color:white; margin-bottom:14px;">What She Actually Does</h3>
+        <p>Kimberly owns brand, content, and product marketing globally for Apple Music and Podcasts. That's the full stack — from positioning to campaigns to how the product is marketed to consumers. This is the most senior marketing seat in this meeting.</p>
+        <p>Her background is culture-first. She came up through Fuse TV (the music/culture cable network), then moved into strategic consulting before joining Apple. Her methodology: intertwine insights on culture, people, and communications. She helps brands figure out <em>who they are</em> culturally, not just what they sell.</p>
+      </div>
+      <div>
+        <div class="insight-block">
+          <h4>💡 What This Means for Glow</h4>
+          <p>Kimberly is the most likely decision-maker or senior influencer in the room. She thinks in culture and community — that is exactly Glow's language. Lead with fandom philosophy and cultural positioning. Don't pitch ad units — pitch a shared worldview about what Apple Music means to its fans.</p>
+        </div>
+        <div class="gold-block">
+          <h4>🎯 Her POV in Three Words</h4>
+          <p><strong>Culture. Insight. Identity.</strong> She believes brands need to understand their cultural role before they can build meaningful connections. Speak that language and she'll lean in.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- JOSH NOA - updated with real profile -->
+    <div class="profile-card" style="margin-top:8px;">
+      <div class="profile-avatar">🎬</div>
+      <div class="profile-info">
+        <h3>Josh Noa</h3>
+        <div class="title">Strategist — Apple · Likely Apple Music (confirmed LinkedIn: linkedin.com/in/joshnoa)</div>
+        <div class="company">Apple · Self-described: "culturally-focused strategist with experience in brand, creative &amp; experiential" · Note: LinkedIn says Apple, not Apple Music specifically — confirm his team when you meet him</div>
+        <div class="profile-tags">
+          <span class="tag tag-red">Brand Strategy</span>
+          <span class="tag tag-pink">Experiential</span>
+          <span class="tag tag-silver">Cultural Strategy</span>
+          <span class="tag tag-gold">Silver Effie — Dr Pepper Fansville</span>
+          <span class="tag tag-purple">Gold Clio — Blade Runner 2049 x Johnnie Walker</span>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:32px;">
+      <div>
+        <h3 style="color:white; margin-bottom:14px;">What He Actually Does</h3>
+        <p>Josh is a culturally-focused brand and experiential strategist at Apple. His LinkedIn confirms Apple but doesn't specify Apple Music — he's in the meeting so he's relevant to the room, but worth confirming his exact team when you're there. His background tells the real story: he came up doing high-profile brand/entertainment intersections, not traditional advertising. Awards on his profile: Silver Effie for Dr Pepper Fansville (the sustained college football fandom campaign, agency Deutsch) and a Gold Clio Entertainment for the Blade Runner 2049 x Johnnie Walker experience at Comic-Con (Mycotoo/Alcon Entertainment).</p>
+        <p>He likely held a client or strategy role on those projects given his background — the exact agency vs. brand-side credit isn't confirmed publicly. What's clear is his career is built around campaigns that build sustained fandom and immersive brand moments. He thinks in culture, not impressions.</p>
+      </div>
+      <div>
+        <div class="insight-block">
+          <h4>💡 What This Means for Glow</h4>
+          <p>Josh will respond to cultural intelligence and experiential thinking — not case studies or decks full of impressions. He's won awards for fandom (Dr Pepper Fansville ran for years as a community program) and immersive brand experience. That's exactly Glow's territory. Lead with the fandom thesis and live activation angle.</p>
+        </div>
+        <div class="gold-block">
+          <h4>🎯 His POV in Three Words</h4>
+          <p><strong>Culture. Experience. Fandom.</strong> He's wired for the work that lives at the intersection of brand and real human passion. Glow speaks that language natively.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHASE MEACHAM - confirmed profile -->
+    <div class="profile-card">
+      <div class="profile-avatar">📈</div>
+      <div class="profile-info">
+        <h3>T. Chase Meacham</h3>
+        <div class="title">Global Subscriber Acquisition &amp; Retention — Apple Music (confirmed LinkedIn: linkedin.com/in/tchasemeacham)</div>
+        <div class="company">Apple Music · Georgetown University (Theater &amp; Performing Arts) · Creative/Design background</div>
+        <div class="profile-tags">
+          <span class="tag tag-blue">Subscriber Growth</span>
+          <span class="tag tag-green">Retention Strategy</span>
+          <span class="tag tag-silver">Global Scope</span>
+          <span class="tag tag-purple">Arts &amp; Theater Background</span>
+        </div>
+      </div>
+    </div>
+    <div class="grid-2" style="margin-bottom:32px;">
+      <div>
+        <h3 style="color:white; margin-bottom:14px;">What He Actually Does</h3>
+        <p>Chase's own words: <em>"At Apple Music, I work to drive global subscriber acquisition and retention."</em> That's the clearest role in the room. He's the growth person — his job is getting people to subscribe and keeping them subscribed. His background is Georgetown theater and scenic design, which means he has a creative sensibility but his mandate is business growth metrics.</p>
+        <p>He's not evaluating creative for its own sake — he's evaluating whether a program moves the needle on subscribers. That's a different conversation than Kimberly (brand/culture) or Josh (strategy/experience).</p>
+      </div>
+      <div>
+        <div class="insight-block">
+          <h4>💡 What This Means for Glow</h4>
+          <p>When Chase is in the room, the pitch needs a growth dimension — not just cultural or creative. Fandom programs that build advocacy <em>convert</em>. Community depth drives retention. The NBA work has measurable loyalty outcomes. Make sure the business case is audible alongside the creative vision.</p>
+        </div>
+        <div class="gold-block">
+          <h4>🎯 What He Needs to Hear</h4>
+          <p><strong>"Fandom converts."</strong> Fans don't churn. Advocates subscribe their friends. Community depth = retention. Frame Glow's work through that lens for Chase specifically.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 2: THE COMPANY                 -->
+<!-- ═══════════════════════════════════════ -->
+<section class="section-dark" id="company">
+  <div class="section-inner">
+    <div class="section-label">The Platform</div>
+    <h2>Apple Music — The Big Picture</h2>
+    <p style="max-width:700px;">Apple Music is one piece of a much larger Apple Services ecosystem — alongside Apple TV+, Apple Fitness+, Apple News, and Apple Sports. The sports deals (F1, MLS, MLB) are Apple TV+ broadcast plays. Apple Music's job within that ecosystem is specifically music, culture, and artist relationships. Understanding the distinction matters — because Apple Music's role <em>inside</em> Apple's sports properties is genuinely underdefined. That's the opportunity.</p>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-num">~94M</div>
+        <div class="stat-label">Paid subscribers (industry est., Apple doesn't disclose)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">$50M</div>
+        <div class="stat-label">Super Bowl Halftime sponsorship per year — confirmed, NBC Sports / SBJ</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">120M+</div>
+        <div class="stat-label">Super Bowl viewers reached annually</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">10</div>
+        <div class="stat-label">Years old — celebrated 2025, confirmed Apple Newsroom</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:16px;">
+      <div class="insight-block">
+        <h4>🎧 Their Core Differentiator vs. Spotify</h4>
+        <p>Apple Music's bet is editorial curation + artist relationships over algorithm. They've invested in human editors, exclusive content, Spatial Audio (Dolby Atmos), and direct artist partnerships. They're premium, not social. Quality over discovery virality.</p>
+      </div>
+      <div class="insight-block">
+        <h4>📱 The Ecosystem — Know the Lanes</h4>
+        <p>Sports broadcast deals (F1, MLS, MLB) live at <strong>Apple TV+</strong>, not Apple Music. Apple Music's lane is music, artists, culture, and audio. Where they overlap: Apple Music gets live race audio for F1, driver playlists, and artist programming tied to sports moments — but the broadcast rights and sports strategy sit with a different team. Knowing this in the room shows you understand their org.</p>
+      </div>
+    </div>
+
+    <div class="gold-block" style="margin-top:8px;">
+      <h4>🚀 2025 Was a Record Year</h4>
+      <p>Apple Services hit record revenue in 2025. Apple Music celebrated its 10-year anniversary with the opening of a new global artist hub in Los Angeles. New Apple Music Connect platform launched for labels. TikTok partnership to stream full songs in-app. Bandsintown/Ticketmaster integration for live concert discovery. They are actively building, not consolidating.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 3: BIG MOVES                   -->
+<!-- ═══════════════════════════════════════ -->
+<section class="section-deep" id="pillars">
+  <div class="section-inner">
+    <div class="section-label">Where the Money Is Going</div>
+    <h2>Apple Music's Three Big Bets</h2>
+    <p style="max-width:700px;">They're not just sponsoring the halftime show anymore. Apple Music is making moves that span sports, culture, and live entertainment. Know these cold before Monday.</p>
+
+    <div class="grid-3" style="margin-top:32px;">
+
+      <!-- HALFTIME -->
+      <div class="pillar-card pillar-halftime" data-emoji="🏈">
+        <div class="pc-label">Platform Bet 01</div>
+        <h3>Super Bowl Halftime</h3>
+        <div class="pc-stat">120M+</div>
+        <div class="pc-stat-label">Viewers per year</div>
+        <p>Replaced Pepsi as Halftime Show sponsor — a multi-year deal. This is their biggest cultural statement annually. They use "real-time cultural intelligence" and streaming data to select performers and maximize cultural momentum. Beyoncé, Rihanna, Usher, Kendrick Lamar — every pick has driven massive streaming spikes.</p>
+        <div style="margin-top:14px;">
+          <span class="tag tag-red">Cultural Flagship</span>
+          <span class="tag tag-gold">Fan Activation</span>
+          <span class="tag tag-pink">Data-Driven Booking</span>
+        </div>
+        <div style="margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08);">
+          <p style="font-size:13px;"><strong style="color:#ff8a8a;">The Opportunity:</strong> The Halftime Show is Apple Music's most visible moment — but activation around it could be much deeper. Fan community programs, content, pre/post-show moments. There's white space between the stage and the audience.</p>
+        </div>
+      </div>
+
+      <!-- SPORTS PARTNERSHIPS -->
+      <div class="pillar-card pillar-sports" data-emoji="🏎️">
+        <div class="pc-label">Platform Bet 02</div>
+        <h3>Apple x Sports — The Real Picture</h3>
+        <div class="pc-stat">Apple TV+</div>
+        <div class="pc-stat-label">Owns broadcast rights — F1, MLS, MLB</div>
+        <p><strong>Important distinction:</strong> The F1, MLS, and MLB deals are <em>Apple TV+</em> plays, not Apple Music deals. Apple TV+ holds the broadcast rights. Apple Music's confirmed role in F1 specifically: free live race audio and driver-curated playlists. That's the handoff point between the two services.</p>
+        <div style="margin-top:14px;">
+          <span class="tag tag-blue">Apple TV+ owns broadcast</span>
+          <span class="tag tag-red">Apple Music owns audio + culture</span>
+        </div>
+        <div style="margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08);">
+          <p style="font-size:13px;"><strong style="color:#88c8ff;">The Real Opportunity:</strong> Apple Music's role inside sports is confirmed but underdeveloped — playlists and audio aren't a strategy, they're a feature. The music-to-sports fan experience layer hasn't been built. That's a brief nobody owns yet. That's Glow's in.</p>
+        </div>
+      </div>
+
+      <!-- FANDOM STRATEGY -->
+      <div class="pillar-card pillar-fandom" data-emoji="🎤">
+        <div class="pc-label">Platform Bet 03</div>
+        <h3>Fan-Led Ecosystem</h3>
+        <div class="pc-stat">Artist-First</div>
+        <div class="pc-stat-label">Core brand differentiation</div>
+        <p>Apple Music is building a fan-led ecosystem: artist pages with concert discovery (Bandsintown/Ticketmaster), listening parties via TikTok, Apple Music for Artists analytics, FC Bayern Munich playlist partnerships. The bet: deepen the connection between fans, artists, and the app. Not algorithm — advocacy.</p>
+        <div style="margin-top:14px;">
+          <span class="tag tag-purple">Artist Partnerships</span>
+          <span class="tag tag-pink">Listening Parties</span>
+          <span class="tag tag-gold">Concert Integration</span>
+        </div>
+        <div style="margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08);">
+          <p style="font-size:13px;"><strong style="color:#c084fc;">Glow's Lane:</strong> This is the closest to what Glow builds professionally. Fan community strategy, advocacy programs, the architecture of fandom. Apple Music is trying to build it — but they're a product company, not a fandom agency. That's Glow.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gold-block" style="margin-top:40px;">
+      <h4>🔑 The Thread That Connects All Three</h4>
+      <p>Every major Apple Music initiative right now is about one thing: <strong>moving from passive listener to active fan.</strong> Halftime Show, F1, MLS, artist partnerships — they're all trying to turn subscribers into advocates. That's not a product problem. That's a marketing problem. That's Glow's entire business.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 4: AGENCY LANDSCAPE            -->
+<!-- ═══════════════════════════════════════ -->
+<section class="section-navy" id="landscape">
+  <div class="section-inner">
+    <div class="section-label">The Competitive Landscape</div>
+    <h2>Who's Already in the Room</h2>
+    <p style="max-width:700px;">Apple Marketing broadly works with a tight group. Apple Music specifically tends to handle brand work internally with occasional external creative partners. Here's the lay of the land.</p>
+
+    <div class="grid-2" style="margin-top:28px;">
+      <div class="dark-card">
+        <h4 style="color:white; text-transform:none; letter-spacing:0; font-size:17px; margin-bottom:8px;">TBWA\Media Arts Lab</h4>
+        <span class="tag tag-silver">Apple's Dedicated AOR — Confirmed</span>
+        <p style="margin-top:12px;">Apple's confirmed global AOR since 2006 — the dedicated agency embedded at Apple handling brand advertising including Apple Music. Relationship publicly confirmed, decades-long. They own the brand advertising line across Apple's product suite.</p>
+        <div class="warning-block" style="margin-top:12px;">
+          <h4>⚠️ Don't Position Against Them</h4>
+          <p>TBWA/MAL owns product advertising. Glow isn't trying to replace them. The positioning is additive: Glow handles fandom, community, and sports-cultural activation — the work TBWA isn't built for.</p>
+        </div>
+      </div>
+
+      <div class="dark-card">
+        <h4 style="color:white; text-transform:none; letter-spacing:0; font-size:17px; margin-bottom:8px;">In-House Creative Teams</h4>
+        <span class="tag tag-pink">Apple's Internal Studio</span>
+        <p style="margin-top:12px;">Apple has deep in-house creative capacity — they produce a significant amount of their own content and campaign work, especially for digital and social. Internal teams move fast within the ecosystem but don't necessarily have external cultural intelligence or fandom expertise.</p>
+        <div class="insight-block" style="margin-top:12px;">
+          <h4>💡 The Gap In-House Doesn't Fill</h4>
+          <p>Internal teams don't have the external cultural radar Glow does. They're not embedded in sports leagues, entertainment clients, and fan communities day-to-day. That earned intelligence is Glow's edge.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gold-block" style="margin-top:24px;">
+      <h4>🚪 The Real Opening: Glow Already Has a Foot in the Door</h4>
+      <p>Glow is an active Apple TV+ partner for social strategy and title social/content marketing. That means the Apple relationship is already established — trust, process, vendor status, all of it. This meeting is about expanding within a house you're already working in. TBWA does brand advertising. In-house does product. Glow is the fandom and community layer — and you're the only one with an existing Apple relationship AND that specific capability. That's a rare position.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 5: GLOW ANGLES                 -->
+<!-- ═══════════════════════════════════════ -->
+<section class="section-dark" id="angles">
+  <div class="section-inner">
+    <div class="section-label">Glow's Play</div>
+    <h2>How to Win This</h2>
+    <p style="max-width:700px;">Three distinct angles — read the room in the first ten minutes and pick your lane. Don't pitch all three.</p>
+
+    <div class="grid-3" style="margin-top:32px;">
+      <div class="angle-card">
+        <div class="angle-num">01</div>
+        <h4>The Fandom Agency for Music</h4>
+        <p>Glow's entire thesis is fan-led community. We've built it for the NBA. We've built it for sports leagues. Apple Music is trying to build the same architecture around artists and music — but they're a product company, not a fandom agency. Glow is the fandom agency. That's the pitch.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-gold">NBA Proof Point</span>
+          <span class="tag tag-red">Fan Community Strategy</span>
+        </div>
+      </div>
+
+      <div class="angle-card">
+        <div class="angle-num">02</div>
+        <h4>Music's Role Inside Apple's Sports World</h4>
+        <p>Apple TV+ owns the sports broadcast deals — F1, MLS, MLB. Apple Music's confirmed role is audio and playlists. But nobody has built what Apple Music actually <em>means</em> to a sports fan. That experience layer — the music culture of F1, the MLS 18-34 fan's playlist identity, the Halftime Show moment ecosystem — is genuinely open. Glow's NBA experience is proof we know how to build it.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-blue">Underdefined Role = Open Brief</span>
+          <span class="tag tag-gold">NBA Operational Proof</span>
+        </div>
+      </div>
+
+      <div class="angle-card">
+        <div class="angle-num">03</div>
+        <h4>Halftime Show Activation</h4>
+        <p>They spend $50M/year on the Halftime Show. The show itself is locked in. What's not locked in is the full fan experience: the pre-show build, the community around the artist, the post-show streaming moment, the content ecosystem. Glow activates around big moments — that's our native environment.</p>
+        <div style="margin-top:12px;">
+          <span class="tag tag-red">Event Activation</span>
+          <span class="tag tag-pink">Moment Marketing</span>
+          <span class="tag tag-purple">Content Strategy</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="color:white; margin-top:48px; margin-bottom:20px;">How Glow Maps to Apple Music's Three Big Bets</h3>
+    <div class="grid-3">
+      <div class="offer-card offer-halftime">
+        <span style="font-size:28px; display:block; margin-bottom:12px;">🏈</span>
+        <h4>Super Bowl Halftime</h4>
+        <p>The show is booked. The opportunity is around it:</p>
+        <ul>
+          <li>Fan community programming leading up to the show</li>
+          <li>Artist-fan content strategy in the weeks before</li>
+          <li>Social + digital extensions that deepen engagement</li>
+          <li>Post-show streaming moment activation</li>
+          <li>Year-round Halftime artist relationships</li>
+        </ul>
+      </div>
+      <div class="offer-card offer-sports">
+        <span style="font-size:28px; display:block; margin-bottom:12px;">🏎️</span>
+        <h4>Sports x Music (The Undefined Layer)</h4>
+        <p>Apple TV+ has broadcast. Apple Music has audio + playlists. What doesn't exist yet: a real fan experience strategy where music is woven into sports identity. That's Glow's pitch:</p>
+        <ul>
+          <li>F1 music culture strategy — the sonic identity of race day</li>
+          <li>MLS fan playlist identity programs (18-34 demo)</li>
+          <li>Campaigns that bridge the Apple TV+/Apple Music fan experience</li>
+          <li>Stadium and live event creative activations</li>
+          <li>The brief nobody at Apple Music has written yet</li>
+        </ul>
+      </div>
+      <div class="offer-card offer-fandom">
+        <span style="font-size:28px; display:block; margin-bottom:12px;">🎤</span>
+        <h4>Fan Ecosystem</h4>
+        <p>Artist-first strategy needs a fandom architecture partner:</p>
+        <ul>
+          <li>Fan community strategy and design</li>
+          <li>Artist-to-fan advocacy program frameworks</li>
+          <li>Brand campaign work that deepens loyalty over reach</li>
+          <li>Cultural positioning in the post-algorithm world</li>
+          <li>Kimberly's exact language: culture + insight + identity</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SECTION 6: MEETING PREP                -->
+<!-- ═══════════════════════════════════════ -->
+<section class="section-navy" id="prep">
+  <div class="section-inner">
+    <div class="section-label">Walk In Ready</div>
+    <h2>Meeting Prep — Questions That Open Doors</h2>
+    <p style="max-width:700px;">The goal of Meeting 1 is intel and relationship, not pitch. These questions demonstrate you know their world while opening the conversations that matter.</p>
+
+    <div style="margin-top:32px;">
+      <div class="convo-card">
+        <div class="convo-label">Open With the Relationship — This Is Not a Cold Call</div>
+        <div class="convo-q">"We've been working with Apple TV+ on social strategy and title marketing — and as we've gotten deeper into the Apple ecosystem, Apple Music feels like the most natural extension of what we do. The fandom work we've been building on the TV+ side maps almost directly to what we see happening in music. That's what brought us here."</div>
+        <div class="convo-why">Why it leads: You're not a stranger asking for a chance. You're a current partner proposing an expansion. Sets a completely different tone from line one. The "we're already inside" frame makes everything else easier to say.</div>
+      </div>
+
+      <div class="convo-card">
+        <div class="convo-label">Know the Room</div>
+        <div class="convo-q">Three distinct mandates: Kimberly owns brand and cultural positioning. Josh is a cultural strategist who builds fandom and experience. Chase drives global subscriber acquisition and retention. Different things matter to each of them — calibrate in real time.</div>
+        <div class="convo-why">Tactical note: When you talk culture and brand identity, watch Kimberly. When you talk fandom programs and experience, watch Josh. When you mention loyalty, retention, and conversion, make eye contact with Chase. Each one will signal differently.</div>
+      </div>
+
+      <div class="convo-card">
+        <div class="convo-label">Anchor on Fandom Philosophy</div>
+        <div class="convo-q">"Apple Music is investing heavily in the artist-fan relationship — the Bandsintown integration, listening parties, Apple Music Connect for labels. We think about those as retention and advocacy plays as much as discovery plays — fans who feel connected don't churn, and they bring people in. Is that how you think about them too?"</div>
+        <div class="convo-why">Why it works: Bridges Kimberly's culture lens AND Chase's acquisition/retention mandate in a single question. You're not framing depth vs. acquisition as a tradeoff — you're saying fandom serves both. That's the right framing for a room with both people in it. Watch who nods first.</div>
+      </div>
+
+      <div class="convo-card">
+        <div class="convo-label">Open the Sports Bridge</div>
+        <div class="convo-q">"With F1 starting this year and MLS Season Pass ongoing — we're curious how you're thinking about Apple Music's role inside those sports properties specifically. Is the music connection being built into the experience, or is it more parallel tracks right now?"</div>
+        <div class="convo-why">Why it works: Surfaces the gap where Apple Music's identity inside sports is still undefined. That's Glow's pitch. Also shows you understand their full portfolio, not just the music side.</div>
+      </div>
+
+      <div class="convo-card">
+        <div class="convo-label">Surface the Halftime Opportunity</div>
+        <div class="convo-q">"The Halftime Show has been incredible since Apple Music took over — the data-driven performer selection, the cultural momentum. From a fan engagement standpoint, how are you thinking about the experience outside the twelve minutes on the stage? That pre-show and post-show window seems like huge white space."</div>
+        <div class="convo-why">Why it works: Compliments the work they've done, then opens the gap. "White space" = where Glow lives. If they agree there's an opportunity there, you just opened a brief.</div>
+      </div>
+
+      <div class="convo-card">
+        <div class="convo-label">Name-Drop the NBA Naturally</div>
+        <div class="convo-q">"We've spent years building fandom architecture for the NBA — fan advocacy programs, community strategy, the work that converts casual fans into identity-level supporters. The parallel to what Apple Music is trying to do feels really strong to us. Is that community-depth piece something you're actively trying to solve for?"</div>
+        <div class="convo-why">Why it works: NBA cred lands without it feeling like bragging. Connects your proof point directly to their stated strategy. Opens a door for them to ask about the work.</div>
+      </div>
+
+      <div class="convo-card">
+        <div class="convo-label">Speak Directly to Chase's World</div>
+        <div class="convo-q">"On the retention side — what's the biggest drop-off point you're seeing? Is it early (people try it and leave) or longer-term (subscribers who go passive)? Because the community strategy is very different depending on where the churn is."</div>
+        <div class="convo-why">Why it works: Speaks directly to Chase's job. Shows Glow thinks in growth outcomes, not just creative. Positions community work as a retention solution, not a branding exercise. If he opens up, you get real product intelligence that sharpens the pitch on the spot.</div>
+      </div>
+
+      <div class="convo-card">
+        <div class="convo-label">Understand the Agency Situation</div>
+        <div class="convo-q">"We know TBWA/MAL handles a lot of Apple's brand work broadly — but for Apple Music specifically, how do you think about external creative or strategic partners? Is there a defined roster, or is it more project-by-project?"</div>
+        <div class="convo-why">Why it works: Directly surfaces the relationship landscape. Acknowledges TBWA without fearing it. The answer tells you whether there's an AOR opportunity, a project opener, or just a relationship build right now.</div>
+      </div>
+    </div>
+
+    <h3 style="color:white; margin-top:48px; margin-bottom:20px;">Things to Know Before You Walk In</h3>
+    <div class="grid-2">
+      <div>
+        <ul class="check-list">
+          <li>Apple Music replaced Pepsi as Super Bowl Halftime Sponsor — multi-year, ~$50M/year.</li>
+          <li>F1 US exclusive broadcast rights start 2026 — five-year deal. Apple is now in live sports in a massive way.</li>
+          <li>Apple Music turned 10 in 2025. New LA artist hub opened. New Apple Music Connect for labels launched.</li>
+          <li>Kimberly Noel: Harvard sociology, Fuse TV background, culture + insights methodology. She thinks in cultural identity.</li>
+          <li>TikTok partnership: full songs playable inside TikTok for Apple Music subscribers. Listening party feature too.</li>
+        </ul>
+      </div>
+      <div>
+        <ul class="check-list">
+          <li>Spatial Audio (Dolby Atmos): Apple Music's big product differentiator. Artists get royalty incentives for Atmos tracks.</li>
+          <li>MLS Season Pass: $2.5B, 10-year deal. Early exit clause activated — deal ends after 2028/29. Still active and significant.</li>
+          <li>Bandsintown + Ticketmaster integration: Live concert discovery now embedded in Apple Music artist pages (launched March 2026).</li>
+          <li>Josh Noa: Cultural strategist, brand/experiential background. Won Silver Effie (Dr Pepper Fansville fandom campaign) + Gold Clio (Blade Runner 2049 x Johnnie Walker experience). He gets fandom.</li>
+          <li>Chase Meacham: Owns global subscriber acquisition + retention. Georgetown theater background. Needs to hear the business case — fandom converts and fans don't churn.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="color:white; margin-top:48px; margin-bottom:20px;">Things a Smart Team Might Still Miss</h3>
+    <div class="convo-card">
+      <div class="convo-label">⚡ Non-Obvious #1</div>
+      <div class="convo-q">Josh Noa is a peer — don't pitch him, talk with him.</div>
+      <div class="convo-why">He won a Silver Effie for a sustained fandom program (Dr Pepper Fansville). He's built the exact thing Glow builds. If you pitch fandom philosophy to him, he already knows it. The move is to treat him like a collaborator — ask what he thinks is missing, what he'd do differently, where the current strategy has gaps. He'll respect that infinitely more than being sold to on a concept he already owns.</div>
+    </div>
+
+    <div class="convo-card">
+      <div class="convo-label">⚡ Non-Obvious #2</div>
+      <div class="convo-q">Apple TV+ and Apple Music are different teams inside Apple — don't assume the relationship transfers automatically.</div>
+      <div class="convo-why">Being a TV+ partner is a real credential and it should be stated. But internally, Apple Music and Apple TV+ operate separately — different budgets, different hierarchies, different priorities. The TV+ team can't greenlight Apple Music work. So the frame isn't "you already know us" — it's "here's proof we work inside the Apple ecosystem and understand how Apple operates as a partner." There's a difference. Lead with credibility, not assumed familiarity.</div>
+    </div>
+
+    <div class="convo-card">
+      <div class="convo-label">⚡ Non-Obvious #3</div>
+      <div class="convo-q">Three people with three different mandates don't show up to a casual intro — something specific brought this meeting together.</div>
+      <div class="convo-why">Kimberly (brand), Josh (strategy/experience), Chase (acquisition/retention) is an unusual combination for a first meeting. That's not a listening panel — that's a group trying to solve something. Early in the meeting, it's worth asking: "What prompted this conversation for you all right now?" The answer will tell you exactly what brief is sitting on someone's desk. Build the rest of the meeting around that answer.</div>
+    </div>
+
+    <div class="convo-card">
+      <div class="convo-label">⚡ Non-Obvious #4</div>
+      <div class="convo-q">Apple Music is losing the algorithm war to Spotify on purpose — and that's exactly where Glow fits.</div>
+      <div class="convo-why">Spotify dominates on discovery and algorithmic playlists (Discover Weekly, Daylists, etc.). Apple Music has made a deliberate choice NOT to compete there — they're betting on human curation, artist relationships, and premium experience. That's a strategic position, not a gap. Glow's fandom thesis maps perfectly onto the terrain Apple Music has chosen to fight on. Frame it that way: you're not offering something Apple Music is missing, you're offering to help them win on the battlefield they've already picked.</div>
+    </div>
+
+    <div class="convo-card">
+      <div class="convo-label">⚡ Non-Obvious #5</div>
+      <div class="convo-q">Don't leave without a specific next step tied to a specific person's problem.</div>
+      <div class="convo-why">A general "let's keep the conversation going" is a polite no. Before the meeting ends, try to get one of them to name a specific initiative, campaign, or challenge where Glow could add value. Then the follow-up isn't a pitch deck — it's a direct response to something they said. That's the difference between a meeting that leads somewhere and one that goes in the calendar as "nice chat."</div>
+    </div>
+
+    <div class="gold-block" style="margin-top:32px;">
+      <h4>🎯 What "Win" Looks Like for This Meeting</h4>
+      <p>The team walks away thinking: <em>"These people understand what Apple Music is actually trying to build culturally — and they've already built it for sports leagues. We want to bring them in on something."</em> You're planting the flag, not closing the deal. Leave with a specific next step — either a follow brief, a work session, or a project they want to discuss deeper.</p>
+    </div>
+
+    <div class="warning-block" style="margin-top:16px;">
+      <h4>⚠️ Don't Do This</h4>
+      <p>Don't lead with "we do advertising" — Apple makes advertising. Don't pitch a speculative campaign. Don't spend time on what TBWA does or doesn't do. Don't try to pitch all three opportunity areas — pick the one that the room gravitates toward and go deep on that. And whatever you do, don't call it a "streaming service" — Apple Music thinks of itself as a cultural platform.</p>
+    </div>
+
+    <div class="insight-block" style="margin-top:16px;">
+      <h4>🔮 Howie's Bonus Request — Making This Self-Serve</h4>
+      <p>Howie wants to be able to run these himself. Short version of how this works: the Intelligencer is a single HTML file. All it takes is swapping out the content sections (contact info, company research, angles) for a new prospect. We can build a simple form-based version — you fill in a company name + key contacts, and it auto-builds a branded dossier. That's the next tool to build. Tell him it's on the roadmap.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ONE-SHEETER (print only) -->
+<div id="onesheet">
+  <div class="os-header">
+    <div>
+      <div class="os-title">GLOW x Apple Music — Meeting Cheat Sheet</div>
+      <div style="font-size:11px; color:#666; margin-top:2px;">Monday, April 6, 2026 · Confidential · Internal Use Only</div>
+    </div>
+    <div class="os-meta">
+      <div><strong>Josh Noa</strong> · Cultural Strategist, Apple</div>
+      <div><strong>Chase Meacham</strong> · Global Subscriber Acquisition &amp; Retention, Apple Music</div>
+      <div><strong>Kimberly Noel</strong> · Global Brand Lead, Apple Music &amp; Podcasts</div>
+    </div>
+  </div>
+
+  <div class="os-flag">
+    <strong>🔑 You're already in the building.</strong> Glow is a current Apple TV+ partner for social strategy and title social/content marketing. This is not a cold pitch — it's an expansion conversation. Lead with that.
+  </div>
+
+  <div class="os-section">
+    <div class="os-section-title">Know the Room</div>
+    <div class="os-grid">
+      <div class="os-person">
+        <div class="os-person-name">Kimberly Noel</div>
+        <div class="os-person-role">Global Brand Lead — Apple Music &amp; Podcasts</div>
+        <div class="os-person-note">Most senior in the room. Harvard sociology, Fuse TV background. Thinks in cultural identity. <strong>Key for her:</strong> culture + insight + brand positioning. Lead with fandom philosophy.</div>
+      </div>
+      <div class="os-person">
+        <div class="os-person-name">Josh Noa</div>
+        <div class="os-person-role">Cultural Strategist — Apple</div>
+        <div class="os-person-note">Won Effie for Dr Pepper Fansville (fandom program). Gold Clio for Blade Runner experience. <strong>He's a peer.</strong> Don't pitch him — talk with him. He already gets fandom.</div>
+      </div>
+      <div class="os-person">
+        <div class="os-person-name">Chase Meacham</div>
+        <div class="os-person-role">Global Subscriber Acquisition &amp; Retention — Apple Music</div>
+        <div class="os-person-note">His job is growth metrics. Georgetown theater background. <strong>Key for him:</strong> "Fandom converts. Fans don't churn." Frame community as a retention tool, not branding.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="os-section">
+    <div class="os-section-title">Three Angles — Pick One, Go Deep</div>
+    <div class="os-angles">
+      <div class="os-angle">
+        <div class="os-angle-num">01</div>
+        <div class="os-angle-title">The Fandom Agency for Music</div>
+        <div class="os-angle-body">Glow builds fandom architecture — NBA proof. Apple Music is trying to move from passive listener to active fan. That's our entire business. We're the fandom agency they don't have yet.</div>
+      </div>
+      <div class="os-angle">
+        <div class="os-angle-num">02</div>
+        <div class="os-angle-title">Music's Role Inside Apple Sports</div>
+        <div class="os-angle-body">Apple TV+ owns F1/MLS broadcast. Apple Music has playlists and audio. Nobody has built the fan experience layer in between. That brief doesn't exist yet. Glow writes it.</div>
+      </div>
+      <div class="os-angle">
+        <div class="os-angle-num">03</div>
+        <div class="os-angle-title">Halftime Show Activation</div>
+        <div class="os-angle-body">$50M/year on the show. The 12 minutes are booked. The pre-show build, artist community, post-show streaming moment — that ecosystem is wide open. Glow activates around big moments.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="os-section">
+    <div class="os-section-title">5 Things a Smart Team Might Still Miss</div>
+    <div class="os-nonobvious"><strong>Josh is a peer — talk with him, not at him.</strong> <span>He's built fandom programs. Treat him as a collaborator, ask what he'd do differently.</span></div>
+    <div class="os-nonobvious"><strong>Apple TV+ and Apple Music are separate teams.</strong> <span>The TV+ relationship is cred, not an automatic in. Frame it as ecosystem fluency, not assumed familiarity.</span></div>
+    <div class="os-nonobvious"><strong>Three mandates in one room = something is already on someone's desk.</strong> <span>Ask early: "What prompted this conversation right now?" Build around their answer.</span></div>
+    <div class="os-nonobvious"><strong>Apple Music is losing the algorithm war to Spotify on purpose.</strong> <span>They've bet on curation + artist relationships. Glow amplifies the bet they've already made — not a gap, a fit.</span></div>
+    <div class="os-nonobvious"><strong>Don't leave without a specific next step.</strong> <span>"Let's keep talking" is a polite no. Get one person to name one problem. Follow up to that.</span></div>
+  </div>
+
+  <div class="os-win">
+    <strong>What "Win" Looks Like:</strong> They walk away thinking "these people understand what Apple Music is actually trying to build — and they've already built it for sports leagues." Plant the flag. Leave with a specific next step tied to a specific person's problem.
+  </div>
+
+  <div class="os-footer">
+    <span>GLOW New Business Intelligencer — Apple Music · April 3, 2026</span>
+    <span>weareglow.com · Confidential, internal use only</span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-logo">GLOW</div>
+  <p>New Business Intelligencer — Apple Music · Prepared April 3, 2026</p>
+  <p style="margin-top:8px;">Confidential. Internal use only. <strong>weareglow.com</strong></p>
+</div>
+
+</body>
+</html>
