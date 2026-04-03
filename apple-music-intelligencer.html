@@ -182,8 +182,9 @@
 
   @media print {
     * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    html, body { background:white !important; margin:0 !important; padding:0 !important; }
     body > *:not(#onesheet) { display:none !important; }
-    #onesheet { display:block !important; font-family:'Helvetica Neue',Arial,sans-serif; color:#111; background:white; padding:32px 36px; font-size:11px; line-height:1.5; max-width:100%; }
+    #onesheet { display:block !important; font-family:'Helvetica Neue',Arial,sans-serif; color:#111; background:white !important; padding:24px 28px; font-size:10.5px; line-height:1.45; max-width:100%; page-break-inside:avoid; }
     #onesheet .os-header { display:flex; justify-content:space-between; align-items:flex-start; border-bottom:3px solid #fc3c44; padding-bottom:12px; margin-bottom:16px; }
     #onesheet .os-title { font-size:20px; font-weight:800; color:#fc3c44; letter-spacing:-0.5px; }
     #onesheet .os-meta { font-size:10px; color:#666; text-align:right; line-height:1.8; }
@@ -214,8 +215,6 @@
 
 <!-- STICKY NAV -->
 <nav class="sticky-nav">
-  <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:rgba(255,255,255,0.4);text-decoration:none;padding:4px 10px;border:1px solid rgba(255,255,255,0.1);border-radius:20px;transition:all 0.18s;" onmouseover="this.style.color='rgba(255,255,255,0.85)';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.4)';this.style.borderColor='rgba(255,255,255,0.1)'">← All Tools</a>
-  <div style="width:1px;height:14px;background:rgba(255,255,255,0.1);margin:0 6px;flex-shrink:0;"></div>
   <a href="#room" class="nav-btn">The Room</a>
   <a href="#company" class="nav-btn">Apple Music</a>
   <a href="#pillars" class="nav-btn">Big Moves</a>
