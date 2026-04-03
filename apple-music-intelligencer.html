@@ -25,19 +25,20 @@
   .sticky-nav {
     position:sticky; top:0; z-index:100;
     background:rgba(8,4,6,0.97); backdrop-filter:blur(12px);
-    border-bottom:1px solid rgba(255,255,255,0.08);
-    padding:12px 24px;
-    display:flex; justify-content:center; gap:8px; flex-wrap:wrap;
+    border-bottom:1px solid rgba(255,255,255,0.07);
+    padding:7px 20px;
+    display:flex; justify-content:center; align-items:center; gap:3px; flex-wrap:wrap;
   }
   .nav-btn {
     font-family:'Space Grotesk',sans-serif;
-    font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase;
-    color:rgba(255,255,255,0.5); background:none; border:1px solid rgba(255,255,255,0.12);
-    padding:6px 14px; border-radius:20px; cursor:pointer; text-decoration:none;
-    transition:all 0.2s;
+    font-size:10px; font-weight:700; letter-spacing:0.6px; text-transform:uppercase;
+    color:rgba(255,255,255,0.4); background:none; border:1px solid rgba(255,255,255,0.08);
+    padding:4px 10px; border-radius:20px; cursor:pointer; text-decoration:none;
+    transition:all 0.18s; white-space:nowrap;
   }
-  .nav-btn:hover { color:white; border-color:var(--am-red); }
-  .nav-btn.active { color:var(--am-red); border-color:var(--am-red); background:rgba(252,60,68,0.1); }
+  .nav-btn:hover { color:rgba(255,255,255,0.85); border-color:rgba(255,255,255,0.22); }
+  .nav-btn.active { color:var(--am-red); border-color:var(--am-red); background:rgba(252,60,68,0.08); }
+  .nav-sep { width:1px; height:14px; background:rgba(255,255,255,0.1); margin:0 5px; flex-shrink:0; }
 
   /* HERO */
   .hero {
@@ -173,8 +174,8 @@
   .footer .footer-logo { font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:700; color:rgba(255,255,255,0.4); margin-bottom:8px; }
 
   /* PDF BUTTON */
-  .pdf-btn { display:inline-flex; align-items:center; gap:8px; background:var(--am-red); color:white; font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:10px 20px; border-radius:24px; border:none; cursor:pointer; text-decoration:none; transition:all 0.2s; margin-top:12px; }
-  .pdf-btn:hover { background:#e02030; transform:translateY(-1px); box-shadow:0 4px 16px rgba(252,60,68,0.4); }
+  .pdf-btn { display:inline-flex; align-items:center; gap:5px; background:transparent; color:var(--am-red); font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:700; letter-spacing:0.6px; text-transform:uppercase; padding:4px 11px; border-radius:20px; border:1px solid var(--am-red); cursor:pointer; text-decoration:none; transition:all 0.18s; white-space:nowrap; }
+  .pdf-btn:hover { background:var(--am-red); color:white; }
 
   /* ONE-SHEETER (hidden by default, shown on print) */
   #onesheet { display:none; }
@@ -213,14 +214,15 @@
 
 <!-- STICKY NAV -->
 <nav class="sticky-nav">
-  <a href="#room" class="nav-btn">👥 The Room</a>
-  <a href="#company" class="nav-btn">🎵 Apple Music</a>
-  <a href="#pillars" class="nav-btn">🏆 Big Moves</a>
-  <a href="#pulse" class="nav-btn">💬 Social Pulse</a>
-  <a href="#landscape" class="nav-btn">📊 Agency Landscape</a>
-  <a href="#angles" class="nav-btn">💡 Our Angles</a>
-  <a href="#prep" class="nav-btn">🎯 Meeting Prep</a>
-  <button class="pdf-btn" onclick="window.print()">⬇ Print One-Sheeter</button>
+  <a href="#room" class="nav-btn">The Room</a>
+  <a href="#company" class="nav-btn">Apple Music</a>
+  <a href="#pillars" class="nav-btn">Big Moves</a>
+  <a href="#pulse" class="nav-btn">Social Pulse</a>
+  <a href="#landscape" class="nav-btn">Agency Landscape</a>
+  <a href="#angles" class="nav-btn">Our Angles</a>
+  <a href="#prep" class="nav-btn">Meeting Prep</a>
+  <div class="nav-sep"></div>
+  <button class="pdf-btn" onclick="window.print()">↓ One-Sheeter</button>
 </nav>
 
 <!-- HERO -->
