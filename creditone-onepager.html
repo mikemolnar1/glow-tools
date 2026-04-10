@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLOW x Credit One Bank</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;background:#f9f7f4;color:#111;min-height:100vh;}
+  .page{max-width:900px;margin:0 auto;padding:48px 40px;}
+
+  /* HEADER */
+  .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;padding-bottom:24px;border-bottom:3px solid #111;}
+  .header-left{display:flex;align-items:center;gap:20px;}
+  .logo-glow img{height:36px;width:auto;}
+  .header-sep{width:1px;height:36px;background:#ccc;}
+  .header-client{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.5px;}
+  .header-client span{color:#e63946;}
+  .header-right{text-align:right;}
+  .header-right .label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#999;font-family:'Space Grotesk',sans-serif;}
+  .header-right .date{font-size:13px;color:#555;margin-top:2px;}
+
+  /* HERO STATEMENT */
+  .hero{background:#111;color:white;border-radius:16px;padding:36px 40px;margin-bottom:28px;}
+  .hero .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#e63946;margin-bottom:12px;}
+  .hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:800;line-height:1.2;margin-bottom:14px;}
+  .hero h1 em{color:#e8c96d;font-style:normal;}
+  .hero p{font-size:15px;color:rgba(255,255,255,0.7);line-height:1.65;max-width:640px;}
+
+  /* GRID */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+  .card{background:white;border-radius:12px;padding:28px;border:1px solid #e5e5e5;}
+  .card .card-label{font-family:'Space Grotesk',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#e63946;font-weight:700;margin-bottom:10px;}
+  .card h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;margin-bottom:10px;line-height:1.3;}
+  .card p{font-size:13px;color:#555;line-height:1.6;}
+
+  /* WHAT WE'D DO */
+  .pitch{background:white;border-radius:12px;padding:28px 32px;border:1px solid #e5e5e5;margin-bottom:20px;}
+  .pitch .card-label{font-family:'Space Grotesk',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#e63946;font-weight:700;margin-bottom:14px;}
+  .pitch h3{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:16px;}
+  .items{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .item{background:#f9f7f4;border-radius:8px;padding:16px;}
+  .item .num{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:800;color:#e5e5e5;line-height:1;margin-bottom:6px;}
+  .item h4{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;margin-bottom:5px;}
+  .item p{font-size:12px;color:#777;line-height:1.5;}
+
+  /* BOTTOM */
+  .bottom{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .proof{background:#e63946;color:white;border-radius:12px;padding:28px;}
+  .proof .card-label{font-family:'Space Grotesk',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.6);font-weight:700;margin-bottom:10px;}
+  .proof h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;margin-bottom:12px;}
+  .proof ul{list-style:none;padding:0;}
+  .proof li{font-size:13px;color:rgba(255,255,255,0.85);padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.15);line-height:1.4;}
+  .proof li:last-child{border:none;}
+  .proof li::before{content:'→ ';color:rgba(255,255,255,0.5);}
+
+  .close{background:#e8c96d;border-radius:12px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;}
+  .close .card-label{font-family:'Space Grotesk',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(0,0,0,0.5);font-weight:700;margin-bottom:10px;}
+  .close h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:#111;margin-bottom:10px;line-height:1.3;}
+  .close p{font-size:13px;color:#444;line-height:1.6;}
+  .close .url{margin-top:16px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:#111;}
+
+  /* FOOTER */
+  .footer{text-align:center;margin-top:32px;font-size:11px;color:#bbb;font-family:'Space Grotesk',sans-serif;letter-spacing:0.5px;}
+
+  @media(max-width:640px){.grid,.items,.bottom{grid-template-columns:1fr;}.page{padding:28px 20px;}}
+  @media print{body{background:white;}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo-glow"><img src="glow-logo.svg" alt="GLOW"></div>
+      <div class="header-sep"></div>
+      <div class="header-client">Credit <span>One</span> Bank</div>
+    </div>
+    <div class="header-right">
+      <div class="label">New Business</div>
+      <div class="date">April 2026 · Confidential</div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow">The Opportunity</div>
+    <h1>You've built a great show.<br><em>Now let's build the audience.</em></h1>
+    <p>"You're the Credit One for Me" is a genuinely smart episodic property — funny, relatable, built for the way people actually consume content. The concept deserves more than a YouTube upload. It deserves a fan base that shows up for every episode, creates around it, and brings friends in. That's the gap GLOW fills.</p>
+  </div>
+
+  <!-- TWO CARDS -->
+  <div class="grid">
+    <div class="card">
+      <div class="card-label">The Problem</div>
+      <h3>Episodic content dies without a community behind it.</h3>
+      <p>Great branded content series live or die on one thing: do people come back for episode 2? Without an audience strategy, even a well-produced series stalls at view counts. No repeat engagement. No social conversation between episodes. No fans bringing others in.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">The Insight</div>
+      <h3>Credit anxiety is a universal emotion. That's fandom fuel.</h3>
+      <p>The dating show parody works because everyone has a credit score story. That shared experience — funny, relatable, a little embarrassing — is the foundation of a real fan community. GLOW turns that shared identity into an owned audience that compounds over time.</p>
+    </div>
+  </div>
+
+  <!-- SOCIAL REALITY -->
+  <div style="background:#111;border-radius:12px;padding:28px 32px;margin-bottom:20px;">
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#e63946;font-weight:700;margin-bottom:14px;">The Numbers — "You're the Credit One for Me" on YouTube</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;">
+      <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:white;">293</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;">Teaser</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:white;">546</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;">Episode 1</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:white;">609</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;">Episode 2</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:white;">177</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;">Episode 3</div>
+      </div>
+      <div style="background:rgba(230,57,70,0.2);border:1px solid rgba(230,57,70,0.4);border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:800;color:#e63946;">47</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;">Finale</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div style="background:rgba(230,57,70,0.1);border:1px solid rgba(230,57,70,0.2);border-radius:8px;padding:16px;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:#e63946;margin-bottom:6px;">91% drop from Ep. 1 to Finale</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.5;">The content is good enough to click on once. There's no architecture keeping people coming back. That's not a content problem — it's an audience strategy problem.</div>
+      </div>
+      <div style="background:rgba(232,201,109,0.08);border:1px solid rgba(232,201,109,0.2);border-radius:8px;padding:16px;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:#e8c96d;margin-bottom:6px;">47 views on a finale is a brief, not a failure.</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.6);line-height:1.5;">It proves the investment exists without the return. Which is exactly the problem GLOW solves. Channel: 15.3K subscribers — untapped potential.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT WE'D DO -->
+  <div class="pitch">
+    <div class="card-label">What GLOW Does</div>
+    <h3>Turn "You're the Credit One for Me" from content into a franchise.</h3>
+    <div class="items">
+      <div class="item">
+        <div class="num">01</div>
+        <h4>Audience Architecture</h4>
+        <p>Build the social ecosystem around each episode — the conversation, the callbacks, the recurring characters fans follow between drops.</p>
+      </div>
+      <div class="item">
+        <div class="num">02</div>
+        <h4>Fan-Led Amplification</h4>
+        <p>Turn viewers into participants. UGC prompts, credit score confessions, reactions — content that fans create and share, not just watch.</p>
+      </div>
+      <div class="item">
+        <div class="num">03</div>
+        <h4>Community Identity</h4>
+        <p>Build a brand culture around the series — inside jokes, recurring language, the sense that there's a "Credit One community" to belong to.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="bottom">
+    <div class="proof">
+      <div class="card-label">Why GLOW</div>
+      <h3>We build the fan layer for brands that think in franchises.</h3>
+      <ul>
+        <li>NBA — fan community strategy at league scale</li>
+        <li>Olympics — global advocacy and fan engagement</li>
+        <li>Sports + entertainment — our native environment</li>
+        <li>Independent — senior talent, no holding co overhead</li>
+        <li>Apple TV+ — current social strategy partner</li>
+      </ul>
+    </div>
+    <div class="close">
+      <div>
+        <div class="card-label">The Ask</div>
+        <h3>One conversation about what "series 2" looks like with a real audience behind it.</h3>
+        <p>Not a pitch for a retainer. A conversation about the gap between what you've built and what it could become — and whether GLOW is the right partner to close it.</p>
+      </div>
+      <div class="url">weareglow.com</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:24px;margin-bottom:8px;">
+    <a href="https://www.youtube.com/@creditonebank" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:white;border:1px solid #e5e5e5;border-radius:8px;padding:10px 20px;text-decoration:none;color:#111;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#e63946" xmlns="http://www.w3.org/2000/svg"><path d="M23.5 6.2s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.8 2 12 2 12 2s-4.8 0-7.3.2c-.6.1-1.9.1-3 1.3C.8 4.3.5 6.2.5 6.2S.2 8.4.2 10.6v2.1c0 2.2.3 4.4.3 4.4s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.2 21.3 12 21.3 12 21.3s4.8 0 7.3-.3c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.4v-2.1C23.8 8.4 23.5 6.2 23.5 6.2zM9.7 15.5V8l6.5 3.8-6.5 3.7z"/></svg>
+      Watch "You're the Credit One for Me" on YouTube
+    </a>
+  </div>
+  <div class="footer">GLOW · New Business · April 2026 · Confidential, internal use only</div>
+
+</div>
+</body>
+</html>
