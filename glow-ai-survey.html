@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GLOW AI Readiness Survey</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #fff;
+      color: #111;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header img {
+      height: 32px;
+      width: auto;
+    }
+
+    .header-label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #bbb;
+      font-weight: 600;
+    }
+
+    /* Hero */
+    .hero {
+      background: #f9f9f9;
+      border-bottom: 1px solid #eee;
+      padding: 52px 48px;
+      text-align: center;
+    }
+
+    .hero-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .hero-pill {
+      display: inline-block;
+      background: #ff14820f;
+      border: 1px solid #ff148230;
+      color: #ff1482;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: 30px;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 15px;
+      color: #666;
+      line-height: 1.7;
+      margin-top: 12px;
+    }
+
+    .hero-divider {
+      width: 36px;
+      height: 3px;
+      background: #ff1482;
+      margin: 22px auto;
+      border-radius: 2px;
+    }
+
+    /* Creds */
+    .creds {
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      padding: 44px 48px;
+    }
+
+    .creds-inner {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .creds-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #ff1482;
+      margin-bottom: 22px;
+      text-align: center;
+    }
+
+    .creds-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .cred-card {
+      background: #f9f9f9;
+      padding: 22px 24px;
+    }
+
+    .cred-icon {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .cred-card p {
+      font-size: 13.5px;
+      color: #666;
+      line-height: 1.65;
+    }
+
+    .cred-card p strong {
+      color: #111;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .creds-footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 13px;
+      color: #aaa;
+      font-style: italic;
+    }
+
+    /* Survey container */
+    .survey-container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 52px 24px 80px;
+    }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #ff1482;
+      margin-bottom: 6px;
+      margin-top: 48px;
+    }
+
+    .section-label:first-child {
+      margin-top: 0;
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+      letter-spacing: -0.01em;
+    }
+
+    /* Question card */
+    .question {
+      border: 1.5px solid #eee;
+      border-radius: 10px;
+      padding: 22px 26px;
+      margin-bottom: 14px;
+      transition: border-color 0.2s;
+    }
+
+    .question:hover {
+      border-color: #ddd;
+    }
+
+    .question:focus-within {
+      border-color: #ff148240;
+    }
+
+    .q-number {
+      font-size: 10px;
+      font-weight: 700;
+      color: #ff1482;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .q-text {
+      font-size: 15px;
+      color: #111;
+      font-weight: 600;
+      margin-bottom: 16px;
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+    }
+
+    /* Scale buttons */
+    .scale-options {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .scale-options label {
+      flex: 1;
+      min-width: 90px;
+    }
+
+    .scale-options input[type="radio"] {
+      display: none;
+    }
+
+    .scale-options .option-btn {
+      display: block;
+      text-align: center;
+      padding: 10px 8px;
+      border: 1.5px solid #e8e8e8;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.15s;
+      line-height: 1.3;
+    }
+
+    .scale-options input[type="radio"]:checked + .option-btn {
+      background: #fff0f7;
+      border-color: #ff1482;
+      color: #ff1482;
+      font-weight: 600;
+    }
+
+    .scale-options .option-btn:hover {
+      border-color: #ccc;
+      color: #333;
+    }
+
+    /* Checkbox options */
+    .check-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .check-options label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      border: 1.5px solid #e8e8e8;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .check-options label:hover {
+      border-color: #ff1482;
+      color: #111;
+      background: #fff5fa;
+    }
+
+    .check-options label:has(input:checked) {
+      border-color: #ff1482;
+      background: #fff0f7;
+      color: #111;
+      font-weight: 600;
+    }
+
+    .check-options input[type="checkbox"] {
+      accent-color: #ff1482;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    /* Textarea */
+    .open-text {
+      width: 100%;
+      background: #fafafa;
+      border: 1.5px solid #e8e8e8;
+      border-radius: 8px;
+      color: #111;
+      font-size: 14px;
+      padding: 13px 15px;
+      resize: vertical;
+      min-height: 90px;
+      font-family: inherit;
+      transition: border-color 0.15s;
+      outline: none;
+      line-height: 1.6;
+    }
+
+    .open-text:focus {
+      border-color: #ff1482;
+      background: #fff;
+    }
+
+    .open-text::placeholder {
+      color: #bbb;
+    }
+
+    /* Submit */
+    .submit-wrap {
+      text-align: center;
+      margin-top: 48px;
+      padding-top: 36px;
+      border-top: 1px solid #eee;
+    }
+
+    .submit-btn {
+      background: #ff1482;
+      color: #fff;
+      border: none;
+      padding: 16px 52px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: background 0.15s;
+    }
+
+    .submit-btn:hover {
+      background: #d9106d;
+    }
+
+    .submit-note {
+      margin-top: 14px;
+      font-size: 12px;
+      color: #bbb;
+    }
+
+    /* Thank you */
+    #thank-you {
+      display: none;
+      text-align: center;
+      padding: 100px 24px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    #thank-you .check-icon {
+      font-size: 40px;
+      margin-bottom: 22px;
+    }
+
+    #thank-you h2 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    #thank-you p {
+      color: #777;
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 28px;
+      font-size: 12px;
+      color: #ccc;
+      border-top: 1px solid #eee;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 20px 24px; }
+      .hero { padding: 36px 24px; }
+      .creds { padding: 36px 24px; }
+      .creds-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <img src="/glow-logo.svg" alt="GLOW" />
+    <span class="header-label">Confidential</span>
+  </header>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-pill">AI Readiness Survey</div>
+      <h1>Where are you with AI?</h1>
+      <p>GLOW has built its reputation on applying emerging technology to solve real business problems. We're now building bespoke AI solutions designed specifically for how you work. Not bloated, overpriced software built for everyone, which means it's built for no one. Something purpose-built, maintained, and continuously improved for your team.</p>
+      <div class="hero-divider"></div>
+      <p style="font-size: 13px; color: #bbb;">10 questions &nbsp;·&nbsp; About 3 minutes &nbsp;·&nbsp; All responses are confidential</p>
+    </div>
+  </div>
+
+  <!-- Creds -->
+  <div class="creds">
+    <div class="creds-inner">
+      <div class="creds-label">Why This Survey Exists</div>
+      <div class="creds-grid">
+
+        <div class="cred-card">
+          <div class="cred-icon">⚡</div>
+          <p><strong>Your day, faster</strong>Creative briefs that took 2 hours now take 3 minutes. We built the tools and we want to know where to take them next.</p>
+        </div>
+
+        <div class="cred-card">
+          <div class="cred-icon">🎯</div>
+          <p><strong>Less production, more decisions</strong>Teams using our tools spend less time on repetitive work and more time on the stuff that actually moves the needle.</p>
+        </div>
+
+        <div class="cred-card">
+          <div class="cred-icon">🔒</div>
+          <p><strong>Brand stays locked, even at speed</strong>No drift. No off-brief surprises. AI that knows your guidelines as well as your best designer.</p>
+        </div>
+
+        <div class="cred-card">
+          <div class="cred-icon">🤝</div>
+          <p><strong>Built from the inside</strong>We work inside organizations like yours. We know where the time gets lost and where AI actually helps vs. hypes.</p>
+        </div>
+
+      </div>
+      <p class="creds-footer">Your answers shape what we build next.</p>
+    </div>
+  </div>
+
+  <!-- Survey -->
+  <div class="survey-container">
+
+    <form id="survey-form">
+
+      <!-- SECTION 1 -->
+      <div class="section-label">Section 1 of 4</div>
+      <div class="section-title">Baseline Knowledge</div>
+
+      <div class="question">
+        <div class="q-number">Question 1</div>
+        <div class="q-text">How would you describe your team's current AI knowledge?</div>
+        <div class="scale-options">
+          <label><input type="radio" name="q1" value="none" required /><span class="option-btn">None yet</span></label>
+          <label><input type="radio" name="q1" value="curious" /><span class="option-btn">Curious but early</span></label>
+          <label><input type="radio" name="q1" value="experimenting" /><span class="option-btn">Experimenting</span></label>
+          <label><input type="radio" name="q1" value="active" /><span class="option-btn">Actively using</span></label>
+          <label><input type="radio" name="q1" value="advanced" /><span class="option-btn">Advanced</span></label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="q-number">Question 2</div>
+        <div class="q-text">Which AI tools is your team currently using? (Select all that apply)</div>
+        <div class="check-options">
+          <label><input type="checkbox" name="q2" value="chatgpt" /><span>ChatGPT / OpenAI</span></label>
+          <label><input type="checkbox" name="q2" value="copilot" /><span>Microsoft Copilot</span></label>
+          <label><input type="checkbox" name="q2" value="gemini" /><span>Google Gemini</span></label>
+          <label><input type="checkbox" name="q2" value="midjourney" /><span>Midjourney / image generation</span></label>
+          <label><input type="checkbox" name="q2" value="internal" /><span>Internal / proprietary AI tools</span></label>
+          <label><input type="checkbox" name="q2" value="none" /><span>None currently</span></label>
+          <label><input type="checkbox" name="q2" value="other" /><span>Other</span></label>
+        </div>
+      </div>
+
+      <!-- SECTION 2 -->
+      <div class="section-label">Section 2 of 4</div>
+      <div class="section-title">Current Usage</div>
+
+      <div class="question">
+        <div class="q-number">Question 3</div>
+        <div class="q-text">How often are you or your team using AI in day-to-day work?</div>
+        <div class="scale-options">
+          <label><input type="radio" name="q3" value="never" required /><span class="option-btn">Never</span></label>
+          <label><input type="radio" name="q3" value="occasionally" /><span class="option-btn">Occasionally</span></label>
+          <label><input type="radio" name="q3" value="weekly" /><span class="option-btn">Weekly</span></label>
+          <label><input type="radio" name="q3" value="daily" /><span class="option-btn">Daily</span></label>
+        </div>
+      </div>
+
+      <div class="question">
+        <div class="q-number">Question 4</div>
+        <div class="q-text">Which functions have you used AI for? (Select all that apply)</div>
+        <div class="check-options">
+          <label><input type="checkbox" name="q4" value="content" /><span>Content creation / copywriting</span></label>
+          <label><input type="checkbox" name="q4" value="reporting" /><span>Reporting and analytics</span></label>
+          <label><input type="checkbox" name="q4" value="research" /><span>Research and competitive intel</span></label>
+          <label><input type="checkbox" name="q4" value="engagement" /><span>Fan / customer engagement</span></label>
+          <label><input type="checkbox" name="q4" value="social" /><span>Social media management</span></label>
+          <label><input type="checkbox" name="q4" value="ops" /><span>Operations and admin</span></label>
+          <label><input type="checkbox" name="q4" value="none" /><span>Not using AI yet</span></label>
+          <label><input type="checkbox" name="q4" value="other" /><span>Other</span></label>
+        </div>
+      </div>
+
+      <!-- SECTION 3 -->
+      <div class="section-label">Section 3 of 4</div>
+      <div class="section-title">Pain Points</div>
+
+      <div class="question">
+        <div class="q-number">Question 5</div>
+        <div class="q-text">What is the most time-consuming or inefficient part of your marketing workflow right now?</div>
+        <textarea class="open-text" name="q5" placeholder="e.g. weekly reporting, content approvals, campaign recaps..."></textarea>
+      </div>
+
+      <div class="question">
+        <div class="q-number">Question 6</div>
+        <div class="q-text">Where do you feel most behind or most exposed compared to your competitors?</div>
+        <textarea class="open-text" name="q6" placeholder="Be honest. This is confidential and helps us help you."></textarea>
+      </div>
+
+      <div class="question">
+        <div class="q-number">Question 7</div>
+        <div class="q-text">If AI could solve one problem for your team tomorrow, what would it be?</div>
+        <textarea class="open-text" name="q7" placeholder="Dream a little. No wrong answers here."></textarea>
+      </div>
+
+      <!-- SECTION 4 -->
+      <div class="section-label">Section 4 of 4</div>
+      <div class="section-title">Readiness and Appetite</div>
+
+      <div class="question">
+        <div class="q-number">Question 8</div>
+        <div class="q-text">Has your team tried an AI tool that didn't work out? What got in the way?</div>
+        <textarea class="open-text" name="q8" placeholder="e.g. team adoption, output quality, legal/compliance concerns, time to implement..."></textarea>
+      </div>
+
+      <div class="question">
+        <div class="q-number">Question 9</div>
+        <div class="q-text">Who on your team is most excited about AI, and who is most skeptical?</div>
+        <textarea class="open-text" name="q9" placeholder="Roles / names / functions are all helpful here."></textarea>
+      </div>
+
+      <div class="question">
+        <div class="q-number">Question 10</div>
+        <div class="q-text">What would need to be true for you to invest in AI systems or support in the next 6-12 months?</div>
+        <textarea class="open-text" name="q10" placeholder="Budget clarity, proof of concept, leadership buy-in, a trusted partner..."></textarea>
+      </div>
+
+      <div class="submit-wrap">
+        <button type="submit" class="submit-btn">Submit Survey</button>
+        <div class="submit-note">Responses are confidential and shared only with the GLOW team.</div>
+      </div>
+
+    </form>
+
+    <div id="thank-you">
+      <div class="check-icon">🙏</div>
+      <h2>Thanks. We got it.</h2>
+      <p>Your responses will help us build something genuinely useful for your team. We'll follow up soon.</p>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2026 GLOW &nbsp;·&nbsp; weareglow.com
+  </footer>
+
+  <script>
+    document.getElementById('survey-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('survey-form').style.display = 'none';
+      document.getElementById('thank-you').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>
