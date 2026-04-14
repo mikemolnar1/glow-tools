@@ -11,7 +11,8 @@
   .wrap { text-align:center; padding:40px 20px; }
   .logo-img { height:64px; margin-bottom:16px; display:block; margin-left:auto; margin-right:auto; }
   .sub { color:rgba(255,255,255,0.4); font-size:14px; letter-spacing:3px; text-transform:uppercase; margin-bottom:48px; }
-  .cards { display:flex; flex-direction:column; gap:16px; max-width:480px; margin:0 auto; }
+  .cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:880px; margin:0 auto; }
+  @media(max-width:600px){ .cards { grid-template-columns:1fr; } }
   .card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:24px 28px; text-decoration:none; text-align:left; transition:all 0.2s; }
   .card:hover { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.2); transform:translateY(-2px); }
   .card-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:6px; }
