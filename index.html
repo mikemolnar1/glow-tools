@@ -23,6 +23,7 @@
   .card-badge { display:inline-block; font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; background:#ff6b35; color:white; padding:2px 7px; border-radius:4px; margin-bottom:8px; }
 </style>
 <link rel="stylesheet" href="glow-dark.css">
+<script src="glow-theme.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -81,7 +82,5 @@
     </a>
   </div>
 </div>
-<button id="glow-theme-toggle" onclick="(function(){var d=document.body.classList.toggle('dark');localStorage.setItem('glow-theme',d?'dark':'light');this.textContent=d?'☀ Light':'☾ Dark'}).call(this)">☾ Dark</button>
-<script>(function(){var t=localStorage.getItem('glow-theme');if(t==='dark'){document.body.classList.add('dark');var b=document.getElementById('glow-theme-toggle');if(b)b.textContent='☀ Light';}})();</script>
 </body>
 </html>
