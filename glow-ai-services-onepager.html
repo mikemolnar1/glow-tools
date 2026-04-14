@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GLOW AI Services</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0a0a0a;
+      color: #f0f0f0;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 48px 80px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 56px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid #222;
+    }
+
+    .logo img {
+      height: 36px;
+      width: auto;
+    }
+
+    .header-label {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #ff1482;
+      font-weight: 600;
+    }
+
+    /* Hero */
+    .hero {
+      margin-bottom: 56px;
+    }
+
+    .hero h1 {
+      font-size: 38px;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+
+    .hero h1 span {
+      color: #ff1482;
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: #aaa;
+      max-width: 680px;
+      line-height: 1.7;
+    }
+
+    /* Section titles */
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #ff1482;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    /* Pillars */
+    .pillars {
+      margin-bottom: 56px;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .pillar {
+      background: #111;
+      padding: 28px 28px 28px;
+      position: relative;
+    }
+
+    .pillar:hover {
+      background: #141414;
+    }
+
+    .pillar-number {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: #444;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .pillar h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .pillar p {
+      font-size: 13.5px;
+      color: #888;
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+
+    .pillar-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tool-tag {
+      font-size: 11px;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      color: #bbb;
+      padding: 3px 10px;
+      border-radius: 3px;
+      letter-spacing: 0.02em;
+    }
+
+    .tool-tag.pink {
+      border-color: #ff148240;
+      color: #ff1482;
+      background: #ff14820d;
+    }
+
+    /* Story block */
+    .story {
+      background: #111;
+      border-left: 3px solid #ff1482;
+      padding: 32px 36px;
+      margin-bottom: 56px;
+    }
+
+    .story p {
+      font-size: 17px;
+      color: #ccc;
+      line-height: 1.75;
+      font-style: italic;
+    }
+
+    /* Tools inventory */
+    .tools-section {
+      margin-bottom: 56px;
+    }
+
+    .tools-group {
+      margin-bottom: 28px;
+    }
+
+    .tools-group-label {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #555;
+      font-weight: 600;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #1a1a1a;
+    }
+
+    .tools-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tool-row {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+
+    .tool-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      min-width: 220px;
+    }
+
+    .tool-desc {
+      font-size: 13.5px;
+      color: #777;
+    }
+
+    /* Talking points */
+    .talking-points {
+      margin-bottom: 56px;
+    }
+
+    .tp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .tp-card {
+      background: #111;
+      padding: 24px 26px;
+    }
+
+    .tp-card h4 {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #ff1482;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .tp-card p {
+      font-size: 14px;
+      color: #999;
+      line-height: 1.65;
+    }
+
+    .tp-card p strong {
+      color: #ddd;
+      font-weight: 600;
+    }
+
+    /* Closing */
+    .closing {
+      text-align: center;
+      padding: 40px 0 0;
+      border-top: 1px solid #1a1a1a;
+    }
+
+    .closing p {
+      font-size: 13px;
+      color: #444;
+      letter-spacing: 0.05em;
+    }
+
+    .closing p strong {
+      color: #666;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .page { padding: 40px 24px 60px; }
+      .pillars-grid, .tp-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <img src="glow-logo.svg" alt="GLOW" />
+      </div>
+      <div class="header-label">AI Services Internal Brief</div>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>We didn't wait to be asked.<br><span>We started building.</span></h1>
+      <p>
+        GLOW has been quietly rebuilding how a creative agency operates from the inside out. We've automated the work that slows teams down. We've built purpose-built tools for clients that stay on-brand by design, not by luck. And we've shifted from producing creative to governing it. This is our AI story. Learn it. Tell it.
+      </p>
+    </div>
+
+    <!-- Story pull quote -->
+    <div class="story">
+      <p>"GLOW isn't just a creative agency anymore. We're an AI partner and we're already ahead. We don't pitch AI. We run on it. And now we build bespoke solutions for you."</p>
+    </div>
+
+    <!-- The 5 Pillars -->
+    <div class="pillars">
+      <div class="section-label">How We Think About AI</div>
+      <div class="pillars-grid">
+
+        <div class="pillar">
+          <div class="pillar-number">01</div>
+          <h3>Compress Production</h3>
+          <p>The work that used to take days now takes minutes. We don't charge for time anymore we charge for what we deliver. Same quality bar. Way faster.</p>
+          <div class="pillar-tools">
+            <span class="tool-tag pink">Brief Builder</span>
+            <span class="tool-tag">Mockup Engine</span>
+            <span class="tool-tag">Contract Pipeline</span>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-number">02</div>
+          <h3>Personalize at Scale</h3>
+          <p>One brief. Dozens of variations. Tested against specific audiences and personas. Same retainer. Ten times the output. Better performance data.</p>
+          <div class="pillar-tools">
+            <span class="tool-tag pink">AdCraft</span>
+            <span class="tool-tag pink">Fan Pulse</span>
+            <span class="tool-tag">Style Guide Portal</span>
+            <span class="tool-tag">Brief Builder</span>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-number">03</div>
+          <h3>Become the Validator</h3>
+          <p>Humans belong at two points: ideation and quality control. AI handles the middle. We built the QA layer into every tool brand integrity is non-negotiable, by design.</p>
+          <div class="pillar-tools">
+            <span class="tool-tag pink">Style Guide Portal</span>
+            <span class="tool-tag">Mockup Engine</span>
+            <span class="tool-tag">Fan Pulse</span>
+          </div>
+        </div>
+
+        <div class="pillar">
+          <div class="pillar-number">04</div>
+          <h3>Automate Internally</h3>
+          <p>Most agencies pitch AI to clients while running on spreadsheets. We don't. GLOW's own operations run on the same systems we build for clients. We eat our own cooking.</p>
+          <div class="pillar-tools">
+            <span class="tool-tag pink">Opportunity Scorer</span>
+            <span class="tool-tag">Intelligencer</span>
+            <span class="tool-tag">Outreach Tool</span>
+          </div>
+        </div>
+
+        <div class="pillar" style="grid-column: 1 / -1;">
+          <div class="pillar-number">05</div>
+          <h3>Democratize Knowledge</h3>
+          <p>A junior PM now produces senior-quality briefs. A new team member gets up to speed on a client's entire brand system in minutes. AI doesn't replace your team it makes your whole team better.</p>
+          <div class="pillar-tools">
+            <span class="tool-tag pink">Brief Builder</span>
+            <span class="tool-tag">Style Guide Portal</span>
+            <span class="tool-tag">AI Dashboard</span>
+            <span class="tool-tag">Fan Pulse</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tools We've Built -->
+    <div class="tools-section">
+      <div class="section-label">What We've Built</div>
+
+      <div class="tools-group">
+        <div class="tools-group-label">Client-Facing Tools</div>
+        <div class="tools-list">
+          <div class="tool-row">
+            <span class="tool-name">AI Dashboard</span>
+            <span class="tool-desc">Organized by tentpole, department, and deliverable type built around how your organization actually works.</span>
+          </div>
+          <div class="tool-row">
+            <span class="tool-name">Brief Builder</span>
+            <span class="tool-desc">A creative brief that takes a junior PM 2 hours done in 3 minutes, with persona-specific direction already baked in.</span>
+          </div>
+          <div class="tool-row">
+            <span class="tool-name">Fan Pulse</span>
+            <span class="tool-desc">AI-generated cultural and audience intelligence briefs. Know which creative will resonate before you produce 40 versions.</span>
+          </div>
+          <div class="tool-row">
+            <span class="tool-name">Mockup Engine</span>
+            <span class="tool-desc">In-situ compositing across 15 environments arena, OOH, social, airport, hotel. Upload your key art, see it everywhere.</span>
+          </div>
+          <div class="tool-row">
+            <span class="tool-name">Style Guide Portal</span>
+            <span class="tool-desc">Brand-locked, AI-searchable. Ask it anything about your visual system and get the right answer. Stays on-brand by design.</span>
+          </div>
+          <div class="tool-row">
+            <span class="tool-name">AdCraft</span>
+            <span class="tool-desc">Rapid ad generator and remix tool. Generate creative, query it against specific personas for messaging and creative alternatives fast.</span>
+          </div>
+          <div class="tool-row">
+            <span class="tool-name">creatorview.ai</span>
+            <span class="tool-desc">Creator intelligence platform. Built by GLOW.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tools-group">
+        <div class="tools-group-label">GLOW Operating System (Internal AI)</div>
+        <div class="tools-list">
+          <div class="tool-row">
+            <span class="tool-name">Opportunity Scorer</span>
+            <span class="tool-desc">Lead scoring across 7 weighted dimensions. Score out of 100. Flags Door-Opener plays. No more gut-feel-only decisions.</span>
+          </div>
+          <div class="tool-row">
+            <span class="tool-name">New Business Intelligencer</span>
+            <span class="tool-desc">Deep-research reports on prospects landscape, org intel, opportunity analysis, questions to ask. Built for every new biz meeting.</span>
+          </div>
+          <div class="tool-row">
+            <span class="tool-name">New Biz Outreach Tool</span>
+            <span class="tool-desc">AI-assisted outreach, built by Pete. Personalized at scale, tracked, and measurable.</span>
+          </div>
+          <div class="tool-row">
+            <span class="tool-name">Contract Pipeline</span>
+            <span class="tool-desc">Automated contract workflow for freelancers and ops. Less admin, fewer errors, faster turnaround.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What to Say -->
+    <div class="talking-points">
+      <div class="section-label">What to Say When Clients Ask</div>
+      <div class="tp-grid">
+
+        <div class="tp-card">
+          <h4>"Is this just ChatGPT?"</h4>
+          <p><strong>No.</strong> Generic AI is built for everyone, which means it's built for no one. Everything we've built is trained on your brand assets, your guidelines, your past work. It doesn't drift. It knows your world.</p>
+        </div>
+
+        <div class="tp-card">
+          <h4>"Does AI replace your team?"</h4>
+          <p><strong>Opposite.</strong> It makes our team and yours better. A junior PM now produces senior-quality briefs. Your teams spend time on high-value decisions, not low-complexity production.</p>
+        </div>
+
+        <div class="tp-card">
+          <h4>"Who builds and maintains this?"</h4>
+          <p><strong>We do.</strong> Pete built it. Mike directed it. Same way we do everything. This isn't a vendor tool it's an embedded capability. We build it, we run it, we improve it based on what your teams need.</p>
+        </div>
+
+        <div class="tp-card">
+          <h4>"What does this cost?"</h4>
+          <p><strong>That's a conversation.</strong> We want to understand your needs before we talk structure. What we've already built, we built because we believe in this partnership. Let's design what we build together.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Closing -->
+    <div class="closing">
+      <p><strong>GLOW AI Services</strong> &nbsp;·&nbsp; Internal Use Only &nbsp;·&nbsp; April 2026</p>
+    </div>
+
+  </div>
+</body>
+</html>
