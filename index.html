@@ -4,82 +4,192 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GLOW Tools</title>
+<link rel="stylesheet" href="glow-dark.css">
+<script src="glow-theme.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:#070b14; font-family:'Space Grotesk',sans-serif; min-height:100vh; display:flex; align-items:center; justify-content:center; }
-  .wrap { text-align:center; padding:40px 20px; }
-  .logo-img { height:64px; margin-bottom:16px; display:block; margin-left:auto; margin-right:auto; }
-  .sub { color:rgba(255,255,255,0.4); font-size:14px; letter-spacing:3px; text-transform:uppercase; margin-bottom:48px; }
-  .cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:880px; margin:0 auto; }
-  @media(max-width:600px){ .cards { grid-template-columns:1fr; } }
-  .card { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:24px 28px; text-decoration:none; text-align:left; transition:all 0.2s; }
-  .card:hover { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.2); transform:translateY(-2px); }
-  .card-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:6px; }
-  .card-title { font-size:18px; font-weight:700; color:white; }
-  .card-desc { font-size:13px; color:rgba(255,255,255,0.45); margin-top:4px; }
-  .card.featured { border-color:rgba(255,107,53,0.4); background:rgba(255,107,53,0.06); }
-  .card.featured:hover { border-color:rgba(255,107,53,0.7); background:rgba(255,107,53,0.1); }
-  .card-badge { display:inline-block; font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; background:#ff6b35; color:white; padding:2px 7px; border-radius:4px; margin-bottom:8px; }
+
+  body {
+    background: #fff;
+    font-family: 'Space Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    color: #111;
+  }
+
+  .wrap {
+    text-align: center;
+    padding: 56px 24px 80px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .logo-img {
+    height: 52px;
+    margin-bottom: 12px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .sub {
+    color: #bbb;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    font-weight: 600;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: 880px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  @media(max-width: 600px) { .cards { grid-template-columns: 1fr; } }
+
+  .card {
+    background: #f9f9f9;
+    border: 1.5px solid #eee;
+    border-radius: 12px;
+    padding: 22px 24px;
+    text-decoration: none;
+    transition: all 0.18s;
+    display: block;
+  }
+
+  .card:hover {
+    border-color: #ff148240;
+    background: #fff5fa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(255,20,130,0.06);
+  }
+
+  .card-label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #bbb;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 4px;
+  }
+
+  .card-desc {
+    font-size: 12.5px;
+    color: #999;
+    line-height: 1.5;
+  }
+
+  .card.featured {
+    border-color: #ff14821a;
+    background: #fff9fc;
+  }
+
+  .card.featured:hover {
+    border-color: #ff148260;
+    background: #fff0f7;
+  }
+
+  .card-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: #ff1482;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  /* Dark mode index overrides */
+  [data-theme="dark"] body { background: #0a0a0a !important; }
+  [data-theme="dark"] .sub { color: rgba(255,255,255,0.3) !important; }
+  [data-theme="dark"] .card { background: rgba(255,255,255,0.04) !important; border-color: rgba(255,255,255,0.08) !important; }
+  [data-theme="dark"] .card:hover { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,20,130,0.4) !important; box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important; }
+  [data-theme="dark"] .card.featured { background: rgba(255,20,130,0.05) !important; border-color: rgba(255,20,130,0.2) !important; }
+  [data-theme="dark"] .card.featured:hover { background: rgba(255,20,130,0.1) !important; border-color: rgba(255,20,130,0.5) !important; }
+  [data-theme="dark"] .card-title { color: #fff !important; }
+  [data-theme="dark"] .card-label { color: rgba(255,255,255,0.3) !important; }
+  [data-theme="dark"] .card-desc { color: rgba(255,255,255,0.4) !important; }
 </style>
-<link rel="stylesheet" href="glow-dark.css">
-<script src="glow-theme.js"></script>
 </head>
 <body>
 <div class="wrap">
   <img src="glow-logo.svg" alt="GLOW" class="logo-img">
   <div class="sub">Internal Tools</div>
   <div class="cards">
+
     <a href="glow-ai-services-onepager.html" class="card featured">
       <div class="card-badge">New</div>
       <div class="card-label">AI Services</div>
       <div class="card-title">🔮 GLOW AI Services — One Pager</div>
-      <div class="card-desc">Our AI story, capabilities, tools, and what to say when clients ask. Internal brief.</div>
+      <div class="card-desc">Our AI story, capabilities, tools, and what to say when clients ask.</div>
     </a>
+
     <a href="glow-ai-advisory-survey.html" class="card featured">
       <div class="card-badge">New</div>
       <div class="card-label">AI Services</div>
       <div class="card-title">🧠 Executive AI Readiness Survey</div>
       <div class="card-desc">For senior leaders. 5 questions on AI fluency, strategy, and advisory interest.</div>
     </a>
+
     <a href="glow-ai-survey.html" class="card featured">
       <div class="card-badge">New</div>
       <div class="card-label">AI Services</div>
       <div class="card-title">📋 Team AI Readiness Survey</div>
-      <div class="card-desc">For marketing and creative teams. 10 questions on AI usage, pain points, and appetite.</div>
+      <div class="card-desc">For marketing and creative teams. 10 questions on usage, pain points, and appetite.</div>
     </a>
+
     <a href="opportunity-scorer.html" class="card featured">
       <div class="card-badge">New</div>
       <div class="card-label">New Business</div>
       <div class="card-title">📊 Opportunity Scorer</div>
       <div class="card-desc">Score any lead before you commit resources. Know before you go big.</div>
     </a>
-    <a href="apple-music-intelligencer.html" class="card featured">
-      <div class="card-badge">New</div>
+
+    <a href="apple-music-intelligencer.html" class="card">
       <div class="card-label">New Business Intelligencer</div>
       <div class="card-title">🎵 Apple Music</div>
-      <div class="card-desc">Josh Noa · Chase Meacham · Kimberly Noel · Monday April 6 meeting prep</div>
+      <div class="card-desc">Josh Noa · Chase Meacham · Kimberly Noel · April 6 meeting prep</div>
     </a>
+
     <a href="ea-battlefield-intelligencer.html" class="card">
       <div class="card-label">New Business Intelligencer</div>
       <div class="card-title">🎮 EA Battlefield</div>
       <div class="card-desc">Parker West · Sr. Manager Social Media · April 7 call prep</div>
     </a>
+
     <a href="activision-blizzard-intelligencer.html" class="card">
       <div class="card-label">New Business Intelligencer</div>
       <div class="card-title">⚔️ Activision Blizzard</div>
       <div class="card-desc">Kevin Bjelajac · VP Brand &amp; Creative · Meeting prep</div>
     </a>
+
     <a href="jagermeister-reimagined-brief.html" class="card">
-      <div class="card-label">Creative Brief Enhancer — Jägermeister</div>
+      <div class="card-label">Creative Brief</div>
       <div class="card-title">🦌 Jägermeister</div>
       <div class="card-desc">The Alchemist Playbook · Persona-first social creative focus</div>
     </a>
+
     <a href="https://glow-brief-enhancer.vercel.app/" class="card" target="_blank">
       <div class="card-label">Tool</div>
       <div class="card-title">✍️ Brief Enhancer</div>
-      <div class="card-desc">Create or Transform a strong brief into an expanded insight-driven and dynamic document</div>
+      <div class="card-desc">Transform a brief into an expanded, insight-driven document.</div>
     </a>
+
   </div>
 </div>
 </body>
