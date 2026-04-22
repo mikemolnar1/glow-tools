@@ -53,8 +53,8 @@
   @media(max-width: 600px) { .cards { grid-template-columns: 1fr; } }
 
   .card {
-    background: #f9f9f9;
-    border: 1.5px solid #eee;
+    background: #fff9fc;
+    border: 1.5px solid #ff14821a;
     border-radius: 12px;
     padding: 22px 24px;
     text-decoration: none;
@@ -63,8 +63,8 @@
   }
 
   .card:hover {
-    border-color: #ff148240;
-    background: #fff5fa;
+    border-color: #ff148260;
+    background: #fff0f7;
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(255,20,130,0.06);
   }
@@ -117,8 +117,8 @@
   /* Dark mode index overrides */
   [data-theme="dark"] body { background: #0a0a0a !important; }
   [data-theme="dark"] .sub { color: rgba(255,255,255,0.3) !important; }
-  [data-theme="dark"] .card { background: rgba(255,255,255,0.04) !important; border-color: rgba(255,255,255,0.08) !important; }
-  [data-theme="dark"] .card:hover { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,20,130,0.4) !important; box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important; }
+  [data-theme="dark"] .card { background: rgba(255,20,130,0.05) !important; border-color: rgba(255,20,130,0.2) !important; }
+  [data-theme="dark"] .card:hover { background: rgba(255,20,130,0.1) !important; border-color: rgba(255,20,130,0.5) !important; box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important; }
   [data-theme="dark"] .card.featured { background: rgba(255,20,130,0.05) !important; border-color: rgba(255,20,130,0.2) !important; }
   [data-theme="dark"] .card.featured:hover { background: rgba(255,20,130,0.1) !important; border-color: rgba(255,20,130,0.5) !important; }
   [data-theme="dark"] .card-title { color: #fff !important; }
